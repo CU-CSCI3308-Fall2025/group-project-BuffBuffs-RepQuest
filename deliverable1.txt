@@ -1,0 +1,31 @@
+Team Number-
+    014-1
+Team Name -
+    Buff Buffs
+Members + Github -
+    Alexandra Palermo - zandrapalermo - alpa6011@colorado.edu
+    Addie Hoeft - alhoeft - adho9588@colorado.edu
+    Cole Spencer - Colejx - cosp6135@colorado.edu
+    Dalton Ford - daltonrfm - dafo8331@colorado.edu
+    Keira Wagstaff - keirawagstaff - kewa1897@colorado.edu
+Application Name -
+    RepQuest
+Application Description -
+    An application that allows you to log your workouts and also level up and gain XP
+    based on your streak of working out.
+Audience -
+    College student gym goers
+Vision Statement -
+    For fitness enthusiasts and beginners who struggle to stay consistent with their 
+    workouts, the FitQuest app is a gamified workout log that transforms fitness tracking 
+    into an engaging, game-like experience with levels, achievements, and rewards. Unlike 
+    traditional workout logs or fitness apps, our product motivates users through interactive 
+    challenges, character progression, and a sense of adventure that makes every workout 
+    feel like progress in a game.
+Develoment Methodology - 
+
+Communication Plan -
+    My team is planning on using Discord to communicate throughout it.
+Meeting Plan - 
+    Team Meeting - Weekly Thursday Meeting
+    Weekly meeting with TA - 
