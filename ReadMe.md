@@ -1,5 +1,7 @@
 ## Overview
 
+- THIS IS THE ACTUAL REPOSITORY WE ALL WILL BE WORKING IN!!
+
 We can write out this ReadMe later. Just put some helpful links for now
 
 Links:
