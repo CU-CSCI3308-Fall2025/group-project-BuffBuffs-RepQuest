@@ -6,7 +6,7 @@ Members + Github -
     Alexandra Palermo - zandrapalermo - alpa6011@colorado.edu
     Addie Hoeft - alhoeft - adho9588@colorado.edu
     Cole Spencer - Colejx - cosp6135@colorado.edu
-    Dalton Ford - daltonrfm - dafo8331@colorado.edu
+    Dalton Ford - daltonRFM - dafo8331@colorado.edu
     Keira Wagstaff - keirawagstaff - kewa1897@colorado.edu
 Application Name -
     RepQuest
