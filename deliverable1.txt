@@ -1,0 +1,49 @@
+Team Number-
+    014-1
+
+Team Name -
+    Buff Buffs
+
+Members + Github -
+    Alexandra Palermo - zandrapalermo - alpa6011@colorado.edu
+    Addie Hoeft - alhoeft - adho9588@colorado.edu
+    Cole Spencer - Colejx - cosp6135@colorado.edu
+    Dalton Ford - daltonRFM - dafo8331@colorado.edu
+    Keira Wagstaff - keirawagstaff - kewa1897@colorado.edu
+
+Application Name -
+    RepQuest
+
+Application Description -
+    An application that allows you to log your workouts and also level up and gain XP
+    based on your streak of working out.
+
+Audience -
+    The audience of our a pplication is college students who are trying to get into the habit
+    of consistently going to the gym. The characteristics of an idea user is someone in their 
+    late teens or early 20s who hasn't gone to the gym consistently in the past. The goal of
+    our application is to encourage these people to create this habit. We will design the app 
+    to be easy to use, with a clean interface and clear buttons so users can quickly log 
+    workouts and see their history. We plan to make the navigation simple to understand and figure
+    out. We will also include easy to read fonts, ensuring color contrast, and more to support
+    usability for our intended users.
+
+Vision Statement -
+    For fitness enthusiasts and beginners who struggle to stay consistent with their 
+    workouts, the FitQuest app is a gamified workout log that transforms fitness tracking 
+    into an engaging, game-like experience with levels, achievements, and rewards. Unlike 
+    traditional workout logs or fitness apps, our product motivates users through interactive 
+    challenges, character progression, and a sense of adventure that makes every workout 
+    feel like progress in a game.
+
+Develoment Methodology - 
+    Our group will be using the intended agile methodology. We will be using scrum meetings
+    to track the progress of our project. 
+
+Communication Plan -
+    My team is planning on using Discord to communicate throughout it for everything relating
+    to this project. 
+
+Meeting Plan - 
+    Team Meeting - Thursday 2:30 in Engineering Lobby
+    Weekly meeting with TA - Tuesday's at 5 p.m.
