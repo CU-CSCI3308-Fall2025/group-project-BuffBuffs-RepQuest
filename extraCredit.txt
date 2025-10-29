@@ -8,3 +8,21 @@ This issue is not severe for the implications of the project, but is severe if w
 because it would force us to lose our most loyal customers, once they beat the game. I propose to combat this, 
 we create an function that goes to infinity to create achievements and plans, 
 so that users may never run our of quests to complete.
+
+Risk 2:
+Another potential risk is more so on the development side in terms of what our scope as a group is.
+It's easy to fall into a trap of wanting to commit to certain features for our website and overestimating
+the four weeks we have to complete this. One thing I think we should focus on to maybe help prevent this is 
+dialing in on a good outline for what we're going to get done and catering it to the time we have available, 
+accounting for classes we may also have work/studying for. Getting a good, reasonable expectation is something
+that isn't on the forefront of people's mind during our first software development project,
+but can prevent a lot of stress later on. 
+
+Risk 3:
+A potential risk thats more on the communication side is the possibility of running into issues with not 
+communicating if things have been done/completed. I think that its very important to keep each other updated on 
+individual progress so that we can continue to stay on track. If we don't then we leave the potential for gaps 
+in our project and the inability to move forward if we are waiting to know if things have been completed or not, 
+especially when we have certain deadlines to meet. In order to prevent this, I think that every time each member has 
+completed something within the repository, we update each other so we know where everything is at and how to keep 
+moving forward to reach our goal.
