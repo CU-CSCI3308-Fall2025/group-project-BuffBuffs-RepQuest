@@ -1,0 +1,23 @@
+Weekly TA Meeting 10/28
+5-5:08
+Jen explained we’re going to go through and individually explain what we’ve accomplish/plans moving forward for the weekly meetings
+Addie
+	- Did the UML, learned how to use that software
+	- Plans to adjust wireframe/UML to match each other
+Keira
+	- Did the rough draft of the deliverables on Thursday in class, wrote down general ideas
+	- Plans to work through some unclear things in our design, and work with the team to do the EC for this week
+Zandra
+	- Did the wireframes, learned kind of what a typical layout would be and formed it to our project
+	- Make some adjustments, do EC with the team, and connect wireframe more accurately to our UML
+Cole
+	- Has been working on our logo/mascot (Buffalo, kind of like Duolingo bird)
+	- Plans to push rough draft of html files that we’ll need for the webpages 
+
+After our round of checking with group members:
+	- Addie asked where to submit EC
+		- As its own file at the root of the directory
+	- Thursday we’re going over project boards and gaining more structure on what we’re going to do specifics wise
+
+Extra Side Notes
+	- Dalton was absent BUT cleared earlier and met with Jen ahead of time

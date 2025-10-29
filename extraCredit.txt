@@ -1,0 +1,10 @@
+Extra Credit:
+Identify at least five potential risks related to your project. 
+For each risk, describe its severity and outline suitable mitigation strategies to address it
+
+Risk 1:
+One potential risk is path/quest based, so users could potentially beat the game. 
+This issue is not severe for the implications of the project, but is severe if we have actual users 
+because it would force us to lose our most loyal customers, once they beat the game. I propose to combat this, 
+we create an function that goes to infinity to create achievements and plans, 
+so that users may never run our of quests to complete.
