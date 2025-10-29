@@ -26,3 +26,12 @@ in our project and the inability to move forward if we are waiting to know if th
 especially when we have certain deadlines to meet. In order to prevent this, I think that every time each member has 
 completed something within the repository, we update each other so we know where everything is at and how to keep 
 moving forward to reach our goal.
+
+Risk 4:
+A potential risk could be ensuring that our project looks good on computers, as well as mobile devices. If we as a group
+do not focus on making sure the user interface is nice and neat, there could be misplaced buttons or layouts that don't 
+appear as they are intended to. This would make the app appear as unprofessional and could frustrate our users that want to
+just add their workouts as fast as possible and get back to their exercise. Since our target audience is college students,
+these are very busy people, so this need is even more important than ever. Some mitigation strategies we could think of using 
+are ensuring that we test our application on different screen sizes and do more research on size imagining and layout constraints.
+If we do this well, we can ensure that each page of our project looks well across all devices and functions as intended.
