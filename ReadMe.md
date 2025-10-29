@@ -9,7 +9,6 @@ Links:
 
 [Group Project Instructions](https://cuboulder-csci3308.pages.dev/docs/project/)
 
-
 Gameified Workout Log 
 
 App Name = RepQuest
