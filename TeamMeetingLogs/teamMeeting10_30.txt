@@ -1,0 +1,8 @@
+10 / 30 Team Meeting
+
+Talked more about file structure, Cole had some information to share
+about a potential idea to use for project. Nextjs ??
+
+We're waiting to hear back about if we can use that or not.
+
+Cole recommended JavaScript Mastery Nextjs tutorial.
