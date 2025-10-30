@@ -35,3 +35,11 @@ just add their workouts as fast as possible and get back to their exercise. Sinc
 these are very busy people, so this need is even more important than ever. Some mitigation strategies we could think of using 
 are ensuring that we test our application on different screen sizes and do more research on size imagining and layout constraints.
 If we do this well, we can ensure that each page of our project looks well across all devices and functions as intended.
+
+Risk 5:
+A potential risk could be ensuring security in our database setup. A poorly set up database could result in data breaches and 
+or unauthorized access. This is very severe, as not only could someone with malicious intent gain unauthorized 
+access to the database and modify core functionality of the application, but they could also expose user data such as login 
+credentials, payments, or personal info. To mitigate this, we can ensure we configure our database according to best 
+practices by using secure authentication methods, enforcing strong passwords, running periodic safety tests, and ensuring that 
+protocols are kept up to date. 
