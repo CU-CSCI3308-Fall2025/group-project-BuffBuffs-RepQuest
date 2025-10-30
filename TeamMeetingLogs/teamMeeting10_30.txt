@@ -6,3 +6,9 @@ about a potential idea to use for project. Nextjs ??
 We're waiting to hear back about if we can use that or not.
 
 Cole recommended JavaScript Mastery Nextjs tutorial.
+
+
+Everyone watch video.
+
+Login
+Base Nav bar
