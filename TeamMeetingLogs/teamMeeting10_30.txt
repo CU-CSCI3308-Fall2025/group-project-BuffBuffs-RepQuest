@@ -12,3 +12,14 @@ Everyone watch video.
 
 Login
 Base Nav bar
+
+Final Decisions Made:
+Keira is doing the nav bar (footer) and the header partials.
+Also just throwing those onto necessary pages to get an idea of 
+what we're working with. 
+Zandra is working on the design of our pathway. 
+Side note, we're changing the three lines on the wireframe to
+a home page icon. And taking away a full streak page.
+Addie is started on SQL things and the achievements page.
+Dalton is making a functioning login and logout page.
+Cole is beginning to design calender page.
