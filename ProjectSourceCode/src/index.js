@@ -1,17 +1,16 @@
 const path = require('path');
 const { engine } = require('express-handlebars');
 const express = require('express');
-const pgp = require('pg-promise')();              // <-- add this
+const pgp = require('pg-promise')();              
 
 const app = express();
 
-// DB connection (plain env vars; host must be "db" in Docker)
 const db = pgp({
-  host: process.env.DB_HOST,                      // e.g., db
+  host: process.env.DB_HOST,                      
   port: Number(process.env.DB_PORT || 5432),
-  database: process.env.DB_NAME,                  // e.g., project_db
-  user: process.env.DB_USER,                      // e.g., postgres
-  password: process.env.DB_PASSWORD               // e.g., pwd
+  database: process.env.DB_NAME,                  
+  user: process.env.DB_USER,                      
+  password: process.env.DB_PASSWORD               
 });
 
 app.engine('hbs', engine({
@@ -21,12 +20,14 @@ app.engine('hbs', engine({
   partialsDir: path.join(__dirname, 'views', 'partials'),
 }));
 app.set('view engine', 'hbs');
+
 // views live at ProjectSourceCode/src/views
+
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+// ----------------------------------------Routes for every page we create ----------------------------------------
 app.get('/', (_, res) => res.redirect('/login'));
 
 app.get('/login', (req, res) => res.render('pages/login'));
