@@ -21,6 +21,11 @@ app.engine('hbs', engine({
 }));
 app.set('view engine', 'hbs');
 
+// use the CSS file for styling
+
+app.use(express.static(path.join(__dirname, 'resources')));
+
+
 // views live at ProjectSourceCode/src/views
 
 app.set('views', path.join(__dirname, 'views'));
@@ -71,6 +76,31 @@ app.post('/register', async (req, res) => {
     console.error(err);
     res.status(500).send('There was an error creating the account');
   }
+});
+
+// Home page (where we have path)
+app.get('/home', (req, res) => {
+  res.render('pages/home', { title: 'Home' });
+});
+
+// Workouts page
+app.get('/workouts', (req, res) => {
+  res.render('pages/workouts', { title: 'Workouts' });
+});
+
+// Achievements page
+app.get('/achievements', (req, res) => {
+  res.render('pages/achievements', { title: 'Achievements' });
+});
+
+// Calendar page
+app.get('/calendar', (req, res) => {
+  res.render('pages/calendar', { title: 'Calendar' });
+});
+
+// Profile page
+app.get('/profile', (req, res) => {
+  res.render('pages/profile', { title: 'Profile' });
 });
 
 const PORT = process.env.PORT || 3000;

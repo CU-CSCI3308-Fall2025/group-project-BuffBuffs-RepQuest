@@ -1,0 +1,49 @@
+/* Footer CSS */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+.footer {
+  background-color: #222;
+  padding: 40px 0;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.footer-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #555;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 40px 20px;
+  margin: 10px;
+  border-radius: 12px;
+  flex: 1 1 200px;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.footer-button:hover {
+  background-color: #323a91;
+  transform: translateY(-5px);
+}
