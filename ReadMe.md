@@ -15,3 +15,6 @@ App Name = RepQuest
 
 Application that lets you log your workout, and allows you to level up
 
+First page of application at: http://localhost:3000/login
+
+When docker is running
