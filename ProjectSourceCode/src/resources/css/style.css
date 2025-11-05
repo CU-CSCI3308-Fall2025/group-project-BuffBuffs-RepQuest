@@ -1,3 +1,82 @@
+/* Header CSS */
+/* Header overall styling */
+.site-header {
+  background-color: #444; /* medium gray */
+  color: white;
+  padding: 10px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Header layout */
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* pushes left and right to edges */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Left, center, and right sections */
+.header-left,
+.header-center,
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Center logo stays centered absolutely */
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Images */
+.header-home-img,
+.header-logo,
+.header-pic {
+  height: 50px;
+  width: auto;
+  border-radius: 8px;
+}
+
+/* Make sure links/images behave nicely */
+.header-left a,
+.header-right img {
+  display: inline-block;
+}
+
+/* Text links inside header (if any) */
+.site-header a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.site-header a:hover {
+  color: #ccc; /* slightly darker on hover */
+}
+
+/* Responsive tweak for mobile */
+@media (max-width: 600px) {
+  .header-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .header-center {
+    position: static;
+    transform: none;
+  }
+
+  .header-logo {
+    height: 40px;
+  }
+}
+
+
 /* Footer CSS */
 html, body {
   height: 100%;
