@@ -1,5 +1,5 @@
 <div class="container mt-5" style="max-width: 400px;">
-  {{!-- {{> message}} --}}
+  {{> message}}
 
   <h2 class="mb-4 text-center">Register</h2>
   
@@ -25,6 +25,10 @@
       <a href="/login">Log in</a>
 
     </small>
+
+    {{#if message}}
+      <div class="alert alert-warning" role="alert">{{message}}</div>
+    {{/if}}
 
   </div>
 </div>
