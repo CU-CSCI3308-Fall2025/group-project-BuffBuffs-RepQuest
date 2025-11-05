@@ -89,6 +89,10 @@ body {
   min-height: 100vh;
 }
 
+ #calendar {
+    height: 50vh !important;
+  }
+
 main {
   flex: 1;
 }
