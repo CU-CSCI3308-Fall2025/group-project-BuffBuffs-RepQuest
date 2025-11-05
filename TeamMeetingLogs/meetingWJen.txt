@@ -1,0 +1,69 @@
+Weekly TA Meeting 10/28
+Jen explained we’re going to go through and individually explain what we’ve accomplish/plans moving forward for the weekly meetings
+Addie
+	- Did the UML, learned how to use that software
+	- Plans to adjust wireframe/UML to match each other
+Keira
+	- Did the rough draft of the deliverables on Thursday in class, wrote down general ideas
+	- Plans to work through some unclear things in our design, and work with the team to do the EC for this week
+Zandra
+	- Did the wireframes, learned kind of what a typical layout would be and formed it to our project
+	- Make some adjustments, do EC with the team, and connect wireframe more accurately to our UML
+Cole
+	- Has been working on our logo/mascot (Buffalo, kind of like Duolingo bird)
+	- Plans to push rough draft of html files that we’ll need for the webpages 
+
+After our round of checking with group members:
+	- Addie asked where to submit EC
+		- As its own file at the root of the directory
+	- Thursday we’re going over project boards and gaining more structure on what we’re going to do specifics wise
+
+Extra Side Notes
+	- Dalton was absent BUT cleared earlier and met with Jen ahead of time
+
+
+Weekly Meeting 11/4
+5-5:16 pm
+
+Jen reminded us to check the rubric to make sure we're meeting
+all of these requirements. Any code that's demoing is coming from 
+main branch. AKA just merge into main everytime you made big commits.
+Had Cole demo what we have so far, then Addie pulled up our project board.
+Then went around the room and explained what we did:
+
+Zandra
+	- Worked on a general design idea for how we want the home page to look
+	- Specifically the path process
+	- Will be working on finalizing the design components and figuring out
+	how to implement those into our website
+Addie
+	- Did the start of the database so it saves account data for user and password
+	- Also did workout database to save specific muscle groups
+	- Started today for the basic achievements page
+	- Plans to do more on that front over the next few days
+Keira
+	- Worked on the functionality of the nav bar, also added titles to main
+	pages to make sure I know when the nav bar is working we’ll
+	- Also started basis for the header
+	- Over the next few days plans on finalizing the functionality and 
+	general design of the header
+	- Extra Note: header willl be partially blank because we're waiting
+	on some design aspects of logo/streak symbol to get that done fully
+Cole
+	- Base template for calendar page
+	- Working on making it more dynamic
+	- Also is starting the workouts page, designing a bit more
+	- Will be working with Zandra on the logo 
+Dalton
+	- Started with the login and register page
+	- Did the index.js and docker compose files for use of testing
+	- Plans to work on the funcitonality of login page, make it fully
+	functional
+
+Jen Pointers
+	- Save logo work until later on when we don't have other priorities
+
+Random Notes
+	- In general, great progress
+	- Keep chugging along and make sure to prioritize functionality of
+	the site before nitpicking on design aspects
