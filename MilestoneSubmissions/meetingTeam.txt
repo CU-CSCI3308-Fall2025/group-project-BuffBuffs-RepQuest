@@ -23,3 +23,12 @@ a home page icon. And taking away a full streak page.
 Addie is started on SQL things and the achievements page.
 Dalton is making a functioning login and logout page.
 Cole is beginning to design calender page.
+
+Team Meeting 11/6
+
+Lab - write two unit test cases (zandra and cole)
+Cole - UAT
+Zandra - Risks
+Addie - Achievements page
+Dalton - calendar
+Keira - workouts page
