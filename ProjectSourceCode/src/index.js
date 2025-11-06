@@ -37,8 +37,9 @@ app.get('/', (_, res) => res.redirect('/login'));
 
 // LOGIN (GET)
 app.get('/login', (req, res) => {
-  res.render('pages/login', { hideFooter: true, message: null });
+  res.render('pages/login', { hideFooter: true, hideHome: true });
 });
+
 
 // LOGIN (POST)
 app.post('/login', async (req, res) => {
@@ -64,7 +65,7 @@ app.post('/login', async (req, res) => {
 
 // REGISTER (GET)
 app.get('/register', (req, res) => {
-  res.render('pages/register', { hideFooter: true, message: null });
+  res.render('pages/register', { hideFooter: true, hideHome: true });
 });
 
 // REGISTER (POST)
