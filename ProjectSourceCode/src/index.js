@@ -35,8 +35,12 @@ app.use(express.urlencoded({ extended: true }));
 // ----------------------------------------Routes for every page we create ----------------------------------------
 app.get('/', (_, res) => res.redirect('/login'));
 
-app.get('/login', (req, res) => res.render('pages/login'));
+// LOGIN (GET)
+app.get('/login', (req, res) => {
+  res.render('pages/login', { hideFooter: true, message: null });
+});
 
+// LOGIN (POST)
 app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -45,33 +49,35 @@ app.post('/login', async (req, res) => {
       'SELECT id, username, password_hash FROM users WHERE username = $1 LIMIT 1',
       [username]
     );
-    if (!user) return res.status(401).send('Invalid credentials');
 
-    // plaintext compare (since seeds/register store plaintext right now)
-    const ok = (password === user.password_hash);
-    if (!ok) return res.status(401).send('Invalid credentials');
+    if (!user || password !== user.password_hash) {
+      return res.status(401).render('pages/login', { hideFooter: true, message: 'Invalid credentials' });
+    }
 
-    // res.send('Logged in!');
-      return res.redirect('/home');
 
+    return res.redirect('/home');
   } catch (err) {
     console.error(err);
-    res.status(500).send('There was an error logging in');
+    return res.status(500).render('pages/login', { hideFooter: true, message: 'There was an error logging in.' });
   }
 });
 
-// Register
-app.get('/register', (req, res) => res.render('pages/register', { message: null }));
+// REGISTER (GET)
+app.get('/register', (req, res) => {
+  res.render('pages/register', { hideFooter: true, message: null });
+});
 
+// REGISTER (POST)
 app.post('/register', async (req, res) => {
   try {
     const username = String(req.body.username || '').trim();
     const password = String(req.body.password || '').trim();
 
     if (!username || !password) {
-      
-      return res.status(400).render('pages/register', { message: 'Username and password are required.' });
-
+      return res.status(400).render('pages/register', {
+        hideFooter: true,
+        message: 'Username and password are required.'
+      });
     }
 
     await db.none(
@@ -81,15 +87,15 @@ app.post('/register', async (req, res) => {
 
     return res.redirect('/login');
   } catch (err) {
-  console.error('Register error:', { code: err.code, message: err.message, detail: err.detail });
-  if (err && err.code === '23505') {
-    return res.status(409).render('pages/register', { message: 'That username is taken. Try another.' });
-  }
-  return res.status(500).render('pages/register', { message: 'Server error creating the account bro.' });
+    console.error('Register error:', { code: err.code, message: err.message, detail: err.detail });
+    if (err && err.code === '23505') {
+      return res.status(409).render('pages/register', { hideFooter: true, message: 'That username is taken. Try another.' });
+    }
+    return res.status(500).render('pages/register', { hideFooter: true, message: 'Server error creating the account.' });
   }
 });
 
-// Home page (where we have path)
+// Home page 
 app.get('/home', (req, res) => {
   res.render('pages/home', { title: 'Home' });
 });
@@ -122,6 +128,8 @@ app.get('/logout', (req, res) => {
 });
 
 
+
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`The server is running on http://localhost:${PORT}`));
 

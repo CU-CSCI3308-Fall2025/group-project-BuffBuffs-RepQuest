@@ -10,6 +10,13 @@
     <body class="bg-light">
         {{> header}}
         {{{body}}}
-        {{> footer}}
+
+        {{!-- allows me to hide the footer sometimes --}}
+        {{#unless hideFooter}}
+        {{> footer }}
+        {{/unless}}
+
+
+
     </body>
 </html>
