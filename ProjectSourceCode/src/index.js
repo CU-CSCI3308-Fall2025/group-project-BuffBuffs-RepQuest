@@ -96,6 +96,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
+
 // Home page 
 app.get('/home', (req, res) => {
   res.render('pages/home', { title: 'Home' });
@@ -132,5 +133,7 @@ app.get('/logout', (req, res) => {
 
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => console.log(`The server is running on http://localhost:${PORT}`));
+// app.listen(PORT, '0.0.0.0', () => console.log(`The server is running on http://localhost:${PORT}`));
+module.exports = app.listen(PORT, '0.0.0.0', () => console.log(`The server is running on http://localhost:${PORT}`));
+
 
