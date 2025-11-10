@@ -30,6 +30,8 @@ app.use(express.static(path.join(__dirname, 'resources')));
 
 app.set('views', path.join(__dirname, 'views'));
 
+app.use('/img', express.static(path.join(__dirname, 'resources/img')));
+
 app.use(express.urlencoded({ extended: true }));
 
 // ----------------------------------------Routes for every page we create ----------------------------------------

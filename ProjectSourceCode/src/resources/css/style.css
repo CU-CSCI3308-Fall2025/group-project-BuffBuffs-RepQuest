@@ -130,3 +130,28 @@ main {
   background-color: #323a91;
   transform: translateY(-5px);
 }
+
+
+/* for achievements */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 100px; /* spacing between items */
+  margin-top: 100px;
+}
+
+.achievements-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px; /* optional */
+}
+
+.col {
+  text-align: center;
+}
+
+.achievement-label {
+  font-weight: bold;
+  margin-top: 6px; /* small spacing between image and text */
+}
+
