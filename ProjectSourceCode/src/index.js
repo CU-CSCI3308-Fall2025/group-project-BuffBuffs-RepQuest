@@ -44,7 +44,7 @@ app.use('/img', express.static(path.join(__dirname, 'resources/img')));
 app.use(express.urlencoded({ extended: true }));
 
 // ----------------------------------------Routes for every page we create ----------------------------------------
-app.get('/', (_, res) => res.redirect('/login'));
+app.get('/', (_, res) => res.redirect('/login')); //Make it so the login page is the first page seen
 
 // LOGIN (GET)
 app.get('/login', (req, res) => {
