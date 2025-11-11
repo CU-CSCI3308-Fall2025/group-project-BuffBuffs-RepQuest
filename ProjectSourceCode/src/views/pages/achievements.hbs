@@ -1,19 +1,47 @@
 <main class="main-content">
-  <h1 class="text-center text-3xl font-semibold">Achievements</h1>
+  <h1 class="page-title">Achievements</h1>
 
-  <div class="container">
-    <div class="achievements-grid">
-      {{#each achievements}}
-        <div class="col {{#if earned}}earned{{else}}locked{{/if}}">
-          <img src="{{icon_path}}" alt="{{title}}" />
-          <p class="achievement-label">{{title}}</p>
-          {{#if earned}}
-            <p class="achievement-meta">Unlocked: {{earned_at}}</p>
-          {{else}}
-            <p class="achievement-meta">Locked</p>
-          {{/if}}
-        </div>
-      {{/each}}
+  {{!-- Optional: who’s being shown --}}
+  {{#if username}}
+    <p class="subtle">Showing achievements for <strong>{{username}}</strong></p>
+  {{/if}}
+
+  {{#if achievements.length}}
+    <div class="legend">
+      <span class="legend-item">
+        <span class="legend-chip earned-chip" aria-hidden="true">✓</span> Unlocked
+      </span>
+      <span class="legend-item">
+        <span class="legend-chip locked-chip" aria-hidden="true">✕</span> Locked
+      </span>
     </div>
-  </div>
+
+    <section class="achievements-grid" aria-label="Achievements">
+      {{#each achievements}}
+        <article class="achievement-card {{#if earned}}earned{{else}}locked{{/if}}" aria-labelledby="ach-title-{{id}}">
+          <div class="icon-wrap">
+            <img class="icon" src="{{icon_path}}" alt="{{title}}">
+            {{#if earned}}
+              <span class="status-badge" title="Unlocked" aria-label="Unlocked">✓</span>
+            {{else}}
+              <span class="status-badge muted" title="Locked" aria-label="Locked">🔒</span>
+            {{/if}}
+          </div>
+
+          <h2 class="label" id="ach-title-{{id}}">{{title}}</h2>
+          <p class="desc">{{description}}</p>
+
+          <p class="meta">
+            {{#if earned}}
+              Unlocked: <time datetime="{{earned_at}}">{{earned_at}}</time>
+            {{else}}
+              Locked
+            {{/if}}
+          </p>
+        </article>
+      {{/each}}
+    </section>
+  {{else}}
+    <p>No achievements to show yet.</p>
+  {{/if}}
 </main>

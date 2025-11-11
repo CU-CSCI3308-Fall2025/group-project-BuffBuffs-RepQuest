@@ -133,9 +133,106 @@ main {
 
 
 /* achievements.css */
-.achievements-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-.col { text-align: center; padding: .5rem; border-radius: 12px; border: 1px solid #e5e5e5; }
-.col.locked { opacity: 0.45; filter: grayscale(100%); }
-.col.earned { opacity: 1; filter: none; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
-.achievement-label { font-weight: 700; margin-top: .5rem; }
-.achievement-meta { font-size: .85rem; color: #666; margin-top: .25rem; }
+.page-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0 0.25rem;
+}
+.subtle { text-align: center; color: #666; margin-bottom: 1rem; }
+
+.legend {
+  display: flex; gap: 1rem; justify-content: center; margin: 0.5rem 0 1rem;
+  font-size: 0.95rem; color: #444;
+}
+.legend-item { display: inline-flex; align-items: center; gap: 0.4rem; }
+.legend-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.25rem; height: 1.25rem; border-radius: 50%;
+  font-size: 0.85rem; line-height: 1; border: 1px solid #ccc;
+}
+.earned-chip { background: #e8f8ed; border-color: #bfe4ca; }
+.locked-chip { background: #f2f2f2; }
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 0 1rem 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+@media (max-width: 900px) {
+  .achievements-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 580px) {
+  .achievements-grid { grid-template-columns: 1fr; }
+}
+
+.achievement-card {
+  position: relative;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  padding: 0.9rem;
+  background: #fff;
+  text-align: center;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.achievement-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.07); }
+
+.icon-wrap {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+.icon {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+.status-badge {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #36b37e; /* green */
+  color: #fff;
+  border: 2px solid #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.status-badge.muted {
+  background: #bbb; /* gray for locked */
+}
+
+.label {
+  font-weight: 700;
+  margin: 0.2rem 0 0.2rem;
+}
+.desc {
+  color: #555;
+  font-size: 0.95rem;
+  min-height: 2.5em; /* keep card heights consistent */
+  margin: 0.1rem 0 0.4rem;
+}
+.meta {
+  color: #666; font-size: 0.85rem; margin: 0;
+}
+
+/* State styles */
+.achievement-card.locked {
+  opacity: 0.6;
+  filter: grayscale(100%);
+}
+.achievement-card.earned {
+  opacity: 1;
+  filter: none;
+}
