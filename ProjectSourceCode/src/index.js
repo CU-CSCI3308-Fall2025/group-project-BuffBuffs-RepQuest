@@ -58,7 +58,7 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     const user = await db.oneOrNone(
-      'SELECT id, username, password_hash FROM users WHERE username = $1 LIMIT 1',
+      'SELECT username, password_hash FROM users WHERE username = $1 LIMIT 1',
       [username]
     );
 
@@ -175,7 +175,7 @@ app.get('/logout', (req, res) => {
 
 
 const PORT = process.env.PORT || 3000;
-// app.listen(PORT, '0.0.0.0', () => console.log(`The server is running on http://localhost:${PORT}`));
-module.exports = app.listen(PORT, '0.0.0.0', () => console.log(`The server is running on http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`The server is running on http://localhost:${PORT}`));
+// module.exports = app.listen(PORT, '0.0.0.0', () => console.log(`The server is running on http://localhost:${PORT}`));
 
 
