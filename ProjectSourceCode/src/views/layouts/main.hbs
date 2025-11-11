@@ -8,15 +8,18 @@
         <link rel="stylesheet" href="/css/style.css" />
     </head>
     <body class="bg-light">
-        {{> header}}
-        {{{body}}}
+        <header>
+            {{> header}}
+        </header>
 
-        {{!-- allows me to hide the footer for the register and login pages --}}
-        {{#unless hideFooter}}
-        {{> footer }}
-        {{/unless}}
+        <main>
+            {{{body}}}
+        </main>
 
-
+            {{!-- allows me to hide the footer for the register and login pages --}}
+            {{#unless hideFooter}}
+            {{> footer }}
+            {{/unless}}
 
     </body>
 </html>
