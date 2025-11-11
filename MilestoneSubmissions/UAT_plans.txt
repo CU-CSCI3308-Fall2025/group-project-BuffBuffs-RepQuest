@@ -1,0 +1,22 @@
+Case 1:
+Users should be able to select their workout plan during the onboarding sequence 
+The plans will be pulled from the database, and if there is an erro,r then it will be 
+from the data request.
+The error should specify that there was an issue collecting the data from the database. 
+
+Case2:
+User should be able to go to the calendar page and see the weekly schedule and rest days, ect 
+which would be fed from the database.
+The calendar fails when something goes wrong fetching the data for the specific user from
+the database.
+If the data fails to be fetched, then it should show an error on the calendar page with an 
+error detailing what went wrong 
+
+Case 3:
+The user should be able to see the path and their progress on the home page once they log in.
+The home page shows the path and their progress through their chosen plan.
+The home page shows the specific plan and the user’s progress by retrieving data from the database.
+If there is an error in fetching the data, then the user's home page should show an error message 
+detailing what went wrong.
+
+
