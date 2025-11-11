@@ -236,3 +236,48 @@ main {
   opacity: 1;
   filter: none;
 }
+
+/* workouts css */
+.workouts-page {
+  max-width: 800px;
+  margin: 0 auto;
+  color: #333;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.workout-bubble {
+  background-color: #f5f5f5;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.workout-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.workout-table th {
+  background-color: #ddd;
+  padding: 0.75rem;
+  border-radius: 10px;
+}
+
+.workout-table td {
+  padding: 0.75rem;
+}
+
+.workout-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: bold;
+}

@@ -1,3 +1,78 @@
-<main class="main-content">
-  <h1>Workouts</h1>
-</main>
+<div class="workouts-page container mt-5">
+  <h1 class="page-title text-center mb-4">Workout Days</h1>
+
+  <!-- Push Day Section -->
+  <section class="workout-section mb-5">
+    <h2 class="section-title">Push Day</h2>
+    <div class="workout-bubble">
+      <table class="workout-table">
+        <thead>
+          <tr>
+            <th>Exercise</th>
+            <th>Sets</th>
+            <th>Reps</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each pushWorkouts}}
+            <tr>
+              <td>{{this.name}}</td>
+              <td>{{this.sets}}</td>
+              <td>{{this.reps}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Pull Day Section -->
+  <section class="workout-section mb-5">
+    <h2 class="section-title">Pull Day</h2>
+    <div class="workout-bubble">
+      <table class="workout-table">
+        <thead>
+          <tr>
+            <th>Exercise</th>
+            <th>Sets</th>
+            <th>Reps</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each pullWorkouts}}
+            <tr>
+              <td>{{this.name}}</td>
+              <td>{{this.sets}}</td>
+              <td>{{this.reps}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Leg Day Section -->
+  <section class="workout-section mb-5">
+    <h2 class="section-title">Leg Day</h2>
+    <div class="workout-bubble">
+      <table class="workout-table">
+        <thead>
+          <tr>
+            <th>Exercise</th>
+            <th>Sets</th>
+            <th>Reps</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each legWorkouts}}
+            <tr>
+              <td>{{this.name}}</td>
+              <td>{{this.sets}}</td>
+              <td>{{this.reps}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
