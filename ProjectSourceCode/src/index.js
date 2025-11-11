@@ -5,6 +5,15 @@ const pgp = require('pg-promise')();
 
 const app = express();
 
+const session = require('express-session');
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'dev-secret',
+  resave: false,
+  saveUninitialized: false
+}));
+
+
 const db = pgp({
   host: process.env.DB_HOST,                      
   port: Number(process.env.DB_PORT || 5432),
@@ -57,6 +66,7 @@ app.post('/login', async (req, res) => {
       return res.status(401).render('pages/login', { hideFooter: true, message: 'Invalid credentials' });
     }
 
+    req.session.username = user.username;
 
     return res.redirect('/home');
   } catch (err) {
@@ -110,9 +120,39 @@ app.get('/workouts', (req, res) => {
 });
 
 // Achievements page
-app.get('/achievements', (req, res) => {
-  res.render('pages/achievements', { title: 'Achievements' });
+app.get('/achievements', async (req, res, next) => {
+  try {
+    // use session username if logged in; fall back to ?u=user1 for quick testing
+    const username = req.session?.username || req.query.u || 'user1';
+
+    const { rows: achievements } = await db.result(
+      `SELECT a.id,
+              a.code,
+              a.title,
+              a.description,
+              a.icon_path,
+              a.sort_order,
+              (ua.earned_at IS NOT NULL) AS earned,
+              to_char(ua.earned_at, 'YYYY-MM-DD HH24:MI') AS earned_at
+       FROM achievements a
+       LEFT JOIN user_achievements ua
+         ON ua.achievement_id = a.id
+        AND ua.username = $1
+       ORDER BY a.sort_order, a.id`,
+      [username]
+    );
+
+    return res.render('pages/achievements', {
+      title: 'Achievements',
+      username,
+      achievements
+    });
+  } catch (err) {
+    console.error('Achievements error:', err);
+    return next(err);
+  }
 });
+
 
 // Calendar page
 app.get('/calendar', (req, res) => {

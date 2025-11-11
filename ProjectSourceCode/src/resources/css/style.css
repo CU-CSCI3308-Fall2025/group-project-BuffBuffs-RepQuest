@@ -132,26 +132,10 @@ main {
 }
 
 
-/* for achievements */
-.achievements-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns */
-  gap: 100px; /* spacing between items */
-  margin-top: 100px;
-}
-
-.achievements-grid img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px; /* optional */
-}
-
-.col {
-  text-align: center;
-}
-
-.achievement-label {
-  font-weight: bold;
-  margin-top: 6px; /* small spacing between image and text */
-}
-
+/* achievements.css */
+.achievements-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.col { text-align: center; padding: .5rem; border-radius: 12px; border: 1px solid #e5e5e5; }
+.col.locked { opacity: 0.45; filter: grayscale(100%); }
+.col.earned { opacity: 1; filter: none; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+.achievement-label { font-weight: 700; margin-top: .5rem; }
+.achievement-meta { font-size: .85rem; color: #666; margin-top: .25rem; }
