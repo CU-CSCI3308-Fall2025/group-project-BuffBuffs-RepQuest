@@ -3,50 +3,17 @@
 
   <div class="container">
     <div class="achievements-grid">
-      <div class="col">
-        <img src="/img/temptrophy.jpg" alt="Achievement 1">
-        <p class="achievement-label">First Achievement</p>
-      </div>
-
-      <div class="col">
-        <img src="/img/temptrophy.jpg" alt="Achievement 2">
-        <p class="achievement-label">Second Achievement</p>
-      </div>
-
-      <div class="col">
-        <img src="/img/temptrophy.jpg" alt="Achievement 3">
-        <p class="achievement-label">Third Achievement</p>
-      </div>
-
-      <div class="col">
-        <img src="/img/temptrophy.jpg" alt="Achievement 4">
-        <p class="achievement-label">Fourth Achievement</p>
-      </div>
-
-      <div class="col">
-        <img src="/img/temptrophy.jpg" alt="Achievement 5">
-        <p class="achievement-label">Fifth Achievement</p>
-      </div>
-
-      <div class="col">
-        <img src="/img/temptrophy.jpg" alt="Achievement 6">
-        <p class="achievement-label">Sixth Achievement</p>
-      </div>
-
-      <div class="col">
-        <img src="/img/temptrophy.jpg" alt="Achievement 7">
-        <p class="achievement-label">Seventh Achievement</p>
-      </div>
-
-      <div class="col">
-        <img src="/img/temptrophy.jpg" alt="Achievement 8">
-        <p class="achievement-label">Eighth Achievement</p>
-      </div>
-
-      <div class="col">
-        <img src="/img/temptrophy.jpg" alt="Achievement 9">
-        <p class="achievement-label">Ninth Achievement</p>
-      </div>
+      {{#each achievements}}
+        <div class="col {{#if earned}}earned{{else}}locked{{/if}}">
+          <img src="{{icon_path}}" alt="{{title}}" />
+          <p class="achievement-label">{{title}}</p>
+          {{#if earned}}
+            <p class="achievement-meta">Unlocked: {{earned_at}}</p>
+          {{else}}
+            <p class="achievement-meta">Locked</p>
+          {{/if}}
+        </div>
+      {{/each}}
     </div>
   </div>
 </main>
