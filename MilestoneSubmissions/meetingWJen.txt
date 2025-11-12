@@ -67,3 +67,39 @@ Random Notes
 	- In general, great progress
 	- Keep chugging along and make sure to prioritize functionality of
 	the site before nitpicking on design aspects
+
+11/11 Meeting
+5-5:14
+	- First started with going over the live demo
+
+Dalton
+	- Finished the functionality of the login and register page
+	- Got rid of the footer for the register and login screen
+	- Moving forward is going to put in the calendar page
+Addie
+	- Worked on the achievements page
+	- Be able to take the user data to affect the website
+	- Going to connect the home page to achievements rest of the week
+Zandra
+	- Working mostly on the testing for lab 7
+	- To make sure the login testing is good
+	- Did some more designing for the home page (icons)
+Keira
+	- Did the workout page, also put in a placeholder workout
+	- Started the home page layout, still needs to get it looking
+	pretty but has some functionality, although not much
+	- Plans to finish home page mostly, and finalize the workout we
+	want to use for our final product
+Cole
+	- Did the UAT testing write-up
+	- Also did some testing for the index.js to finish testing for the lab
+	- Get the profile page done that way we can start on design aspects
+
+Final Points 
+	- Jen asked how we're feeling in general
+		- Addie mentioned not feeling the best about deadlines and don't
+		want to get a 0 or anything for missing one small portion
+		- Jen told us how the graders are going to be significantly more
+		lenient with grading because of the project and how the class has 
+		gone so far
+	- Asked if we have anything that's holding us up (we didn't)
