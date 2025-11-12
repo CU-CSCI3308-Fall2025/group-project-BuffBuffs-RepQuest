@@ -68,7 +68,7 @@ Random Notes
 	- Keep chugging along and make sure to prioritize functionality of
 	the site before nitpicking on design aspects
 
-11/11 Meeting
+Weekly Meeting 11/11
 5-5:14
 	- First started with going over the live demo
 
