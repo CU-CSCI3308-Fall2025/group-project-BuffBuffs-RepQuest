@@ -170,8 +170,26 @@ app.get('/home', (req, res) => {
 
 // Workouts page
 app.get('/workouts', (req, res) => {
-  res.render('pages/workouts', { title: 'Workouts' });
+  res.render('pages/workouts', {
+    title: 'Workouts',
+    pushWorkouts: [
+      { name: 'Bench Press', sets: 4, reps: '8–10' },
+      { name: 'Overhead Press', sets: 3, reps: '10' },
+      { name: 'Triceps Dips', sets: 3, reps: '12' }
+    ],
+    pullWorkouts: [
+      { name: 'Pull-Ups', sets: 4, reps: '8–10' },
+      { name: 'Barbell Rows', sets: 3, reps: '10' },
+      { name: 'Bicep Curls', sets: 3, reps: '12' }
+    ],
+    legWorkouts: [
+      { name: 'Squats', sets: 4, reps: '8' },
+      { name: 'Lunges', sets: 3, reps: '10 each leg' },
+      { name: 'Calf Raises', sets: 3, reps: '15' }
+    ]
+  });
 });
+
 
 // Achievements page
 app.get('/achievements', async (req, res, next) => {
