@@ -1,6 +1,8 @@
 <main class="main-content">
+
   <h1 class="text-center text-3xl font-semibold">Calendar</h1>
   <div class="col">
+    {{!-- Week 1 of the calendar shown --}}
             <div class="container-md container-fluid py-4 h-100">
                 <div id="calendar" class="row h-100">
                     <div class="col-sm m-1 bg-white rounded px-1 px-md-2" id="sunday">
@@ -40,5 +42,62 @@
                     </div>
                 </div>        
             </div>
+
+
+
+
+{{!-- Week 2 of the calendar shown --}}
+        <div class="container-md container-fluid py-4 h-100">
+                <div id="calendar" class="row h-100">
+                    <div class="col-sm m-1 bg-white rounded px-1 px-md-2" id="sunday">
+                        <div class="h6 text-center position-relative py-2 day">
+                            Sunday
+                        </div>
+                    </div>
+                    <div class="col-sm m-1 bg-white rounded px-1 px-md-2" id="monday">
+                        <div class="h6 text-center position-relative py-2 day">
+                            Monday
+                        </div>
+                    </div>
+                    <div class="col-sm m-1 bg-white rounded px-1 px-md-2" id="tuesday">
+                        <div class="h6 text-center position-relative py-2 day">
+                            Tuesday
+                        </div>
+                    </div>
+                    <div class="col-sm m-1 bg-white rounded px-1 px-md-2" id="wednesday">
+                        <div class="h6 text-center position-relative py-2 day">
+                            Wednesday
+                        </div>
+                    </div>
+                    <div class="col-sm m-1 bg-white rounded px-1 px-md-2" id="thursday">
+                        <div class="h6 text-center position-relative py-2 day">
+                            Thursday
+                        </div>
+                    </div>
+                    <div class="col-sm m-1 bg-white rounded px-1 px-md-2" id="friday">
+                        <div class="h6 text-center position-relative py-2 day">
+                            Friday
+                        </div>
+                    </div>
+                    <div class="col-sm m-1 bg-white rounded px-1 px-md-2" id="saturday">
+                        <div class="h6 text-center position-relative py-2 day">
+                            <p id="current-date"></p>
+                        </div>
+                    </div>
+                </div>        
+            </div>
+
+
+
+
         </div>
+
+
+
+ <script>
+    const today = new Date();
+    document.getElementById("current-date").innerText = today.toDateString(); //Will work to get the correct dates shown
+    </script>
+
+
 </main>

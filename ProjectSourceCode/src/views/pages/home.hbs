@@ -1,3 +1,78 @@
-<main class="main-content">
-  <h1>Home</h1>
-</main>
+<div class="vertical-pathway">
+  <div class="step" style="--offset: 0%;">
+    <div class="node" data-id="1">1</div>
+  </div>
+  <div class="connector"></div>
+
+  <div class="step" style="--offset: 30%;">
+    <div class="node" data-id="2">2</div>
+  </div>
+  <div class="connector"></div>
+
+  <div class="step" style="--offset: 10%;">
+    <div class="node" data-id="3">3</div>
+  </div>
+  <div class="connector"></div>
+
+  <div class="step" style="--offset: 40%;">
+    <div class="node" data-id="4">4</div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="workoutModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Log Workout</h2>
+    <p>Do you want to log this workout?</p>
+    <button id="confirmBtn">Yes</button>
+    <button id="cancelBtn">Cancel</button>
+  </div>
+</div>
+
+
+  <!-- Inline JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const nodes = document.querySelectorAll('.node');
+      const modal = document.getElementById('workoutModal');
+      const closeBtn = modal.querySelector('.close');
+      const confirmBtn = document.getElementById('confirmBtn');
+      const cancelBtn = document.getElementById('cancelBtn');
+
+      let currentNode = null;
+
+      nodes.forEach(node => {
+        node.addEventListener('click', () => {
+          currentNode = node;
+          modal.style.display = 'flex';
+        });
+      });
+
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+
+      cancelBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+
+      confirmBtn.addEventListener('click', () => {
+        if (currentNode) {
+          currentNode.classList.add('completed');
+          const stepDiv = currentNode.parentElement;
+          const nextConnector = stepDiv.nextElementSibling;
+          if (nextConnector && nextConnector.classList.contains('connector')) {
+            nextConnector.style.backgroundColor = 'green';
+          }
+        }
+        modal.style.display = 'none';
+      });
+
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    });
+  </script>
