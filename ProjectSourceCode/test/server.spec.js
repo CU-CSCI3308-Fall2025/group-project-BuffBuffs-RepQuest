@@ -59,3 +59,18 @@ describe('Testing Login API', () => {
 });
 
 // ********************************************************************************
+// Positive Test case 
+describe('Testing Register API', () => {
+  it('positive : /register', done => {
+    chai
+      .request(server)
+      .post('/register')
+      .set('Content-Type', 'application/json')
+      .send({ username: `user_${Date.now()}`, password: 'TestPass!234' })
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.message).to.equals('User registered successfully');
+        done();
+      });
+  });
+});

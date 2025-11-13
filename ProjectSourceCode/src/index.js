@@ -81,7 +81,7 @@ app.post('/login', async (req, res) => {
 
     req.session.username = user.username;
 
-    // ✅ Added for Mocha: return JSON success for JSON requests instead of redirect
+    // Added for Mocha: return JSON success for JSON requests instead of redirect
     if (req.headers['content-type']?.includes('application/json')) {
       return res.status(200).json({ message: 'Login successful' });
     }
@@ -90,7 +90,7 @@ app.post('/login', async (req, res) => {
   } catch (err) {
     console.error(err);
 
-    // ✅ Added JSON error response for tests
+    // Added JSON error response for tests
     if (req.headers['content-type']?.includes('application/json')) {
       return res.status(500).json({ message: 'Server error logging in.' });
     }
@@ -106,10 +106,17 @@ app.get('/register', (req, res) => {
 });
 
 // REGISTER (POST)
+
+// for testing purposes.
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.post('/register', async (req, res) => {
   try {
     const username = String(req.body.username || '').trim();
     const password = String(req.body.password || '').trim();
+
+    
 
     // Validate input
     if (!username || !password) {
@@ -128,12 +135,12 @@ app.post('/register', async (req, res) => {
       [username, password]
     );
 
-    // ✅ If the request is JSON (Mocha test)
+    // If the request is JSON (Mocha test)
     if (req.headers['content-type']?.includes('application/json')) {
-      return res.status(201).json({ message: 'User registered successfully' });
+      return res.status(200).json({ message: 'User registered successfully' });
     }
 
-    // ✅ Otherwise, normal browser redirect to login
+    // Otherwise, normal browser redirect to login
     return res.redirect('/login');
   } catch (err) {
     console.error('Register error:', { code: err.code, message: err.message, detail: err.detail });
