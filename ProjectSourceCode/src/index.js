@@ -57,10 +57,11 @@ app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // ✅ Handle missing input (added JSON handling for tests)
+    // Handle missing input (added JSON handling for tests)
     if (!username || !password) {
       if (req.headers['content-type']?.includes('application/json')) {
-        // 👇 Added for Mocha: return JSON + 400 instead of HTML
+
+        res.render('pages/login', { hideFooter: true, hideHome: true });
         return res.status(400).json({ message: 'Invalid input' });
       }
       return res.status(400).render('pages/login', { hideFooter: true, message: 'Invalid input' });
@@ -72,11 +73,13 @@ app.post('/login', async (req, res) => {
     );
 
     if (!user || password !== user.password_hash) {
+
       if (req.headers['content-type']?.includes('application/json')) {
-        // 👇 Added for Mocha: send 400 JSON instead of 401 HTML
+        // Added for Mocha: send 400 JSON instead of 401 HTML
         return res.status(400).json({ message: 'Invalid input' });
       }
       return res.status(401).render('pages/login', { hideFooter: true, message: 'Invalid credentials' });
+      
     }
 
     req.session.username = user.username;
