@@ -1,0 +1,41 @@
+10/27 Finished draft of UML
+10/29 Pushed wireframes to github 
+10/29 pushed meeting notes 
+10/30 created the recommended outline of files given to us in the project write-up
+10/30 cleaned up folders
+10/30/2025 pushed meeting log 
+10/30 started project board
+10/31 updated on our general plans for the next week for each team member
+11/1 SQL. made create and insert for account and workout data. did not include profile picture yet for user data. also created some sample users for testing purposes
+11/4 start of header, rough skeleton
+11/4 Added the structure code for html
+11/4 updated index.js file, docker, and more to allow us to start testing our code
+11/4 Changed the index.js to display the register page and prompt user to enter credentials
+11/4 added more rough code for nav bar and header
+11/4 functioning nav bar, goes to respective pages with a title to see what you're on. header still jacked up but working on that. also plan to style nav bar better but just wanted a functioning one first
+11/4 updated some stuff on the register page
+11/4 Started work on achievements page. Have three columns
+11/4 Made the base calendar that will hold the responsive data from the index.js and database
+11/4 Added minutes for meeting with Jen, fully merged to main from my personal branch
+11/5 basic header laid out, home page link is functioning and goes to home page
+11/5 Made register and login page fully functional. Login now redirects to the home page. Also edited account.sql file to acommodate this
+11/5 Added story points and criteria for my user stories on the board (account data, workout data, and achievements)
+11/5 added user story and user criteria for my assigned to-dos
+11/5 pushed the claendar page to the main branch and updated the user story for it
+11/5 added story points to actions that were missing it. we should be 100% for lab this week
+11/6 started off lab 10 and pushed changes to docker, env, and package.json file
+11/6 hide the footer from the login and register pages so now they're only visible when the user is logged in
+11/6 Hide part of the nav bar from the login and register page
+11/9 made achievements into 3 colum grid with temperary images and text. added some styling for that in style.css and had to give permission for img in index.js
+11/10 pushed icons for path levels
+11/10 completed UAT
+11/10 consolidated sql file. linked achievements page to sql data. made achievements more easily reproducable and implemented a locked/unlocked feature
+11/11 general design for workouts page, need to still add actual workouts
+11/11 Made the login the first page shown when application starts running
+11/11 made change to docker-compose.yaml to attempt to fix changes
+11/11 added workouts to the workout page just to have a filler. also adjusted footer so that it stays visible on the entire page instead of having it stick to bottom of the body
+11/11 home page start, and meeting notes for 11/11 meeting with Jen
+11/11 had to push meeting notes again cause it didn't the first time cause im stoopid
+11/12 pushed working mocha negative test case (implemented it so that it does not mess with our testing)
+11/12 pushed  pushed working mocha positive test case (implemented it so that it does not mess with our testing)
+11/13 Added multiple weeks to the calendar, started adding real dates
