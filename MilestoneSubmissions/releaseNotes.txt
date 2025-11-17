@@ -21,7 +21,7 @@
 11/5 Made register and login page fully functional. Login now redirects to the home page. Also edited account.sql file to acommodate this
 11/5 Added story points and criteria for my user stories on the board (account data, workout data, and achievements)
 11/5 added user story and user criteria for my assigned to-dos
-11/5 pushed the claendar page to the main branch and updated the user story for it
+11/5 pushed the calendar page to the main branch and updated the user story for it
 11/5 added story points to actions that were missing it. we should be 100% for lab this week
 11/6 started off lab 10 and pushed changes to docker, env, and package.json file
 11/6 hide the footer from the login and register pages so now they're only visible when the user is logged in
@@ -37,5 +37,9 @@
 11/11 home page start, and meeting notes for 11/11 meeting with Jen
 11/11 had to push meeting notes again cause it didn't the first time cause im stoopid
 11/12 pushed working mocha negative test case (implemented it so that it does not mess with our testing)
-11/12 pushed  pushed working mocha positive test case (implemented it so that it does not mess with our testing)
+11/12 pushed working mocha positive test case (implemented it so that it does not mess with our testing)
 11/13 Added multiple weeks to the calendar, started adding real dates
+11/13 Made the calendar show the current weeks date and highlight the current date with a black border
+11/17 made more progress on home page, also adjusted header to stay at the top of our page, and make footer a smidge smaller to be able to see our home page a bit better
+
+
