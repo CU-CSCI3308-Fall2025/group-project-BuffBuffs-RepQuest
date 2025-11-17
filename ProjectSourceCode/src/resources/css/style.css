@@ -384,3 +384,105 @@ body {
   border: 2px solid rgb(0, 0, 0); /* Changes the color of the background  */
   border-radius: 8px;
 }
+
+/* Profile */
+.profile-page {
+  display: flex;
+  flex-direction: column; /* stack title and card */
+  align-items: center;
+  min-height: 80vh;
+  padding: 2rem;
+}
+
+/* Page title above card */
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #333;
+}
+
+/* Card container */
+.profile-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem 2rem; /* slightly bigger than before */
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  text-align: left; /* username stays normal */
+}
+
+/* Card heading */
+.profile-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Profile info */
+.profile-info p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.profile-info .label {
+  font-weight: 600;
+  color: #555;
+  margin-right: 6px;
+}
+
+/* Logout button */
+.logout-btn {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #d9534f;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #c9302c;
+}
+
+/* Profile picture */
+.profile-picture-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+/* Circular profile picture */
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ddd;
+  margin-bottom: 1rem;
+}
+
+/* Change picture button */
+.change-picture-btn {
+  padding: 0.5rem 1rem;
+  background: #007bff;
+  color: #fff;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.change-picture-btn:hover {
+  background: #0056b3;
+}
+

@@ -1,3 +1,19 @@
-<main class="main-content">
-  <h1>Profile</h1>
+<main class="main-content profile-page">
+  <h1 class="page-title">Profile</h1>
+
+  <div class="profile-picture-container">
+    <img class="profile-picture" src="/img/default-profile.png" alt="Profile Picture">
+    <button class="change-picture-btn">Change Profile Picture</button>
+  </div>
+
+  <section class="profile-card">
+    <h2 class="profile-card-title">User Information</h2>
+
+    <div class="profile-info">
+      <p><span class="label">Username:</span> {{username}}</p>
+    </div>
+
+    <a class="logout-btn" href="/logout">Log Out</a>
+  </section>
 </main>
+

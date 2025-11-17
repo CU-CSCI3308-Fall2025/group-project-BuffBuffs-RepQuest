@@ -242,9 +242,37 @@ app.get('/calendar', (req, res) => {
 });
 
 // Profile page
-app.get('/profile', (req, res) => {
-  res.render('pages/profile', { title: 'Profile' });
+app.get('/profile', async (req, res) => {
+  const loggedInUser = req.session.username;
+
+  if (!loggedInUser) {
+    return res.redirect('/login');
+  }
+
+  try {
+    const user = await db.oneOrNone(
+      `SELECT username, name
+       FROM users
+       WHERE username = $1`,
+      [loggedInUser]
+    );
+
+    if (!user) {
+      return res.status(404).send("User not found.");
+    }
+
+    res.render('pages/profile', {  
+      username: user.username,
+      name: user.name
+    });
+
+  } catch (err) {
+    console.error('Profile page error:', err);
+    res.status(500).send("Server error loading profile.");
+  }
 });
+
+
 
 // //Log out page for when we actually want to implement it
 app.get('/logout', (req, res) => {
