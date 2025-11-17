@@ -32,3 +32,11 @@ Zandra - Risks
 Addie - Achievements page
 Dalton - calendar
 Keira - workouts page
+
+Team Meeting 11/13
+Keira - finish home page by this weekend
+Cole - onboarding
+Dalton - finish calendar
+Zandra - Profile page & icon design, picture
+Addie - finish achievements, add notes after workout option
+were moving the profile page button to the top right and that is where it will be the profile pic

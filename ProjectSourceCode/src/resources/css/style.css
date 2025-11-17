@@ -378,3 +378,9 @@ main {
 body {
   margin-top: 80px; 
 }
+/* Calendar */
+.today {
+  font-weight: bold;
+  border: 2px solid rgb(0, 0, 0); /* Changes the color of the background  */
+  border-radius: 8px;
+}
