@@ -1,86 +1,96 @@
+<link rel="stylesheet" href="/css/styles.css">
+
 <div class="vertical-pathway">
   <div class="step" style="--offset: -10%;">
-    <div class="node" data-id="1">1</div>
+    <img src="/img/pathlevel-gray.PNG" class="node" data-id="1" alt="Workout 1">
   </div>
-  {{!-- <div class="connector"></div> --}}
 
   <div class="step" style="--offset: 10%;">
-    <div class="node" data-id="2">2</div>
-  </div>
-  {{!-- <div class="connector"></div> --}}
-
-  <div class="step" style="--offset: -10%;">
-    <div class="node" data-id="3">3</div>
-  </div>
-  {{!-- <div class="connector"></div> --}}
-
-  <div class="step" style="--offset: 10%;">
-    <div class="node" data-id="4">4</div>
+    <img src="/img/pathlevel-gray.PNG" class="node" data-id="2" alt="Workout 2">
   </div>
 
   <div class="step" style="--offset: -10%;">
-    <div class="node" data-id="4">5</div>
+    <img src="/img/pathlevel-gray.PNG" class="node" data-id="3" alt="Workout 3">
   </div>
 
   <div class="step" style="--offset: 10%;">
-    <div class="node" data-id="4">6</div>
+    <img src="/img/pathlevel-gray.PNG" class="node" data-id="4" alt="Workout 4">
+  </div>
+
+  <div class="step" style="--offset: -10%;">
+    <img src="/img/pathlevel-gray.PNG" class="node" data-id="5" alt="Workout 5">
+  </div>
+
+  <div class="step" style="--offset: 10%;">
+    <img src="/img/pathlevel-gray.PNG" class="node" data-id="6" alt="Workout 6">
+  </div>
+
+  <div class="step" style="--offset: -10%;">
+    <img src="/img/pathlevel-gray.PNG" class="node" data-id="7" alt="Workout 7">
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal for logging workouts -->
 <div id="workoutModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h2>Log Workout</h2>
-    <p>Do you want to log this workout?</p>
+    <p>Log this workout?</p>
     <button id="confirmBtn">Yes</button>
-    <button id="cancelBtn">Cancel</button>
+    <button id="cancelBtn">No</button>
   </div>
 </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const nodes = document.querySelectorAll('.node');
+    const modal = document.getElementById('workoutModal');
+    const closeBtn = modal.querySelector('.close');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
 
-  <!-- Inline JavaScript -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const nodes = document.querySelectorAll('.node');
-      const modal = document.getElementById('workoutModal');
-      const closeBtn = modal.querySelector('.close');
-      const confirmBtn = document.getElementById('confirmBtn');
-      const cancelBtn = document.getElementById('cancelBtn');
+    let currentNode = null;
 
-      let currentNode = null;
-
+    // Function to update which nodes are unlocked
+    function updateUnlockedNodes() {
       nodes.forEach(node => {
-        node.addEventListener('click', () => {
-          currentNode = node;
-          modal.style.display = 'flex';
-        });
-      });
-
-      closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
-
-      cancelBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
-
-      confirmBtn.addEventListener('click', () => {
-        if (currentNode) {
-          currentNode.classList.add('completed');
-          const stepDiv = currentNode.parentElement;
-          const nextConnector = stepDiv.nextElementSibling;
-          if (nextConnector && nextConnector.classList.contains('connector')) {
-            nextConnector.style.backgroundColor = 'green';
+        const id = parseInt(node.dataset.id);
+        if (id === 1) {
+          node.classList.add('unlocked'); // first node always unlocked
+        } else {
+          const prevNode = document.querySelector(`.node[data-id="${id-1}"]`);
+          if (prevNode.src.includes('pathlevel-green.PNG')) {
+            node.classList.add('unlocked'); // unlock next node
+          } else {
+            node.classList.remove('unlocked'); // lock node
           }
         }
-        modal.style.display = 'none';
       });
+    }
 
-      window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          modal.style.display = 'none';
-        }
+    updateUnlockedNodes(); // initialize unlocked nodes on page load
+
+    nodes.forEach(node => {
+      node.addEventListener('click', () => {
+        if (!node.classList.contains('unlocked')) return; // ignore locked nodes
+
+        currentNode = node;
+        modal.style.display = 'flex';
       });
     });
-  </script>
+
+    closeBtn.addEventListener('click', () => modal.style.display = 'none');
+    cancelBtn.addEventListener('click', () => modal.style.display = 'none');
+
+    confirmBtn.addEventListener('click', () => {
+      if (currentNode) {
+        currentNode.src = "/img/pathlevel-green.PNG"; // mark node completed
+        updateUnlockedNodes(); // unlock the next node
+      }
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+  });
+</script>
