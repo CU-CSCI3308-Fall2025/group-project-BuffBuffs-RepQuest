@@ -41,56 +41,79 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const nodes = document.querySelectorAll('.node');
-    const modal = document.getElementById('workoutModal');
-    const closeBtn = modal.querySelector('.close');
-    const confirmBtn = document.getElementById('confirmBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
+document.addEventListener('DOMContentLoaded', async () => {
+  const nodes = document.querySelectorAll('.node');
+  const modal = document.getElementById('workoutModal');
+  const closeBtn = modal.querySelector('.close');
+  const confirmBtn = document.getElementById('confirmBtn');
+  const cancelBtn = modal.querySelector('#cancelBtn');
 
-    let currentNode = null;
+  let currentNode = null;
+  let highestCompleted = 0;
 
-    // Function to update which nodes are unlocked
-    function updateUnlockedNodes() {
-      nodes.forEach(node => {
-        const id = parseInt(node.dataset.id);
-        if (id === 1) {
-          node.classList.add('unlocked'); // first node always unlocked
-        } else {
-          const prevNode = document.querySelector(`.node[data-id="${id-1}"]`);
-          if (prevNode.src.includes('pathlevel-green.PNG')) {
-            node.classList.add('unlocked'); // unlock next node
-          } else {
-            node.classList.remove('unlocked'); // lock node
-          }
-        }
-      });
+  // Load progress from server
+  try {
+    const res = await fetch('/api/progress');
+    if (res.ok) {
+      const data = await res.json();
+      highestCompleted = data.highest_completed;
     }
+  } catch (err) {
+    console.error('Failed to load progress', err);
+  }
 
-    updateUnlockedNodes(); // initialize unlocked nodes on page load
+  // Apply saved progress visually
+  nodes.forEach(node => {
+    const id = parseInt(node.dataset.id);
 
-    nodes.forEach(node => {
-      node.addEventListener('click', () => {
-        if (!node.classList.contains('unlocked')) return; // ignore locked nodes
+    if (id <= highestCompleted) {
+      node.src = "/img/pathlevel-green.PNG";
+      node.classList.add('unlocked');
+    } else if (id === highestCompleted + 1) {
+      node.classList.add('unlocked');
+    }
+  });
 
-        currentNode = node;
-        modal.style.display = 'flex';
-      });
-    });
-
-    closeBtn.addEventListener('click', () => modal.style.display = 'none');
-    cancelBtn.addEventListener('click', () => modal.style.display = 'none');
-
-    confirmBtn.addEventListener('click', () => {
-      if (currentNode) {
-        currentNode.src = "/img/pathlevel-green.PNG"; // mark node completed
-        updateUnlockedNodes(); // unlock the next node
-      }
-      modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) modal.style.display = 'none';
+  // Node click
+  nodes.forEach(node => {
+    node.addEventListener('click', () => {
+      if (!node.classList.contains('unlocked')) return;
+      currentNode = node;
+      modal.style.display = 'flex';
     });
   });
+
+  closeBtn.addEventListener('click', () => modal.style.display = 'none');
+  cancelBtn.addEventListener('click', () => modal.style.display = 'none');
+
+  // Confirm button
+  confirmBtn.addEventListener('click', async () => {
+    if (!currentNode) return;
+
+    const completedId = parseInt(currentNode.dataset.id);
+    currentNode.src = "/img/pathlevel-green.PNG"; // update UI
+
+    try {
+      await fetch('/api/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ completed: completedId })
+      });
+      // Update highestCompleted in JS
+      highestCompleted = Math.max(highestCompleted, completedId);
+
+      // Unlock next node if it exists
+      const nextNode = document.querySelector(`.node[data-id="${completedId+1}"]`);
+      if (nextNode) nextNode.classList.add('unlocked');
+    } catch (err) {
+      console.error('Failed to save progress', err);
+    }
+
+    modal.style.display = 'none';
+  });
+
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) modal.style.display = 'none';
+  });
+});
 </script>

@@ -10,6 +10,15 @@ CREATE TABLE users (
   password_hash TEXT NOT NULL
 );
 
+-- =========================
+-- USER PROGRESS
+-- =========================
+DROP TABLE IF EXISTS user_progress CASCADE;
+CREATE TABLE user_progress (
+    username TEXT PRIMARY KEY REFERENCES users(username) ON DELETE CASCADE,
+    highest_completed INTEGER NOT NULL DEFAULT 0
+);
+
 INSERT INTO users (username, name, password_hash) VALUES
   ('user1', 'Bob',   'abcd1'),
   ('user2', 'Steve', 'abcd2'),
