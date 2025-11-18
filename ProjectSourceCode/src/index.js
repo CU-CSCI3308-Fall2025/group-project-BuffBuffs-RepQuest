@@ -63,6 +63,62 @@ app.post('/api/progress', async (req, res) => {
   }
 });
 
+// Record a completed workout in the workouts table
+app.post('/api/workouts', async (req, res) => {
+  if (!req.session.username) {
+    return res.status(401).json({ error: 'Not logged in' });
+  }
+
+  const username = req.session.username;
+  const workoutId = Number(req.body.workoutId);   // this is the node's data-id
+
+  if (isNaN(workoutId)) {
+    return res.status(400).json({ error: 'Invalid workoutId' });
+  }
+
+  try {
+    // Decide which muscle groups this workout hits based on its ID.
+    // You can tweak this however you want.
+    const flags = {
+      1: { back: true, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false },
+      2: { back: false, chest: true, arms: true,  legs: false, glutes: false, abs: false, cardio: false },
+      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true  },
+      4: { back: false, chest: false, arms: false, legs: true,  glutes: true,  abs: true,  cardio: false },
+      5: { back: false, chest: false, arms: false, legs: true,  glutes: false, abs: false, cardio: false },
+      6: { back: true,  chest: true,  arms: true,  legs: false, glutes: false, abs: false, cardio: false },
+      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true,  cardio: true  }
+    }[workoutId] || { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false };
+
+    // Build MMDDYY as an integer for today
+    const now = new Date();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const yy = String(now.getFullYear()).slice(-2);
+    const dateInt = Number(mm + dd + yy);  // e.g., 031225
+
+    // Use your SQL helper function insert_workout(...) so the trigger fills date_actual
+    await db.none(
+      'SELECT insert_workout($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+      [
+        username,
+        dateInt,
+        flags.back   || false,
+        flags.chest  || false,
+        flags.arms   || false,
+        flags.legs   || false,
+        flags.glutes || false,
+        flags.abs    || false,
+        flags.cardio || false
+      ]
+    );
+
+    return res.json({ success: true });
+  } catch (err) {
+    console.error('Error inserting workout:', err);
+    return res.status(500).json({ error: 'Failed to record workout' });
+  }
+});
+
 
 app.engine('hbs', engine({
   extname: '.hbs',
