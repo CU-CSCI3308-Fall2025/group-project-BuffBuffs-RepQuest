@@ -5,6 +5,10 @@ const pgp = require('pg-promise')();
 
 const app = express();
 
+// for testing purposes.
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const session = require('express-session');
 
 app.use(session({
@@ -21,6 +25,44 @@ const db = pgp({
   user: process.env.DB_USER,                      
   password: process.env.DB_PASSWORD               
 });
+
+app.get('/api/progress', async (req, res) => {
+  if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
+  
+  try {
+    const row = await db.oneOrNone(
+      'SELECT highest_completed FROM user_progress WHERE username = $1',
+      [req.session.username]
+    );
+    return res.json({ highest_completed: row ? row.highest_completed : 0 });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Failed to load progress' });
+  }
+});
+
+app.post('/api/progress', async (req, res) => {
+  if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
+
+  const completed = Number(req.body.completed);
+  if (isNaN(completed)) return res.status(400).json({ error: 'Invalid value' });
+
+  try {
+    await db.none(
+      `INSERT INTO user_progress (username, highest_completed)
+       VALUES ($1, $2)
+       ON CONFLICT (username)
+       DO UPDATE SET highest_completed = GREATEST(excluded.highest_completed, user_progress.highest_completed)`,
+      [req.session.username, completed]
+    );
+
+    return res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Failed to update progress' });
+  }
+});
+
 
 app.engine('hbs', engine({
   extname: '.hbs',
@@ -110,9 +152,9 @@ app.get('/register', (req, res) => {
 
 // REGISTER (POST)
 
-// for testing purposes.
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// // for testing purposes.
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 
 app.post('/register', async (req, res) => {
   try {
@@ -284,8 +326,6 @@ app.get('/logout', (req, res) => {
 app.get('/welcome', (req, res) => {
   res.json({status: 'success', message: 'Welcome!'});
 });
-
-
 
 
 const PORT = process.env.PORT || 3000;
