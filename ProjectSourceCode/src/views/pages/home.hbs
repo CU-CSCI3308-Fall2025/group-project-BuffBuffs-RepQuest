@@ -51,16 +51,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   let currentNode = null;
   let highestCompleted = 0;
 
-  // Load progress from server
+   // Load progress from server
   try {
     const res = await fetch('/api/progress');
-    if (res.ok) {
+    if (!res.ok) {
+      console.warn('Progress fetch failed with status', res.status);
+      if (res.status === 401) {
+        // Not logged in; go to login page
+        window.location.href = '/login';
+      }
+    } else {
       const data = await res.json();
-      highestCompleted = data.highest_completed;
+      console.log('Loaded progress from server:', data);
+      highestCompleted = Number(data.highest_completed) || 0;
     }
   } catch (err) {
     console.error('Failed to load progress', err);
   }
+
 
   // Apply saved progress visually
   nodes.forEach(node => {
