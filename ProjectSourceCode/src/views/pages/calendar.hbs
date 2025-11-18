@@ -2,7 +2,6 @@
 
   <h1 class="page-title text-center mb-4">Calendar</h1>
   <div class="col">
-{{!-- Week __ of the calendar shown --}}
         <div class="container-md container-fluid py-4 h-100">
                 <div id="calendar" class="row h-100">
                     <div class="col-sm m-1 bg-white rounded px-1 px-md-2" id="day-0">
@@ -48,7 +47,7 @@
 
 
 
-                    <script>
+        <script>
                             function getDaySuffix(day) {
                 if (day >= 11 && day <= 13) return "th";
                 switch (day % 10) {
@@ -61,14 +60,13 @@
 
                 const today = new Date();
 
-                // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+                // 0 = Sunday
                 const todayWeekdayIndex = today.getDay();
 
                 // Clone today's date and step back to the most recent Sunday
                 const startOfWeek = new Date(today);
                 startOfWeek.setDate(today.getDate() - todayWeekdayIndex);
 
-                // Now fill 7 days starting from that Sunday
                 for (let i = 0; i < 7; i++) {
                 const date = new Date(startOfWeek);
                 date.setDate(startOfWeek.getDate() + i);
@@ -84,7 +82,7 @@
                 if (dayDiv) {
                     dayDiv.innerText = formatted;
 
-                    // Optional: highlight today
+                    // Box around current date
                     if (date.toDateString() === today.toDateString()) {
                     dayDiv.classList.add('today');
                     }
