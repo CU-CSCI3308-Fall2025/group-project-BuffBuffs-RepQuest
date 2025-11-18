@@ -27,27 +27,29 @@ const db = pgp({
 });
 
 app.get('/api/progress', async (req, res) => {
-  if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
-  
   try {
+    if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
+
     const row = await db.oneOrNone(
       'SELECT highest_completed FROM user_progress WHERE username = $1',
       [req.session.username]
     );
+
     return res.json({ highest_completed: row ? row.highest_completed : 0 });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Failed to load progress' });
+    console.error('GET /api/progress error:', err);
+    return res.status(500).json({ error: 'Server error fetching progress' });
   }
 });
 
 app.post('/api/progress', async (req, res) => {
-  if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
-
-  const completed = Number(req.body.completed);
-  if (isNaN(completed)) return res.status(400).json({ error: 'Invalid value' });
-
   try {
+    if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
+    const completed = Number(req.body.completed);
+    if (isNaN(completed)) return res.status(400).json({ error: 'Invalid value' });
+
+    console.log('Updating progress:', req.session.username, completed);
+
     await db.none(
       `INSERT INTO user_progress (username, highest_completed)
        VALUES ($1, $2)
@@ -58,11 +60,10 @@ app.post('/api/progress', async (req, res) => {
 
     return res.json({ success: true });
   } catch (err) {
-    console.error(err);
+    console.error('Progress POST error:', err);
     return res.status(500).json({ error: 'Failed to update progress' });
   }
 });
-
 
 app.engine('hbs', engine({
   extname: '.hbs',
@@ -72,10 +73,12 @@ app.engine('hbs', engine({
 }));
 app.set('view engine', 'hbs');
 
-// use the CSS file for styling
+// // use the CSS file for styling
 
-app.use(express.static(path.join(__dirname, 'resources')));
+// app.use(express.static(path.join(__dirname, 'resources')));
 
+// Serve CSS
+app.use('/css', express.static(path.join(__dirname, 'resources/css')));
 
 // views live at ProjectSourceCode/src/views
 
