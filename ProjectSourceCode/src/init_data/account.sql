@@ -126,7 +126,17 @@ CREATE TABLE IF NOT EXISTS user_achievements (
 
 -- Seed the first achievement
 INSERT INTO achievements (code, title, description, sort_order)
-VALUES ('FIRST_WORKOUT', 'Complete your first workout', 'Log any workout once to earn this badge.', 10)
+VALUES 
+  ('FIRST_WORKOUT', 'Complete your first workout', 'Log any workout once to earn this badge.', 10),
+  ('FIVE_WORKOUTS',  'Complete 5 workouts',  'Log at least 5 workouts.',   20),
+  ('TEN_WORKOUTS',   'Complete 10 workouts', 'Log at least 10 workouts.',  30),
+  ('FIFTY_WORKOUTS', 'Complete 50 workouts','Log at least 50 workouts.',   40),
+  ('ONE_HUNDRED_WORKOUTS',  'Complete 100 workouts',  'Log at least 100 workouts.',   50),
+  ('TWO_HUNDRED_WORKOUTS',   'Complete 200 workouts', 'Log at least 200 workouts.',  60),
+  ('THREE_HUNDRED_WORKOUTS', 'Complete 300 workouts','Log at least 300 workouts.',   70),
+  ('FOUR_HUNDRED_WORKOUTS',  'Complete 400 workouts',  'Log at least 400 workouts.',   80),
+  ('FIVE_HUNDRED_WORKOUTS',   'Complete 500 workouts', 'Log at least 500 workouts.',  90),
+  ('ONE_THOUSAND_WORKOUTS', 'Complete 1000 workouts','Log at least 1000 workouts.',   100)
 ON CONFLICT (code) DO NOTHING;
 
 -- Helper: award by code (idempotent)
@@ -146,12 +156,62 @@ $$ LANGUAGE plpgsql;
 
 -- Trigger: after inserting a workout, check and award achievements
 CREATE OR REPLACE FUNCTION trg_evaluate_achievements_after_workout() RETURNS TRIGGER AS $$
-DECLARE v_count INTEGER;
+DECLARE
+  v_count INTEGER;
 BEGIN
-  -- FIRST_WORKOUT: first ever workout for this user
-  SELECT COUNT(*) INTO v_count FROM workouts WHERE username = NEW.username;
+  -- count total workouts for this user
+  SELECT COUNT(*) INTO v_count
+  FROM workouts
+  WHERE username = NEW.username;
+
+  -- FIRST_WORKOUT
   IF v_count = 1 THEN
     PERFORM award('FIRST_WORKOUT', NEW.username);
+  END IF;
+
+  -- Milestone: 5 workouts
+  IF v_count >= 5 THEN
+    PERFORM award('FIVE_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 10 workouts
+  IF v_count >= 10 THEN
+    PERFORM award('TEN_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 50 workouts
+  IF v_count >= 50 THEN
+    PERFORM award('FIFTY_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 100 workouts
+  IF v_count >= 100 THEN
+    PERFORM award('ONE_HUNDRED_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 200 workouts
+  IF v_count >= 200 THEN
+    PERFORM award('TWO_HUNDRED_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 300 workouts
+  IF v_count >= 300 THEN
+    PERFORM award('THREE_HUNDRED_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 400 workouts
+  IF v_count >= 400 THEN
+    PERFORM award('FOUR_HUNDRED_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 500 workouts
+  IF v_count >= 500 THEN
+    PERFORM award('FIVE_HUNDRED_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 1000 workouts
+  IF v_count >= 1000 THEN
+    PERFORM award('ONE_THOUSAND_WORKOUTS', NEW.username);
   END IF;
 
   RETURN NEW;
