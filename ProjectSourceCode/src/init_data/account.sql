@@ -111,7 +111,6 @@ CREATE TABLE IF NOT EXISTS achievements (
   id          SERIAL PRIMARY KEY,
   code        TEXT UNIQUE NOT NULL,       -- e.g., 'FIRST_WORKOUT'
   title       TEXT NOT NULL,
-  description TEXT NOT NULL,
   icon_path   TEXT NOT NULL DEFAULT '/img/temptrophy.jpg',
   sort_order  INTEGER NOT NULL DEFAULT 0
 );
@@ -125,18 +124,18 @@ CREATE TABLE IF NOT EXISTS user_achievements (
 );
 
 -- Seed the first achievement
-INSERT INTO achievements (code, title, description, sort_order)
+INSERT INTO achievements (code, title, sort_order)
 VALUES 
-  ('FIRST_WORKOUT', 'Complete your first workout', 'Log any workout once to earn this badge.', 10),
-  ('FIVE_WORKOUTS',  'Complete 5 workouts',  'Log at least 5 workouts.',   20),
-  ('TEN_WORKOUTS',   'Complete 10 workouts', 'Log at least 10 workouts.',  30),
-  ('FIFTY_WORKOUTS', 'Complete 50 workouts','Log at least 50 workouts.',   40),
-  ('ONE_HUNDRED_WORKOUTS',  'Complete 100 workouts',  'Log at least 100 workouts.',   50),
-  ('TWO_HUNDRED_WORKOUTS',   'Complete 200 workouts', 'Log at least 200 workouts.',  60),
-  ('THREE_HUNDRED_WORKOUTS', 'Complete 300 workouts','Log at least 300 workouts.',   70),
-  ('FOUR_HUNDRED_WORKOUTS',  'Complete 400 workouts',  'Log at least 400 workouts.',   80),
-  ('FIVE_HUNDRED_WORKOUTS',   'Complete 500 workouts', 'Log at least 500 workouts.',  90),
-  ('ONE_THOUSAND_WORKOUTS', 'Complete 1000 workouts','Log at least 1000 workouts.',   100)
+  ('FIRST_WORKOUT', 'Complete 1 Workout', 10),
+  ('FIVE_WORKOUTS',  'Complete 5 Workouts',  20),
+  ('TEN_WORKOUTS',   'Complete 10 Workouts', 30),
+  ('FIFTY_WORKOUTS', 'Complete 50 Workouts',40),
+  ('ONE_HUNDRED_WORKOUTS',  'Complete 100 Workouts',  50),
+  ('TWO_HUNDRED_WORKOUTS',   'Complete 200 Workouts', 60),
+  ('THREE_HUNDRED_WORKOUTS', 'Complete 300 Workouts', 70),
+  ('FOUR_HUNDRED_WORKOUTS',  'Complete 400 Workouts',  80),
+  ('FIVE_HUNDRED_WORKOUTS',   'Complete 500 Workouts', 90),
+  ('ONE_THOUSAND_WORKOUTS', 'Complete 1000 Workouts', 100)
 ON CONFLICT (code) DO NOTHING;
 
 -- Helper: award by code (idempotent)

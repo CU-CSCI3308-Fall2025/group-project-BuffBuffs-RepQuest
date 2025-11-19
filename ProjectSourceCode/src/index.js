@@ -1,7 +1,7 @@
 const path = require('path');
 const { engine } = require('express-handlebars');
 const express = require('express');
-const pgp = require('pg-promise')();              
+const pgp = require('pg-promise')();
 
 const app = express();
 
@@ -26,17 +26,17 @@ function requireLogin(req, res, next) {
 }
 
 const db = pgp({
-  host: process.env.DB_HOST,                      
+  host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT || 5432),
-  database: process.env.DB_NAME,                  
-  user: process.env.DB_USER,                      
-  password: process.env.DB_PASSWORD               
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD
 });
 
 // ---------------------- API: progress ----------------------
 app.get('/api/progress', async (req, res) => {
   if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
-  
+
   try {
     const row = await db.oneOrNone(
       'SELECT highest_completed FROM user_progress WHERE username = $1',
@@ -89,12 +89,12 @@ app.post('/api/workouts', async (req, res) => {
     // You can tweak this however you want.
     const flags = {
       1: { back: true, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false },
-      2: { back: false, chest: true, arms: true,  legs: false, glutes: false, abs: false, cardio: false },
-      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true  },
-      4: { back: false, chest: false, arms: false, legs: true,  glutes: true,  abs: true,  cardio: false },
-      5: { back: false, chest: false, arms: false, legs: true,  glutes: false, abs: false, cardio: false },
-      6: { back: true,  chest: true,  arms: true,  legs: false, glutes: false, abs: false, cardio: false },
-      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true,  cardio: true  }
+      2: { back: false, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
+      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true },
+      4: { back: false, chest: false, arms: false, legs: true, glutes: true, abs: true, cardio: false },
+      5: { back: false, chest: false, arms: false, legs: true, glutes: false, abs: false, cardio: false },
+      6: { back: true, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
+      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true, cardio: true }
     }[workoutId] || { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false };
 
     // Build MMDDYY as an integer for today
@@ -110,12 +110,12 @@ app.post('/api/workouts', async (req, res) => {
       [
         username,
         dateInt,
-        flags.back   || false,
-        flags.chest  || false,
-        flags.arms   || false,
-        flags.legs   || false,
+        flags.back || false,
+        flags.chest || false,
+        flags.arms || false,
+        flags.legs || false,
         flags.glutes || false,
-        flags.abs    || false,
+        flags.abs || false,
         flags.cardio || false
       ]
     );
@@ -131,7 +131,7 @@ app.post('/api/workouts', async (req, res) => {
 app.engine('hbs', engine({
   extname: '.hbs',
   defaultLayout: 'main',
-  layoutsDir:  path.join(__dirname, 'views', 'layouts'),
+  layoutsDir: path.join(__dirname, 'views', 'layouts'),
   partialsDir: path.join(__dirname, 'views', 'partials'),
 }));
 app.set('view engine', 'hbs');
@@ -326,18 +326,21 @@ app.get('/achievements', async (req, res, next) => {
 
     const { rows: achievements } = await db.result(
       `SELECT a.id,
-              a.code,
-              a.title,
-              a.description,
-              a.icon_path,
-              a.sort_order,
-              (ua.earned_at IS NOT NULL) AS earned,
-              to_char(ua.earned_at, 'YYYY-MM-DD HH24:MI') AS earned_at
-       FROM achievements a
-       LEFT JOIN user_achievements ua
-         ON ua.achievement_id = a.id
-        AND ua.username = $1
-       ORDER BY a.sort_order, a.id`,
+        a.code,
+        a.title,
+        a.icon_path,
+        a.sort_order,
+        (ua.earned_at IS NOT NULL) AS earned,
+        to_char(
+          (ua.earned_at AT TIME ZONE 'UTC') AT TIME ZONE 'America/Denver',
+          'YYYY-MM-DD HH24:MI'
+        ) AS earned_at
+ FROM achievements a
+ LEFT JOIN user_achievements ua
+   ON ua.achievement_id = a.id
+  AND ua.username = $1
+ ORDER BY a.sort_order, a.id`
+      ,
       [username]
     );
 
@@ -377,7 +380,7 @@ app.get('/profile', async (req, res) => {
       return res.status(404).send("User not found.");
     }
 
-    res.render('pages/profile', {  
+    res.render('pages/profile', {
       username: user.username,
       name: user.name
     });
@@ -396,7 +399,7 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/welcome', (req, res) => {
-  res.json({status: 'success', message: 'Welcome!'});
+  res.json({ status: 'success', message: 'Welcome!' });
 });
 
 const PORT = process.env.PORT || 3000;
