@@ -17,6 +17,13 @@ app.use(session({
   saveUninitialized: false
 }));
 
+// Only protect routes we explicitly wrap with this
+function requireLogin(req, res, next) {
+  if (!req.session.username) {
+    return res.redirect('/login');
+  }
+  next();
+}
 
 const db = pgp({
   host: process.env.DB_HOST,                      
@@ -26,6 +33,7 @@ const db = pgp({
   password: process.env.DB_PASSWORD               
 });
 
+// ---------------------- API: progress ----------------------
 app.get('/api/progress', async (req, res) => {
   if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
   
@@ -63,7 +71,63 @@ app.post('/api/progress', async (req, res) => {
   }
 });
 
+// ---------------------- API: workouts ----------------------
+app.post('/api/workouts', async (req, res) => {
+  if (!req.session.username) {
+    return res.status(401).json({ error: 'Not logged in' });
+  }
 
+  const username = req.session.username;
+  const workoutId = Number(req.body.workoutId);   // this is the node's data-id
+
+  if (isNaN(workoutId)) {
+    return res.status(400).json({ error: 'Invalid workoutId' });
+  }
+
+  try {
+    // Decide which muscle groups this workout hits based on its ID.
+    // You can tweak this however you want.
+    const flags = {
+      1: { back: true, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false },
+      2: { back: false, chest: true, arms: true,  legs: false, glutes: false, abs: false, cardio: false },
+      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true  },
+      4: { back: false, chest: false, arms: false, legs: true,  glutes: true,  abs: true,  cardio: false },
+      5: { back: false, chest: false, arms: false, legs: true,  glutes: false, abs: false, cardio: false },
+      6: { back: true,  chest: true,  arms: true,  legs: false, glutes: false, abs: false, cardio: false },
+      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true,  cardio: true  }
+    }[workoutId] || { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false };
+
+    // Build MMDDYY as an integer for today
+    const now = new Date();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const yy = String(now.getFullYear()).slice(-2);
+    const dateInt = Number(mm + dd + yy);  // e.g., 031225
+
+    // Use your SQL helper function insert_workout(...) so the trigger fills date_actual
+    await db.none(
+      'SELECT insert_workout($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+      [
+        username,
+        dateInt,
+        flags.back   || false,
+        flags.chest  || false,
+        flags.arms   || false,
+        flags.legs   || false,
+        flags.glutes || false,
+        flags.abs    || false,
+        flags.cardio || false
+      ]
+    );
+
+    return res.json({ success: true });
+  } catch (err) {
+    console.error('Error inserting workout:', err);
+    return res.status(500).json({ error: 'Failed to record workout' });
+  }
+});
+
+// ---------------------- View engine & static ----------------------
 app.engine('hbs', engine({
   extname: '.hbs',
   defaultLayout: 'main',
@@ -73,26 +137,29 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs');
 
 // use the CSS file for styling
-
 app.use(express.static(path.join(__dirname, 'resources')));
 
-
 // views live at ProjectSourceCode/src/views
-
 app.set('views', path.join(__dirname, 'views'));
 
 app.use('/img', express.static(path.join(__dirname, 'resources/img')));
 
-app.use(express.urlencoded({ extended: true }));
-
 // ----------------------------------------Routes for every page we create ----------------------------------------
-app.get('/', (_, res) => res.redirect('/login')); //Make it so the login page is the first page seen
+
+// Make it so the login page is the first page seen
+app.get('/', (req, res) => {
+  return res.redirect('/login');
+});
 
 // LOGIN (GET)
 app.get('/login', (req, res) => {
+  // If already logged in, you *could* redirect to /home, but it's optional
+  if (req.session.username) {
+    return res.redirect('/home');
+  }
+
   res.render('pages/login', { hideFooter: true, hideHome: true });
 });
-
 
 // LOGIN (POST)
 app.post('/login', async (req, res) => {
@@ -102,11 +169,13 @@ app.post('/login', async (req, res) => {
     // Handle missing input (added JSON handling for tests)
     if (!username || !password) {
       if (req.headers['content-type']?.includes('application/json')) {
-
-        res.render('pages/login', { hideFooter: true, hideHome: true });
         return res.status(400).json({ message: 'Invalid input' });
       }
-      return res.status(400).render('pages/login', { hideFooter: true, message: 'Invalid input' });
+      return res.status(400).render('pages/login', {
+        hideFooter: true,
+        hideHome: true,
+        message: 'Invalid input'
+      });
     }
 
     const user = await db.oneOrNone(
@@ -120,48 +189,54 @@ app.post('/login', async (req, res) => {
         // Added for Mocha: send 400 JSON instead of 401 HTML
         return res.status(400).json({ message: 'Invalid input' });
       }
-      return res.status(401).render('pages/login', { hideFooter: true, message: 'Invalid credentials' });
-      
+      return res.status(401).render('pages/login', {
+        hideFooter: true,
+        hideHome: true,
+        message: 'Invalid credentials'
+      });
     }
 
+    // store username in session
     req.session.username = user.username;
 
-    // Added for Mocha: return JSON success for JSON requests instead of redirect
+    // JSON request (tests)
     if (req.headers['content-type']?.includes('application/json')) {
       return res.status(200).json({ message: 'Login successful' });
     }
 
+    // Browser: go to home
     return res.redirect('/home');
   } catch (err) {
     console.error(err);
 
-    // Added JSON error response for tests
+    // JSON error response for tests
     if (req.headers['content-type']?.includes('application/json')) {
       return res.status(500).json({ message: 'Server error logging in.' });
     }
 
-    return res.status(500).render('pages/login', { hideFooter: true, message: 'There was an error logging in.' });
+    return res.status(500).render('pages/login', {
+      hideFooter: true,
+      hideHome: true,
+      message: 'There was an error logging in.'
+    });
   }
 });
 
-
 // REGISTER (GET)
 app.get('/register', (req, res) => {
+  // If already logged in, can redirect to home if you want
+  if (req.session.username) {
+    return res.redirect('/home');
+  }
+
   res.render('pages/register', { hideFooter: true, hideHome: true });
 });
 
 // REGISTER (POST)
-
-// // for testing purposes.
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-
 app.post('/register', async (req, res) => {
   try {
     const username = String(req.body.username || '').trim();
     const password = String(req.body.password || '').trim();
-
-    
 
     // Validate input
     if (!username || !password) {
@@ -170,6 +245,7 @@ app.post('/register', async (req, res) => {
       }
       return res.status(400).render('pages/register', {
         hideFooter: true,
+        hideHome: true,
         message: 'Username and password are required.'
       });
     }
@@ -197,6 +273,7 @@ app.post('/register', async (req, res) => {
       }
       return res.status(409).render('pages/register', {
         hideFooter: true,
+        hideHome: true,
         message: 'That username is taken. Try another.'
       });
     }
@@ -208,15 +285,14 @@ app.post('/register', async (req, res) => {
 
     return res.status(500).render('pages/register', {
       hideFooter: true,
+      hideHome: true,
       message: 'Server error creating the account.'
     });
   }
 });
 
-
-
-// Home page 
-app.get('/home', (req, res) => {
+// Home page (must be logged in so /api/progress has a username)
+app.get('/home', requireLogin, (req, res) => {
   res.render('pages/home', { title: 'Home' });
 });
 
@@ -241,7 +317,6 @@ app.get('/workouts', (req, res) => {
     ]
   });
 });
-
 
 // Achievements page
 app.get('/achievements', async (req, res, next) => {
@@ -276,7 +351,6 @@ app.get('/achievements', async (req, res, next) => {
     return next(err);
   }
 });
-
 
 // Calendar page
 app.get('/calendar', (req, res) => {
@@ -314,9 +388,7 @@ app.get('/profile', async (req, res) => {
   }
 });
 
-
-
-// //Log out page for when we actually want to implement it
+// Log out
 app.get('/logout', (req, res) => {
   req.session.destroy(() => {
     res.redirect('/login');
@@ -326,7 +398,6 @@ app.get('/logout', (req, res) => {
 app.get('/welcome', (req, res) => {
   res.json({status: 'success', message: 'Welcome!'});
 });
-
 
 const PORT = process.env.PORT || 3000;
 // app.listen(PORT, '0.0.0.0', () => console.log(`The server is running on http://localhost:${PORT}`));

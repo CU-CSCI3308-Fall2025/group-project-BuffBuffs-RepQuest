@@ -51,16 +51,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   let currentNode = null;
   let highestCompleted = 0;
 
-  // Load progress from server
+   // Load progress from server
   try {
     const res = await fetch('/api/progress');
-    if (res.ok) {
+    if (!res.ok) {
+      console.warn('Progress fetch failed with status', res.status);
+      if (res.status === 401) {
+        // Not logged in; go to login page
+        window.location.href = '/login';
+      }
+    } else {
       const data = await res.json();
-      highestCompleted = data.highest_completed;
+      console.log('Loaded progress from server:', data);
+      highestCompleted = Number(data.highest_completed) || 0;
     }
   } catch (err) {
     console.error('Failed to load progress', err);
   }
+
 
   // Apply saved progress visually
   nodes.forEach(node => {
@@ -86,27 +94,38 @@ document.addEventListener('DOMContentLoaded', async () => {
   closeBtn.addEventListener('click', () => modal.style.display = 'none');
   cancelBtn.addEventListener('click', () => modal.style.display = 'none');
 
-  // Confirm button
+  // Confirm button: record workout + update progress
   confirmBtn.addEventListener('click', async () => {
     if (!currentNode) return;
 
     const completedId = parseInt(currentNode.dataset.id);
-    currentNode.src = "/img/pathlevel-green.PNG"; // update UI
+
+    // Optimistically update UI
+    currentNode.src = "/img/pathlevel-green.PNG";
 
     try {
+      // 1) Record the workout in the workouts table (per user)
+      await fetch('/api/workouts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ workoutId: completedId })
+      });
+
+      // 2) Update highest_completed in user_progress
       await fetch('/api/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ completed: completedId })
       });
+
       // Update highestCompleted in JS
       highestCompleted = Math.max(highestCompleted, completedId);
 
       // Unlock next node if it exists
-      const nextNode = document.querySelector(`.node[data-id="${completedId+1}"]`);
+      const nextNode = document.querySelector(`.node[data-id="${completedId + 1}"]`);
       if (nextNode) nextNode.classList.add('unlocked');
     } catch (err) {
-      console.error('Failed to save progress', err);
+      console.error('Failed to save workout/progress', err);
     }
 
     modal.style.display = 'none';

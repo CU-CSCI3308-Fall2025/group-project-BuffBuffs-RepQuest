@@ -20,11 +20,7 @@ CREATE TABLE user_progress (
 );
 
 INSERT INTO users (username, name, password_hash) VALUES
-  ('user1', 'Bob',   'abcd1'),
-  ('user2', 'Steve', 'abcd2'),
-  ('user3', 'John',  'abcd3'),
-  ('user4', 'Sally', 'abcd4'),
-  ('user5', 'Jane',  'abcd5')
+  ('user1', 'you', 'abcd1'),
 ON CONFLICT (username) DO NOTHING;
 
 -- =========================
@@ -45,11 +41,6 @@ CREATE TABLE workouts (
   abs    BOOLEAN NOT NULL DEFAULT FALSE,
   cardio BOOLEAN NOT NULL DEFAULT FALSE
 );
-
--- Optional: a workout must have at least one activity true
--- ALTER TABLE workouts
---   ADD CONSTRAINT chk_workout_has_activity
---   CHECK (back OR chest OR arms OR legs OR glutes OR abs OR cardio);
 
 -- BEFORE trigger to compute date_actual from date_int
 CREATE OR REPLACE FUNCTION set_workout_date_actual() RETURNS trigger AS $$

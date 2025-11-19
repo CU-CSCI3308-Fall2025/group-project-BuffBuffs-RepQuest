@@ -480,3 +480,48 @@ body {
   background: #0056b3;
 }
 
+
+/***************************************************** On boarding  ******************************* */
+.onboarding.hidden,
+.onboarding-step.hidden {
+  display: none;
+}
+
+.onboarding {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.onboarding-content {
+  background: #ffffff;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  position: relative;
+  text-align: center;
+}
+
+.onboarding-skip {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.onboarding-next,
+.onboarding-prev,
+#onboarding-done {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+}

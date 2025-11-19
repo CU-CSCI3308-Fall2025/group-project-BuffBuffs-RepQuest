@@ -43,3 +43,4 @@
 11/17 made more progress on home page, also adjusted header to stay at the top of our page, and make footer a smidge smaller to be able to see our home page a bit better
 11/17 added images to home page, and added some small functionality things
 11/18 added meeting notes from TA weekly meeting
+11/17 added default profile picture
