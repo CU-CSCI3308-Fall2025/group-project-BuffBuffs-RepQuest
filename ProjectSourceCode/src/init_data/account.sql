@@ -135,7 +135,17 @@ VALUES
   ('THREE_HUNDRED_WORKOUTS', 'Complete 300 Workouts', 70),
   ('FOUR_HUNDRED_WORKOUTS',  'Complete 400 Workouts',  80),
   ('FIVE_HUNDRED_WORKOUTS',   'Complete 500 Workouts', 90),
-  ('ONE_THOUSAND_WORKOUTS', 'Complete 1000 Workouts', 100)
+  ('ONE_THOUSAND_WORKOUTS', 'Complete 1000 Workouts', 100),
+  ('THREE_DAY_STREAK',  'Achieve a 3 Day Streak', 110),
+  ('WEEK_STREAK',  'Achieve a Week Long Streak',   120),
+  ('TWO_WEEK_STREAK',  'Achieve a 2 Weeks Long Streak',   130),
+  ('THREE_WEEK_STREAK',  'Achieve a 3 Weeks Long Streak', 140),
+  ('MONTH_STREAK', 'Achieve a Month Long Streak',  150),
+  ('YEAR_STREAK', 'Achieve a Year Long Streak',  160),
+  ('TWO_YEAR_STREAK', 'Achieve a 2 Years Long Streak',  170),
+  ('THREE_YEAR_STREAK', 'Achieve a 3 Years Long Streak',  180),
+  ('FOUR_YEAR_STREAK', 'Achieve a 4 Years Long Streak',  190),
+  ('FIVE_YEAR_STREAK', 'Achieve a 5 Years Long Streak',  200)
 ON CONFLICT (code) DO NOTHING;
 
 -- Helper: award by code (idempotent)

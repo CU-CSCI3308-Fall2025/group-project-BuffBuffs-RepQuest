@@ -2,9 +2,9 @@
   <div class="header-container">
     <div class="header-left">
       {{#unless hideHome}}
-        <a href="/home">
-          <h3>Home</h3>
-        </a>
+      <a href="/home">
+        <h3>Home</h3>
+      </a>
       {{/unless}}
     </div>
 
@@ -12,8 +12,12 @@
       <h1>RepQuest</h1>
     </div>
 
-    <div class="header-right">
-      <h3>Streak</h3>
+    <div class="header-streak">
+      {{#if streak}}
+      <span>Current streak: {{streak}} days</span>
+      {{else}}
+      <span>Current streak: 0 days</span>
+      {{/if}}
     </div>
   </div>
 </header>

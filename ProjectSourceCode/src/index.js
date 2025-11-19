@@ -33,6 +33,67 @@ const db = pgp({
   password: process.env.DB_PASSWORD
 });
 
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+// Compute current streak for a user based on workouts.date_actual
+async function computeStreak(username) {
+  // Get distinct workout dates for this user, newest first
+  const rows = await db.any(
+    `SELECT DISTINCT date_actual::date AS d
+     FROM workouts
+     WHERE username = $1
+       AND date_actual IS NOT NULL
+     ORDER BY d DESC`,
+    [username]
+  );
+
+  if (!rows.length) {
+    return 0; // no workouts → no streak
+  }
+
+  let streak = 1;
+  let prev = rows[0].d; // this will be a JS Date
+
+  for (let i = 1; i < rows.length; i++) {
+    const current = rows[i].d;
+    const diffDays = Math.round((prev - current) / MS_PER_DAY);
+
+    if (diffDays === 1) {
+      // exactly one day apart → continue streak
+      streak += 1;
+      prev = current;
+    } else if (diffDays > 1) {
+      // gap of 2+ days → streak broken
+      break;
+    } else {
+      // diffDays <= 0 shouldn't really happen with DISTINCT + ORDER BY,
+      // but if it does, we just ignore it / break.
+      break;
+    }
+  }
+
+  return streak;
+}
+
+// Make streak available to all views for logged-in users
+app.use(async (req, res, next) => {
+  res.locals.streak = null;
+
+  // Only compute streak if user is logged in
+  if (req.session && req.session.username) {
+    try {
+      const streak = await computeStreak(req.session.username);
+      res.locals.streak = streak;
+    } catch (err) {
+      console.error('Error computing streak:', err);
+      res.locals.streak = 0;
+    }
+  }
+
+  next();
+});
+
+
 // ---------------------- API: progress ----------------------
 app.get('/api/progress', async (req, res) => {
   if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
@@ -86,15 +147,14 @@ app.post('/api/workouts', async (req, res) => {
 
   try {
     // Decide which muscle groups this workout hits based on its ID.
-    // You can tweak this however you want.
     const flags = {
       1: { back: true, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false },
-      2: { back: false, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
-      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true },
-      4: { back: false, chest: false, arms: false, legs: true, glutes: true, abs: true, cardio: false },
-      5: { back: false, chest: false, arms: false, legs: true, glutes: false, abs: false, cardio: false },
-      6: { back: true, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
-      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true, cardio: true }
+      2: { back: false, chest: true, arms: true,  legs: false, glutes: false, abs: false, cardio: false },
+      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true  },
+      4: { back: false, chest: false, arms: false, legs: true,  glutes: true,  abs: true,  cardio: false },
+      5: { back: false, chest: false, arms: false, legs: true,  glutes: false, abs: false, cardio: false },
+      6: { back: true,  chest: true,  arms: true,  legs: false, glutes: false, abs: false, cardio: false },
+      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true,  cardio: true  }
     }[workoutId] || { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false };
 
     // Build MMDDYY as an integer for today
@@ -104,28 +164,43 @@ app.post('/api/workouts', async (req, res) => {
     const yy = String(now.getFullYear()).slice(-2);
     const dateInt = Number(mm + dd + yy);  // e.g., 031225
 
-    // Use your SQL helper function insert_workout(...) so the trigger fills date_actual
+    // Insert workout (trigger will also handle FIRST_WORKOUT + workout-count achievements)
     await db.none(
       'SELECT insert_workout($1, $2, $3, $4, $5, $6, $7, $8, $9)',
       [
         username,
         dateInt,
-        flags.back || false,
-        flags.chest || false,
-        flags.arms || false,
-        flags.legs || false,
+        flags.back   || false,
+        flags.chest  || false,
+        flags.arms   || false,
+        flags.legs   || false,
         flags.glutes || false,
-        flags.abs || false,
+        flags.abs    || false,
         flags.cardio || false
       ]
     );
 
-    return res.json({ success: true });
+    // 🔥 NEW: compute streak and award streak achievements
+    const streak = await computeStreak(username);
+
+    if (streak >= 3) {
+      await db.none('SELECT award($1, $2)', ['STREAK_3', username]);
+    }
+    if (streak >= 7) {
+      await db.none('SELECT award($1, $2)', ['STREAK_7', username]);
+    }
+    if (streak >= 30) {
+      await db.none('SELECT award($1, $2)', ['STREAK_30', username]);
+    }
+
+    return res.json({ success: true, streak });
   } catch (err) {
     console.error('Error inserting workout:', err);
     return res.status(500).json({ error: 'Failed to record workout' });
   }
 });
+
+
 
 // ---------------------- View engine & static ----------------------
 app.engine('hbs', engine({
