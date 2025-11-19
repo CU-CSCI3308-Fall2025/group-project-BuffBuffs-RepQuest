@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const OVERLAY_KEY = 'onboardingCompleted_v3';
+  const OVERLAY_KEY = 'onboardingCompleted_v2x';
 
   const overlay = document.getElementById('onboarding-overlay');
   console.log('overlay element:', overlay);
