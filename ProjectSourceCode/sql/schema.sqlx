@@ -164,3 +164,4 @@ AFTER INSERT ON workouts
 FOR EACH ROW EXECUTE FUNCTION trg_evaluate_achievements_after_workout();
 
 COMMIT;
+

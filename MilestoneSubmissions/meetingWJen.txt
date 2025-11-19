@@ -103,3 +103,27 @@ Final Points
 		lenient with grading because of the project and how the class has 
 		gone so far
 	- Asked if we have anything that's holding us up (we didn't)
+
+Weekly Meeting 11/18
+5-5:11
+Jen started with a preview on the rest of our time to work on the project,
+mentioned Thanksgiving break and how we can work over break but don't have to.
+
+Addie did a demo for us, Jen was impressed, loved the UI so far
+
+Addie
+	- Did the connections with the home page to the database
+	- Fix the local issue she's having, also adding more achievements
+Dalton
+	- Worked on the calendar page, to display the current dates
+	- Wants to add the workouts themselves to the calendar
+Keira
+	- Focused on the UI of the pathway on home page, integrated the images
+	- Wants to continue to make the website look nicer
+Zandra
+	- Did the profile page
+	- Wants to integrate and make the profile picture work fully
+	- Focus on the look of the website
+Cole
+	- Worked on the onboarding, before logging in provides info about the site
+	- Wants to finish that onboarding and initial information for when you sign up
