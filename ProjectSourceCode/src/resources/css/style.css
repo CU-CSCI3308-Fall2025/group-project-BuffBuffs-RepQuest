@@ -487,7 +487,7 @@ body {
   display: none;
 }
 
-.onboarding {
+/* .onboarding {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
@@ -495,18 +495,67 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 9999;
-}
-
+} */
+/* 
 .onboarding-content {
   background: #ffffff;
   padding: 2rem;
-  max-width: 400px;
+  max-width: 800px;
+  max-height: 800px;
   width: 90%;
+  height: 90%;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   position: relative;
   text-align: center;
+} */
+/* .onboarding-content {
+  background: #ffffff;
+  padding: 2.5rem 3rem;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;          
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+  position: relative;
+  text-align: center;
+
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} */
+
+.onboarding {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;   /* centers vertically */
+  justify-content: center; /* centers horizontally */
+  z-index: 9999;
 }
+
+.onboarding-content {
+  background: #ffffff;
+  padding: 2.5rem 3rem;
+  width: 90%;
+  max-width: 800px;
+
+  /* 👉 make it tall but not full-height */
+  height: 80vh;          /* 80% of the viewport height */
+
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+  position: relative;
+  text-align: center;
+
+  /* center the inner text/buttons inside the tall card */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 
 .onboarding-skip {
   position: absolute;
