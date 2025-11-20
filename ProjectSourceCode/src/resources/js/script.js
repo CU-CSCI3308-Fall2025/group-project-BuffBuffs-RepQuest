@@ -1,5 +1,8 @@
+
+console.log("script loaded")
+
 document.addEventListener('DOMContentLoaded', () => {
-  const OVERLAY_KEY = 'onboardingCompleted_v3';
+  const OVERLAY_KEY = 'onboardingCompleted_v2xy';
 
   const overlay = document.getElementById('onboarding-overlay');
   console.log('overlay element:', overlay);
@@ -50,4 +53,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Start at step 1
   showStep(1);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("picModal");
+  const openBtn = document.getElementById("changePicBtn");
+  const closeBtn = document.getElementById("closeModal");
+  const fileInput = document.getElementById("fileInput");
+  const imageDataField = document.getElementById("imageData");
+
+  if (!modal) {
+    console.error("Modal elements not found on this page.");
+    return;
+  }
+
+  // Open modal
+  openBtn.addEventListener("click", () => modal.classList.remove("hidden"));
+
+  // Close modal
+  closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
+
+  // Convert file to Base64
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      imageDataField.value = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
 });

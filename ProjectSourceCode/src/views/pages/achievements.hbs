@@ -24,12 +24,11 @@
             {{#if earned}}
               <span class="status-badge" title="Unlocked" aria-label="Unlocked">✓</span>
             {{else}}
-              <span class="status-badge muted" title="Locked" aria-label="Locked">🔒</span>
+              <span class="status-badge muted" title="Locked" aria-label="Locked">X</span>
             {{/if}}
           </div>
 
           <h2 class="label" id="ach-title-{{id}}">{{title}}</h2>
-          <p class="desc">{{description}}</p>
 
           <p class="meta">
             {{#if earned}}

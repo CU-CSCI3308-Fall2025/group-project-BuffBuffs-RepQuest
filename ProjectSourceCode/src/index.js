@@ -1,13 +1,15 @@
 const path = require('path');
 const { engine } = require('express-handlebars');
 const express = require('express');
-const pgp = require('pg-promise')();              
+const pgp = require('pg-promise')();
 
 const app = express();
 
 // for testing purposes.
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 const session = require('express-session');
 
@@ -26,17 +28,78 @@ function requireLogin(req, res, next) {
 }
 
 const db = pgp({
-  host: process.env.DB_HOST,                      
+  host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT || 5432),
-  database: process.env.DB_NAME,                  
-  user: process.env.DB_USER,                      
-  password: process.env.DB_PASSWORD               
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD
 });
+
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+// Compute current streak for a user based on workouts.date_actual
+async function computeStreak(username) {
+  // Get distinct workout dates for this user, newest first
+  const rows = await db.any(
+    `SELECT DISTINCT date_actual::date AS d
+     FROM workouts
+     WHERE username = $1
+       AND date_actual IS NOT NULL
+     ORDER BY d DESC`,
+    [username]
+  );
+
+  if (!rows.length) {
+    return 0; // no workouts → no streak
+  }
+
+  let streak = 1;
+  let prev = rows[0].d; // this will be a JS Date
+
+  for (let i = 1; i < rows.length; i++) {
+    const current = rows[i].d;
+    const diffDays = Math.round((prev - current) / MS_PER_DAY);
+
+    if (diffDays === 1) {
+      // exactly one day apart → continue streak
+      streak += 1;
+      prev = current;
+    } else if (diffDays > 1) {
+      // gap of 2+ days → streak broken
+      break;
+    } else {
+      // diffDays <= 0 shouldn't really happen with DISTINCT + ORDER BY,
+      // but if it does, we just ignore it / break.
+      break;
+    }
+  }
+
+  return streak;
+}
+
+// Make streak available to all views for logged-in users
+app.use(async (req, res, next) => {
+  res.locals.streak = null;
+
+  // Only compute streak if user is logged in
+  if (req.session && req.session.username) {
+    try {
+      const streak = await computeStreak(req.session.username);
+      res.locals.streak = streak;
+    } catch (err) {
+      console.error('Error computing streak:', err);
+      res.locals.streak = 0;
+    }
+  }
+
+  next();
+});
+
 
 // ---------------------- API: progress ----------------------
 app.get('/api/progress', async (req, res) => {
   if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
-  
+
   try {
     const row = await db.oneOrNone(
       'SELECT highest_completed FROM user_progress WHERE username = $1',
@@ -86,7 +149,6 @@ app.post('/api/workouts', async (req, res) => {
 
   try {
     // Decide which muscle groups this workout hits based on its ID.
-    // You can tweak this however you want.
     const flags = {
       1: { back: true, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false },
       2: { back: false, chest: true, arms: true,  legs: false, glutes: false, abs: false, cardio: false },
@@ -104,7 +166,7 @@ app.post('/api/workouts', async (req, res) => {
     const yy = String(now.getFullYear()).slice(-2);
     const dateInt = Number(mm + dd + yy);  // e.g., 031225
 
-    // Use your SQL helper function insert_workout(...) so the trigger fills date_actual
+    // Insert workout (trigger will also handle FIRST_WORKOUT + workout-count achievements)
     await db.none(
       'SELECT insert_workout($1, $2, $3, $4, $5, $6, $7, $8, $9)',
       [
@@ -120,18 +182,33 @@ app.post('/api/workouts', async (req, res) => {
       ]
     );
 
-    return res.json({ success: true });
+    // 🔥 NEW: compute streak and award streak achievements
+    const streak = await computeStreak(username);
+
+    if (streak >= 3) {
+      await db.none('SELECT award($1, $2)', ['STREAK_3', username]);
+    }
+    if (streak >= 7) {
+      await db.none('SELECT award($1, $2)', ['STREAK_7', username]);
+    }
+    if (streak >= 30) {
+      await db.none('SELECT award($1, $2)', ['STREAK_30', username]);
+    }
+
+    return res.json({ success: true, streak });
   } catch (err) {
     console.error('Error inserting workout:', err);
     return res.status(500).json({ error: 'Failed to record workout' });
   }
 });
 
+
+
 // ---------------------- View engine & static ----------------------
 app.engine('hbs', engine({
   extname: '.hbs',
   defaultLayout: 'main',
-  layoutsDir:  path.join(__dirname, 'views', 'layouts'),
+  layoutsDir: path.join(__dirname, 'views', 'layouts'),
   partialsDir: path.join(__dirname, 'views', 'partials'),
 }));
 app.set('view engine', 'hbs');
@@ -326,18 +403,21 @@ app.get('/achievements', async (req, res, next) => {
 
     const { rows: achievements } = await db.result(
       `SELECT a.id,
-              a.code,
-              a.title,
-              a.description,
-              a.icon_path,
-              a.sort_order,
-              (ua.earned_at IS NOT NULL) AS earned,
-              to_char(ua.earned_at, 'YYYY-MM-DD HH24:MI') AS earned_at
-       FROM achievements a
-       LEFT JOIN user_achievements ua
-         ON ua.achievement_id = a.id
-        AND ua.username = $1
-       ORDER BY a.sort_order, a.id`,
+        a.code,
+        a.title,
+        a.icon_path,
+        a.sort_order,
+        (ua.earned_at IS NOT NULL) AS earned,
+        to_char(
+          (ua.earned_at AT TIME ZONE 'UTC') AT TIME ZONE 'America/Denver',
+          'YYYY-MM-DD HH24:MI'
+        ) AS earned_at
+ FROM achievements a
+ LEFT JOIN user_achievements ua
+   ON ua.achievement_id = a.id
+  AND ua.username = $1
+ ORDER BY a.sort_order, a.id`
+      ,
       [username]
     );
 
@@ -359,32 +439,49 @@ app.get('/calendar', (req, res) => {
 
 // Profile page
 app.get('/profile', async (req, res) => {
-  const loggedInUser = req.session.username;
+  const username = req.session.username;
 
-  if (!loggedInUser) {
-    return res.redirect('/login');
-  }
+  if (!username) return res.redirect('/login');
 
   try {
-    const user = await db.oneOrNone(
-      `SELECT username, name
-       FROM users
-       WHERE username = $1`,
-      [loggedInUser]
+    const user = await db.one(
+      "SELECT username, profile_pic FROM users WHERE username = $1",
+      [username]
     );
 
-    if (!user) {
-      return res.status(404).send("User not found.");
-    }
-
-    res.render('pages/profile', {  
+    res.render('pages/profile', {
       username: user.username,
-      name: user.name
+      profilePic: user.profile_pic || null
     });
 
   } catch (err) {
-    console.error('Profile page error:', err);
+    console.error("Profile load error:", err);
     res.status(500).send("Server error loading profile.");
+  }
+});
+
+// profile picture
+app.post('/profile/pic', async (req, res) => {
+  const username = req.session.username;
+  if (!username) return res.redirect('/login');
+
+  try {
+    const { imageData } = req.body;  
+
+    if (!imageData) {
+      return res.status(400).send("No image received.");
+    }
+
+    await db.none(
+      "UPDATE users SET profile_pic = $1 WHERE username = $2",
+      [imageData, username]
+    );
+
+    res.redirect('/profile');
+
+  } catch (err) {
+    console.error("Profile pic update error:", err);
+    res.status(500).send("Error updating profile picture.");
   }
 });
 
@@ -396,7 +493,7 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/welcome', (req, res) => {
-  res.json({status: 'success', message: 'Welcome!'});
+  res.json({ status: 'success', message: 'Welcome!' });
 });
 
 const PORT = process.env.PORT || 3000;

@@ -16,7 +16,8 @@ DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
   username      TEXT PRIMARY KEY,
   name          TEXT,
-  password_hash TEXT NOT NULL
+  password_hash TEXT NOT NULL,
+  profile_pic TEXT
 );
 
 -- =========================
@@ -111,7 +112,6 @@ CREATE TABLE IF NOT EXISTS achievements (
   id          SERIAL PRIMARY KEY,
   code        TEXT UNIQUE NOT NULL,       -- e.g., 'FIRST_WORKOUT'
   title       TEXT NOT NULL,
-  description TEXT NOT NULL,
   icon_path   TEXT NOT NULL DEFAULT '/img/temptrophy.jpg',
   sort_order  INTEGER NOT NULL DEFAULT 0
 );
@@ -125,8 +125,28 @@ CREATE TABLE IF NOT EXISTS user_achievements (
 );
 
 -- Seed the first achievement
-INSERT INTO achievements (code, title, description, sort_order)
-VALUES ('FIRST_WORKOUT', 'Complete your first workout', 'Log any workout once to earn this badge.', 10)
+INSERT INTO achievements (code, title, sort_order)
+VALUES 
+  ('FIRST_WORKOUT', 'Complete 1 Workout', 10),
+  ('FIVE_WORKOUTS',  'Complete 5 Workouts',  20),
+  ('TEN_WORKOUTS',   'Complete 10 Workouts', 30),
+  ('FIFTY_WORKOUTS', 'Complete 50 Workouts',40),
+  ('ONE_HUNDRED_WORKOUTS',  'Complete 100 Workouts',  50),
+  ('TWO_HUNDRED_WORKOUTS',   'Complete 200 Workouts', 60),
+  ('THREE_HUNDRED_WORKOUTS', 'Complete 300 Workouts', 70),
+  ('FOUR_HUNDRED_WORKOUTS',  'Complete 400 Workouts',  80),
+  ('FIVE_HUNDRED_WORKOUTS',   'Complete 500 Workouts', 90),
+  ('ONE_THOUSAND_WORKOUTS', 'Complete 1000 Workouts', 100),
+  ('THREE_DAY_STREAK',  'Achieve a 3 Day Streak', 110),
+  ('WEEK_STREAK',  'Achieve a Week Long Streak',   120),
+  ('TWO_WEEK_STREAK',  'Achieve a 2 Weeks Long Streak',   130),
+  ('THREE_WEEK_STREAK',  'Achieve a 3 Weeks Long Streak', 140),
+  ('MONTH_STREAK', 'Achieve a Month Long Streak',  150),
+  ('YEAR_STREAK', 'Achieve a Year Long Streak',  160),
+  ('TWO_YEAR_STREAK', 'Achieve a 2 Years Long Streak',  170),
+  ('THREE_YEAR_STREAK', 'Achieve a 3 Years Long Streak',  180),
+  ('FOUR_YEAR_STREAK', 'Achieve a 4 Years Long Streak',  190),
+  ('FIVE_YEAR_STREAK', 'Achieve a 5 Years Long Streak',  200)
 ON CONFLICT (code) DO NOTHING;
 
 -- Helper: award by code (idempotent)
@@ -146,12 +166,62 @@ $$ LANGUAGE plpgsql;
 
 -- Trigger: after inserting a workout, check and award achievements
 CREATE OR REPLACE FUNCTION trg_evaluate_achievements_after_workout() RETURNS TRIGGER AS $$
-DECLARE v_count INTEGER;
+DECLARE
+  v_count INTEGER;
 BEGIN
-  -- FIRST_WORKOUT: first ever workout for this user
-  SELECT COUNT(*) INTO v_count FROM workouts WHERE username = NEW.username;
+  -- count total workouts for this user
+  SELECT COUNT(*) INTO v_count
+  FROM workouts
+  WHERE username = NEW.username;
+
+  -- FIRST_WORKOUT
   IF v_count = 1 THEN
     PERFORM award('FIRST_WORKOUT', NEW.username);
+  END IF;
+
+  -- Milestone: 5 workouts
+  IF v_count >= 5 THEN
+    PERFORM award('FIVE_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 10 workouts
+  IF v_count >= 10 THEN
+    PERFORM award('TEN_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 50 workouts
+  IF v_count >= 50 THEN
+    PERFORM award('FIFTY_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 100 workouts
+  IF v_count >= 100 THEN
+    PERFORM award('ONE_HUNDRED_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 200 workouts
+  IF v_count >= 200 THEN
+    PERFORM award('TWO_HUNDRED_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 300 workouts
+  IF v_count >= 300 THEN
+    PERFORM award('THREE_HUNDRED_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 400 workouts
+  IF v_count >= 400 THEN
+    PERFORM award('FOUR_HUNDRED_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 500 workouts
+  IF v_count >= 500 THEN
+    PERFORM award('FIVE_HUNDRED_WORKOUTS', NEW.username);
+  END IF;
+
+  -- Milestone: 1000 workouts
+  IF v_count >= 1000 THEN
+    PERFORM award('ONE_THOUSAND_WORKOUTS', NEW.username);
   END IF;
 
   RETURN NEW;
