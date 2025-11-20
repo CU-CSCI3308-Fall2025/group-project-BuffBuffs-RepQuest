@@ -8,6 +8,8 @@ const app = express();
 // for testing purposes.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 const session = require('express-session');
 
@@ -437,32 +439,49 @@ app.get('/calendar', (req, res) => {
 
 // Profile page
 app.get('/profile', async (req, res) => {
-  const loggedInUser = req.session.username;
+  const username = req.session.username;
 
-  if (!loggedInUser) {
-    return res.redirect('/login');
-  }
+  if (!username) return res.redirect('/login');
 
   try {
-    const user = await db.oneOrNone(
-      `SELECT username, name
-       FROM users
-       WHERE username = $1`,
-      [loggedInUser]
+    const user = await db.one(
+      "SELECT username, profile_pic FROM users WHERE username = $1",
+      [username]
     );
-
-    if (!user) {
-      return res.status(404).send("User not found.");
-    }
 
     res.render('pages/profile', {
       username: user.username,
-      name: user.name
+      profilePic: user.profile_pic || null
     });
 
   } catch (err) {
-    console.error('Profile page error:', err);
+    console.error("Profile load error:", err);
     res.status(500).send("Server error loading profile.");
+  }
+});
+
+// profile picture
+app.post('/profile/pic', async (req, res) => {
+  const username = req.session.username;
+  if (!username) return res.redirect('/login');
+
+  try {
+    const { imageData } = req.body;  
+
+    if (!imageData) {
+      return res.status(400).send("No image received.");
+    }
+
+    await db.none(
+      "UPDATE users SET profile_pic = $1 WHERE username = $2",
+      [imageData, username]
+    );
+
+    res.redirect('/profile');
+
+  } catch (err) {
+    console.error("Profile pic update error:", err);
+    res.status(500).send("Error updating profile picture.");
   }
 });
 

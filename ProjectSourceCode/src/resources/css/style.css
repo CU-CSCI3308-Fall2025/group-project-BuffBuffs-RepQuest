@@ -372,7 +372,7 @@ body {
   border-radius: 8px;
 }
 
-/* Profile */
+/* Profile Page */
 .profile-page {
   display: flex;
   flex-direction: column; /* stack title and card */
@@ -394,11 +394,11 @@ body {
 .profile-card {
   background: #ffffff;
   border-radius: 16px;
-  padding: 2.5rem 2rem; /* slightly bigger than before */
+  padding: 2.5rem 2rem; 
   width: 100%;
   max-width: 400px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  text-align: left; /* username stays normal */
+  text-align: left; 
 }
 
 /* Card heading */
@@ -439,7 +439,7 @@ body {
   background: #c9302c;
 }
 
-/* Profile picture */
+/* Profile picture container: center above the card */
 .profile-picture-container {
   display: flex;
   flex-direction: column;
@@ -459,8 +459,71 @@ body {
 
 /* Change picture button */
 .change-picture-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #007bff; /* blue */
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.change-picture-btn:hover {
+  background: #0056b3; /* darker blue on hover */
+}
+
+/* Modal overlay */
+.modal { 
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5); 
+}
+
+/* Hidden class for modal */
+.hidden {
+  display: none;
+}
+
+/* Modal content box */
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+/* Close button */
+.modal-content .close {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+/* File input inside modal */
+#newProfilePic {
+  margin: 1rem 0;
+}
+
+/* Upload button inside modal */
+#uploadPicBtn {
   padding: 0.5rem 1rem;
-  background: #007bff;
+  background: #28a745;
   color: #fff;
   font-size: 0.9rem;
   border: none;
@@ -469,8 +532,8 @@ body {
   transition: background 0.2s ease;
 }
 
-.change-picture-btn:hover {
-  background: #0056b3;
+#uploadPicBtn:hover {
+  background: #218838;
 }
 
 

@@ -16,7 +16,8 @@ DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
   username      TEXT PRIMARY KEY,
   name          TEXT,
-  password_hash TEXT NOT NULL
+  password_hash TEXT NOT NULL,
+  profile_pic TEXT
 );
 
 -- =========================
