@@ -1,3 +1,6 @@
+
+console.log("script loaded")
+
 document.addEventListener('DOMContentLoaded', () => {
   const OVERLAY_KEY = 'onboardingCompleted_v2xy';
 
