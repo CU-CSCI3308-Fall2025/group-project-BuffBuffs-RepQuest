@@ -167,7 +167,7 @@ main {
 
 .achievements-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
   padding: 0 1rem 2rem;
   max-width: 1000px;
@@ -183,11 +183,11 @@ main {
 .achievement-card {
   position: relative;
   border: 1px solid #e6e6e6;
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 0.9rem;
   background: #fff;
   text-align: center;
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  transition: transform 70ms ease, box-shadow 70ms ease;
 }
 .achievement-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.07); }
 
@@ -196,11 +196,10 @@ main {
   margin-bottom: 0.5rem;
 }
 .icon {
-  width: 110px;
-  height: 110px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 12px;
-  border: 1px solid #f0f0f0;
   background: #fafafa;
 }
 
@@ -225,14 +224,8 @@ main {
 }
 
 .label {
-  font-weight: 700;
+  font-weight: 500;
   margin: 0.2rem 0 0.2rem;
-}
-.desc {
-  color: #555;
-  font-size: 0.95rem;
-  min-height: 2.5em; /* keep card heights consistent */
-  margin: 0.1rem 0 0.4rem;
 }
 .meta {
   color: #666; font-size: 0.85rem; margin: 0;
@@ -379,7 +372,7 @@ body {
   border-radius: 8px;
 }
 
-/* Profile */
+/* Profile Page */
 .profile-page {
   display: flex;
   flex-direction: column; /* stack title and card */
@@ -401,11 +394,11 @@ body {
 .profile-card {
   background: #ffffff;
   border-radius: 16px;
-  padding: 2.5rem 2rem; /* slightly bigger than before */
+  padding: 2.5rem 2rem; 
   width: 100%;
   max-width: 400px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  text-align: left; /* username stays normal */
+  text-align: left; 
 }
 
 /* Card heading */
@@ -446,7 +439,7 @@ body {
   background: #c9302c;
 }
 
-/* Profile picture */
+/* Profile picture container: center above the card */
 .profile-picture-container {
   display: flex;
   flex-direction: column;
@@ -466,8 +459,72 @@ body {
 
 /* Change picture button */
 .change-picture-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #007bff; /* blue */
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.change-picture-btn:hover {
+  background: #0056b3; /* darker blue on hover */
+}
+
+/* Modal overlay */
+.profile-modal { 
+  display: flex;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5); 
+}
+
+/* Hidden class for modal */
+.profile-modal.hidden {
+  display: none;
+}
+
+/* Modal content box */
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+/* Close button */
+.modal-content .close {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+/* File input inside modal */
+#newProfilePic {
+  margin: 1rem 0;
+}
+
+/* Upload button inside modal */
+#uploadPicBtn {
   padding: 0.5rem 1rem;
-  background: #007bff;
+  background: #28a745;
   color: #fff;
   font-size: 0.9rem;
   border: none;
@@ -476,7 +533,101 @@ body {
   transition: background 0.2s ease;
 }
 
-.change-picture-btn:hover {
-  background: #0056b3;
+#uploadPicBtn:hover {
+  background: #218838;
 }
 
+
+/***************************************************** On boarding  ******************************* */
+.onboarding.hidden,
+.onboarding-step.hidden {
+  display: none;
+}
+
+/* .onboarding {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+} */
+/* 
+.onboarding-content {
+  background: #ffffff;
+  padding: 2rem;
+  max-width: 800px;
+  max-height: 800px;
+  width: 90%;
+  height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  position: relative;
+  text-align: center;
+} */
+/* .onboarding-content {
+  background: #ffffff;
+  padding: 2.5rem 3rem;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;          
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+  position: relative;
+  text-align: center;
+
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} */
+
+.onboarding {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;   /* centers vertically */
+  justify-content: center; /* centers horizontally */
+  z-index: 9999;
+}
+
+.onboarding-content {
+  background: #ffffff;
+  padding: 2.5rem 3rem;
+  width: 90%;
+  max-width: 800px;
+
+  /* 👉 make it tall but not full-height */
+  height: 80vh;          /* 80% of the viewport height */
+
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+  position: relative;
+  text-align: center;
+
+  /* center the inner text/buttons inside the tall card */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.onboarding-skip {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.onboarding-next,
+.onboarding-prev,
+#onboarding-done {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+}

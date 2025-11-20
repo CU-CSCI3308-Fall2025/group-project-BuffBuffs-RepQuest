@@ -42,3 +42,10 @@
 11/13 Made the calendar show the current weeks date and highlight the current date with a black border
 11/17 made more progress on home page, also adjusted header to stay at the top of our page, and make footer a smidge smaller to be able to see our home page a bit better
 11/17 added images to home page, and added some small functionality things
+11/18 added meeting notes from TA weekly meeting
+11/17 added default profile picture
+11/17 added default profile picture
+11/17 created a general outline for the profile page, the logout button works but the profile picture functionality still needs to be implemented
+11/18 delete some sample cases, no need for them kept 1 to make as default user
+11/18 linked workout data to user data, just need to add check in home to load user data
+11/18 added meeting notes from TA weekly meeting

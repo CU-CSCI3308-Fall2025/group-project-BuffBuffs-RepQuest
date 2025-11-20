@@ -1,9 +1,14 @@
 <main class="main-content profile-page">
+
   <h1 class="page-title">Profile</h1>
 
   <div class="profile-picture-container">
-    <img class="profile-picture" src="/img/default-profile.png" alt="Profile Picture">
-    <button class="change-picture-btn">Change Profile Picture</button>
+    <img 
+      src="{{#if profilePic}}{{profilePic}}{{else}}/img/default_pp.png{{/if}}" 
+      alt="Profile Picture" 
+      class="profile-picture"
+    >
+    <button id="changePicBtn" class="change-picture-btn">Change Profile Picture</button>
   </div>
 
   <section class="profile-card">
@@ -15,5 +20,25 @@
 
     <a class="logout-btn" href="/logout">Log Out</a>
   </section>
+
+  <div id="picModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Change Profile Picture</h3>
+
+      <form id="picForm" method="POST" action="/profile/pic">
+        <input type="hidden" id="imageData" name="imageData">
+
+        <label for="fileInput">Choose a file:</label>
+        <input type="file" id="fileInput" accept="image/*">
+
+        <br><br>
+
+        <button type="submit" id="uploadPicBtn">Save</button>
+        <button type="button" id="closeModal" class="modal-close-btn">Cancel</button>
+      </form>
+    </div>
+  </div>
+
 </main>
 
+<script src="/js/script.js"></script>

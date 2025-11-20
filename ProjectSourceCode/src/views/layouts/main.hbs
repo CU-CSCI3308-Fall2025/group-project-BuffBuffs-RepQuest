@@ -14,12 +14,15 @@
 
         <main>
             {{{body}}}
+
+            
         </main>
 
             {{!-- allows me to hide the footer for the register and login pages --}}
             {{#unless hideFooter}}
             {{> footer }}
+            {{> onboarding}}
             {{/unless}}
-
+        <script src="/js/script.js"></script>
     </body>
 </html>
