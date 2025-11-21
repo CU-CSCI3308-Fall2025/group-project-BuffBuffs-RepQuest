@@ -21,24 +21,22 @@
     <a class="logout-btn" href="/logout">Log Out</a>
   </section>
 
-  <div id="picModal" class="modal hidden">
-    <div class="modal-content">
-      <h3>Change Profile Picture</h3>
+  <div id="picModal" class="profile-modal hidden">
+  <div class="modal-content">
+    <h3>Change Profile Picture</h3>
 
-      <form id="picForm" method="POST" action="/profile/pic">
-        <input type="hidden" id="imageData" name="imageData">
+    <form id="picForm" method="POST" action="/profile/pic">
+      <input type="hidden" id="imageData" name="imageData">
 
-        <label for="fileInput">Choose a file:</label>
-        <input type="file" id="fileInput" accept="image/*">
+      <label for="fileInput">Choose a file:</label>
+      <input type="file" id="fileInput" accept="image/*">
 
-        <br><br>
+      <br><br>
 
-        <button type="submit" id="uploadPicBtn">Save</button>
-        <button type="button" id="closeModal" class="modal-close-btn">Cancel</button>
-      </form>
-    </div>
+      <button type="submit" id="uploadPicBtn" disabled>Save</button>
+
+      <button type="button" id="closeModal" class="modal-close-btn">Cancel</button>
+    </form>
   </div>
-
+</div>
 </main>
-
-<script src="/js/script.js"></script>
