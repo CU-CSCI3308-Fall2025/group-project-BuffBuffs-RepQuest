@@ -27,6 +27,14 @@ function requireLogin(req, res, next) {
   next();
 }
 
+console.log("ENV CHECK:", {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  name: process.env.DB_NAME,
+  user: process.env.DB_USER
+});
+
+
 const db = pgp({
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT || 5432),
