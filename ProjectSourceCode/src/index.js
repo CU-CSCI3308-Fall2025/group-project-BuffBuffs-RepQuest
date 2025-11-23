@@ -27,7 +27,7 @@ function requireLogin(req, res, next) {
   next();
 }
 
-// testing purposes, remove later
+// testing purposes, remove later stfdfsdfs
 console.log("ENV CHECK:", {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
