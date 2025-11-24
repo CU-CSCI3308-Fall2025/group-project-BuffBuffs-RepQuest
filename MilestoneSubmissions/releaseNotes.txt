@@ -47,3 +47,9 @@
 11/18 delete some sample cases, no need for them kept 1 to make as default user
 11/18 linked workout data to user data, just need to add check in home to load user data
 11/18 added meeting notes from TA weekly meeting
+11/19 - pushed what I have for now in regards to pfp changing, still some bugs that need to be worked out
+11/20 - pushed finished working change profile button'
+11/21 - actually fixed profile page issues so it should be working now
+11/23 - Added necessary files for the lab
+11/23 - finished lab
+11/24 added errors when users login with incorrect username or password
