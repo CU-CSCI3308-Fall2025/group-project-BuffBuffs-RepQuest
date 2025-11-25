@@ -47,8 +47,17 @@
 }
 
 /* Make sure links/images behave nicely */
-.header-left a,
-.header-right img {
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 40px;      /* adjust size */
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}.header-right img {
   display: inline-block;
 }
 

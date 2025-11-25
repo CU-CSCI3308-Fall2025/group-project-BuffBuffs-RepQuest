@@ -55,3 +55,4 @@
 11/23 - Added necessary files for the lab
 11/23 - finished lab
 11/24 added errors when users login with incorrect username or password
+11/25 - changed nav bar to have home on it
