@@ -27,6 +27,15 @@ function requireLogin(req, res, next) {
   next();
 }
 
+// testing purposes, remove later stfdfsdfs
+console.log("ENV CHECK:", {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  name: process.env.DB_NAME,
+  user: process.env.DB_USER
+});
+
+
 const db = pgp({
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT || 5432),
@@ -151,12 +160,12 @@ app.post('/api/workouts', async (req, res) => {
     // Decide which muscle groups this workout hits based on its ID.
     const flags = {
       1: { back: true, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false },
-      2: { back: false, chest: true, arms: true,  legs: false, glutes: false, abs: false, cardio: false },
-      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true  },
-      4: { back: false, chest: false, arms: false, legs: true,  glutes: true,  abs: true,  cardio: false },
-      5: { back: false, chest: false, arms: false, legs: true,  glutes: false, abs: false, cardio: false },
-      6: { back: true,  chest: true,  arms: true,  legs: false, glutes: false, abs: false, cardio: false },
-      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true,  cardio: true  }
+      2: { back: false, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
+      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true },
+      4: { back: false, chest: false, arms: false, legs: true, glutes: true, abs: true, cardio: false },
+      5: { back: false, chest: false, arms: false, legs: true, glutes: false, abs: false, cardio: false },
+      6: { back: true, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
+      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true, cardio: true }
     }[workoutId] || { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false };
 
     // Build MMDDYY as an integer for today
@@ -172,12 +181,12 @@ app.post('/api/workouts', async (req, res) => {
       [
         username,
         dateInt,
-        flags.back   || false,
-        flags.chest  || false,
-        flags.arms   || false,
-        flags.legs   || false,
+        flags.back || false,
+        flags.chest || false,
+        flags.arms || false,
+        flags.legs || false,
         flags.glutes || false,
-        flags.abs    || false,
+        flags.abs || false,
         flags.cardio || false
       ]
     );
@@ -262,14 +271,22 @@ app.post('/login', async (req, res) => {
 
     if (!user || password !== user.password_hash) {
 
-      if (req.headers['content-type']?.includes('application/json')) {
-        // Added for Mocha: send 400 JSON instead of 401 HTML
+      const isJson = req.headers['content-type']?.includes('application/json');
+
+      // Keep JSON behavior the same for tests
+      if (isJson) {
         return res.status(400).json({ message: 'Invalid input' });
       }
+
+      // Browser: show different messages
+      const message = !user
+        ? 'Username does not exist'
+        : 'Incorrect password';
+
       return res.status(401).render('pages/login', {
         hideFooter: true,
         hideHome: true,
-        message: 'Invalid credentials'
+        message
       });
     }
 
@@ -466,7 +483,7 @@ app.post('/profile/pic', async (req, res) => {
   if (!username) return res.redirect('/login');
 
   try {
-    const { imageData } = req.body;  
+    const { imageData } = req.body;
 
     if (!imageData) {
       return res.status(400).send("No image received.");
