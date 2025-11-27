@@ -1,34 +1,9 @@
 <link rel="stylesheet" href="/css/styles.css">
 
-<div class="vertical-pathway">
-  <div class="step" style="--offset: -10%;">
-    <img src="/img/pathlevel-gray.PNG" class="node" data-id="1" alt="Workout 1">
-  </div>
-
-  <div class="step" style="--offset: 10%;">
-    <img src="/img/pathlevel-gray.PNG" class="node" data-id="2" alt="Workout 2">
-  </div>
-
-  <div class="step" style="--offset: -10%;">
-    <img src="/img/pathlevel-gray.PNG" class="node" data-id="3" alt="Workout 3">
-  </div>
-
-  <div class="step" style="--offset: 10%;">
-    <img src="/img/pathlevel-gray.PNG" class="node" data-id="4" alt="Workout 4">
-  </div>
-
-  <div class="step" style="--offset: -10%;">
-    <img src="/img/pathlevel-gray.PNG" class="node" data-id="5" alt="Workout 5">
-  </div>
-
-  <div class="step" style="--offset: 10%;">
-    <img src="/img/pathlevel-gray.PNG" class="node" data-id="6" alt="Workout 6">
-  </div>
-
-  <div class="step" style="--offset: -10%;">
-    <img src="/img/pathlevel-gray.PNG" class="node" data-id="7" alt="Workout 7">
-  </div>
-</div>
+{{!-- Loop over each set of nodes --}}
+{{#each sets}}
+  {{> nodes nodes=this }}
+{{/each}}
 
 <!-- Modal for logging workouts -->
 <div id="workoutModal" class="modal">
