@@ -1,10 +1,16 @@
 <header class="site-header">
   <div class="header-container">
-    <div class="header-left">
+    {{!-- <div class="header-left">
       {{#unless hideHome}}
       <a href="/home">
         <h3>Home</h3>
       </a>
+      {{/unless}}
+    </div> --}}
+
+    <div class="header-left">
+      {{#unless hideHome}}
+      <img class="profile-pic" src="profilepic" alt="Profile Picture">
       {{/unless}}
     </div>
 
