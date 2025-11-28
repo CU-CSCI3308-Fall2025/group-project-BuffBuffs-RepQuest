@@ -110,24 +110,28 @@ app.get('/api/progress', async (req, res) => {
   if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
 
   try {
+    if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
+
     const row = await db.oneOrNone(
       'SELECT highest_completed FROM user_progress WHERE username = $1',
       [req.session.username]
     );
+
     return res.json({ highest_completed: row ? row.highest_completed : 0 });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Failed to load progress' });
+    console.error('GET /api/progress error:', err);
+    return res.status(500).json({ error: 'Server error fetching progress' });
   }
 });
 
 app.post('/api/progress', async (req, res) => {
-  if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
-
-  const completed = Number(req.body.completed);
-  if (isNaN(completed)) return res.status(400).json({ error: 'Invalid value' });
-
   try {
+    if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
+    const completed = Number(req.body.completed);
+    if (isNaN(completed)) return res.status(400).json({ error: 'Invalid value' });
+
+    console.log('Updating progress:', req.session.username, completed);
+
     await db.none(
       `INSERT INTO user_progress (username, highest_completed)
        VALUES ($1, $2)
@@ -138,7 +142,7 @@ app.post('/api/progress', async (req, res) => {
 
     return res.json({ success: true });
   } catch (err) {
-    console.error(err);
+    console.error('Progress POST error:', err);
     return res.status(500).json({ error: 'Failed to update progress' });
   }
 });
@@ -386,9 +390,49 @@ app.post('/register', async (req, res) => {
 });
 
 // Home page (must be logged in so /api/progress has a username)
-app.get('/home', requireLogin, (req, res) => {
-  res.render('pages/home', { title: 'Home' });
+app.get('/home', async (req, res) => {
+  if (!req.session.username) return res.redirect('/login');
+
+  let highestCompleted = 0;
+  try {
+    const row = await db.oneOrNone(
+      'SELECT highest_completed FROM user_progress WHERE username = $1',
+      [req.session.username]
+    );
+    highestCompleted = row ? row.highest_completed : 0;
+  } catch (err) {
+    console.error('Error loading user progress:', err);
+  }
+
+  // Base nodes for a single set
+  const baseNodes = [
+    { id: 1, offset: -10 },
+    { id: 2, offset: 10 },
+    { id: 3, offset: -10 },
+    { id: 4, offset: 10 },
+    { id: 5, offset: -10 },
+    { id: 6, offset: 10 },
+    { id: 7, offset: -10 },
+    { id: 8, offset: 10 }
+  ];
+
+  // Compute how many full cycles user completed
+  const cyclesCompleted = Math.floor(highestCompleted / baseNodes.length);
+
+  // Build all cycles to render
+  const sets = [];
+  for (let cycle = 0; cycle <= cyclesCompleted; cycle++) {
+    const cycleNodes = baseNodes.map(n => ({
+      id: n.id + cycle * baseNodes.length,
+      offset: n.offset,
+      cycleNumber: cycle
+    }));
+    sets.push(cycleNodes);
+  }
+
+  res.render('pages/home', { sets, highestCompleted });
 });
+
 
 // Workouts page
 app.get('/workouts', (req, res) => {
