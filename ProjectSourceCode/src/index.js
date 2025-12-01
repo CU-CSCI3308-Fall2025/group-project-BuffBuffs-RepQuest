@@ -453,36 +453,36 @@ app.get('/home', async (req, res) => {
   }
 
   res.render('pages/home', {
-  sets,
-  highestCompleted,
-  username: res.locals.username,
-  profilePic: res.locals.profilePic
-});
+    sets,
+    highestCompleted,
+    username: res.locals.username,
+    profilePic: res.locals.profilePic
+  });
 });
 
 
 // Workouts page
 app.get('/workouts', (req, res) => {
   res.render('pages/workouts', {
-  title: 'Workouts',
-  pushWorkouts: [
-    { name: 'Bench Press', sets: 4, reps: '8–10' },
-    { name: 'Overhead Press', sets: 3, reps: '10' },
-    { name: 'Triceps Dips', sets: 3, reps: '12' }
-  ],
-  pullWorkouts: [
-    { name: 'Pull-Ups', sets: 4, reps: '8–10' },
-    { name: 'Barbell Rows', sets: 3, reps: '10' },
-    { name: 'Bicep Curls', sets: 3, reps: '12' }
-  ],
-  legWorkouts: [
-    { name: 'Squats', sets: 4, reps: '8' },
-    { name: 'Lunges', sets: 3, reps: '10 each leg' },
-    { name: 'Calf Raises', sets: 3, reps: '15' }
-  ],
-  username: res.locals.username,
-  profilePic: res.locals.profilePic
-});
+    title: 'Workouts',
+    pushWorkouts: [
+      { name: 'Bench Press', sets: 4, reps: '8–10' },
+      { name: 'Overhead Press', sets: 3, reps: '10' },
+      { name: 'Triceps Dips', sets: 3, reps: '12' }
+    ],
+    pullWorkouts: [
+      { name: 'Pull-Ups', sets: 4, reps: '8–10' },
+      { name: 'Barbell Rows', sets: 3, reps: '10' },
+      { name: 'Bicep Curls', sets: 3, reps: '12' }
+    ],
+    legWorkouts: [
+      { name: 'Squats', sets: 4, reps: '8' },
+      { name: 'Lunges', sets: 3, reps: '10 each leg' },
+      { name: 'Calf Raises', sets: 3, reps: '15' }
+    ],
+    username: res.locals.username,
+    profilePic: res.locals.profilePic
+  });
 });
 
 // Achievements page
@@ -493,27 +493,28 @@ app.get('/achievements', async (req, res, next) => {
 
     const { rows: achievements } = await db.result(
       `SELECT a.id,
-        a.code,
-        a.title,
-        a.icon_path,
-        a.sort_order,
-        (ua.earned_at IS NOT NULL) AS earned,
-        to_char(
-          (ua.earned_at AT TIME ZONE 'UTC') AT TIME ZONE 'America/Denver',
-          'YYYY-MM-DD HH24:MI'
-        ) AS earned_at
-        FROM achievements a
-        LEFT JOIN user_achievements ua
-          ON ua.achievement_id = a.id
-         AND ua.username = $1
-        ORDER BY a.sort_order, a.id`,
+          a.code,
+          a.title,
+          a.icon_path,
+          a.sort_order,
+          (ua.earned_at IS NOT NULL) AS earned,
+          to_char(
+            (ua.earned_at AT TIME ZONE 'UTC') AT TIME ZONE 'America/Denver',
+            'YYYY-MM-DD HH24:MI'
+          ) AS earned_at
+     FROM achievements a
+     LEFT JOIN user_achievements ua
+       ON ua.achievement_id = a.id
+      AND ua.username = $1
+     ORDER BY earned DESC, a.sort_order, a.id`,
       [username]
-    );  
+    );
+
 
     return res.render('pages/achievements', {
       title: 'Achievements',
       achievements,
-      username: res.locals.username,   
+      username: res.locals.username,
       profilePic: res.locals.profilePic
     });
 
@@ -529,10 +530,10 @@ app.get('/achievements', async (req, res, next) => {
 // Calendar page
 app.get('/calendar', (req, res) => {
   res.render('pages/calendar', {
-  title: 'Calendar',
-  username: res.locals.username,
-  profilePic: res.locals.profilePic
-});
+    title: 'Calendar',
+    username: res.locals.username,
+    profilePic: res.locals.profilePic
+  });
 
 });
 
@@ -592,8 +593,8 @@ app.post('/profile/pic', async (req, res) => {
 // Log out
 app.get('/logout', (req, res) => {
   req.session.destroy(() => {
-  res.redirect('/login');
-});
+    res.redirect('/login');
+  });
 });
 
 app.get('/welcome', (req, res) => {
