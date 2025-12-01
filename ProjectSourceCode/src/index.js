@@ -110,24 +110,28 @@ app.get('/api/progress', async (req, res) => {
   if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
 
   try {
+    if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
+
     const row = await db.oneOrNone(
       'SELECT highest_completed FROM user_progress WHERE username = $1',
       [req.session.username]
     );
+
     return res.json({ highest_completed: row ? row.highest_completed : 0 });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Failed to load progress' });
+    console.error('GET /api/progress error:', err);
+    return res.status(500).json({ error: 'Server error fetching progress' });
   }
 });
 
 app.post('/api/progress', async (req, res) => {
-  if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
-
-  const completed = Number(req.body.completed);
-  if (isNaN(completed)) return res.status(400).json({ error: 'Invalid value' });
-
   try {
+    if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
+    const completed = Number(req.body.completed);
+    if (isNaN(completed)) return res.status(400).json({ error: 'Invalid value' });
+
+    console.log('Updating progress:', req.session.username, completed);
+
     await db.none(
       `INSERT INTO user_progress (username, highest_completed)
        VALUES ($1, $2)
@@ -138,7 +142,7 @@ app.post('/api/progress', async (req, res) => {
 
     return res.json({ success: true });
   } catch (err) {
-    console.error(err);
+    console.error('Progress POST error:', err);
     return res.status(500).json({ error: 'Failed to update progress' });
   }
 });
@@ -160,12 +164,12 @@ app.post('/api/workouts', async (req, res) => {
     // Decide which muscle groups this workout hits based on its ID.
     const flags = {
       1: { back: true, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false },
-      2: { back: false, chest: true, arms: true,  legs: false, glutes: false, abs: false, cardio: false },
-      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true  },
-      4: { back: false, chest: false, arms: false, legs: true,  glutes: true,  abs: true,  cardio: false },
-      5: { back: false, chest: false, arms: false, legs: true,  glutes: false, abs: false, cardio: false },
-      6: { back: true,  chest: true,  arms: true,  legs: false, glutes: false, abs: false, cardio: false },
-      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true,  cardio: true  }
+      2: { back: false, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
+      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true },
+      4: { back: false, chest: false, arms: false, legs: true, glutes: true, abs: true, cardio: false },
+      5: { back: false, chest: false, arms: false, legs: true, glutes: false, abs: false, cardio: false },
+      6: { back: true, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
+      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true, cardio: true }
     }[workoutId] || { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false };
 
     // Build MMDDYY as an integer for today
@@ -177,17 +181,14 @@ app.post('/api/workouts', async (req, res) => {
 
     // Insert workout (trigger will also handle FIRST_WORKOUT + workout-count achievements)
     await db.none(
-      'SELECT insert_workout($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+      'SELECT insert_workout($1, $2, $3, $4, $5, $6)',
       [
         username,
         dateInt,
-        flags.back   || false,
-        flags.chest  || false,
-        flags.arms   || false,
-        flags.legs   || false,
-        flags.glutes || false,
-        flags.abs    || false,
-        flags.cardio || false
+        flags.push || false,
+        flags.pull || false,
+        flags.legs || false,
+        flags.rest || false,
       ]
     );
 
@@ -271,14 +272,22 @@ app.post('/login', async (req, res) => {
 
     if (!user || password !== user.password_hash) {
 
-      if (req.headers['content-type']?.includes('application/json')) {
-        // Added for Mocha: send 400 JSON instead of 401 HTML
+      const isJson = req.headers['content-type']?.includes('application/json');
+
+      // Keep JSON behavior the same for tests
+      if (isJson) {
         return res.status(400).json({ message: 'Invalid input' });
       }
+
+      // Browser: show different messages
+      const message = !user
+        ? 'Username does not exist'
+        : 'Incorrect password';
+
       return res.status(401).render('pages/login', {
         hideFooter: true,
         hideHome: true,
-        message: 'Invalid credentials'
+        message
       });
     }
 
@@ -378,9 +387,49 @@ app.post('/register', async (req, res) => {
 });
 
 // Home page (must be logged in so /api/progress has a username)
-app.get('/home', requireLogin, (req, res) => {
-  res.render('pages/home', { title: 'Home' });
+app.get('/home', async (req, res) => {
+  if (!req.session.username) return res.redirect('/login');
+
+  let highestCompleted = 0;
+  try {
+    const row = await db.oneOrNone(
+      'SELECT highest_completed FROM user_progress WHERE username = $1',
+      [req.session.username]
+    );
+    highestCompleted = row ? row.highest_completed : 0;
+  } catch (err) {
+    console.error('Error loading user progress:', err);
+  }
+
+  // Base nodes for a single set
+  const baseNodes = [
+    { id: 1, offset: -10 },
+    { id: 2, offset: 10 },
+    { id: 3, offset: -10 },
+    { id: 4, offset: 10 },
+    { id: 5, offset: -10 },
+    { id: 6, offset: 10 },
+    { id: 7, offset: -10 },
+    { id: 8, offset: 10 }
+  ];
+
+  // Compute how many full cycles user completed
+  const cyclesCompleted = Math.floor(highestCompleted / baseNodes.length);
+
+  // Build all cycles to render
+  const sets = [];
+  for (let cycle = 0; cycle <= cyclesCompleted; cycle++) {
+    const cycleNodes = baseNodes.map(n => ({
+      id: n.id + cycle * baseNodes.length,
+      offset: n.offset,
+      cycleNumber: cycle
+    }));
+    sets.push(cycleNodes);
+  }
+
+  res.render('pages/home', { sets, highestCompleted });
 });
+
 
 // Workouts page
 app.get('/workouts', (req, res) => {
@@ -475,7 +524,7 @@ app.post('/profile/pic', async (req, res) => {
   if (!username) return res.redirect('/login');
 
   try {
-    const { imageData } = req.body;  
+    const { imageData } = req.body;
 
     if (!imageData) {
       return res.status(400).send("No image received.");
