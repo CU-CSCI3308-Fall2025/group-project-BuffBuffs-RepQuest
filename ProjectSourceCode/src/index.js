@@ -181,17 +181,14 @@ app.post('/api/workouts', async (req, res) => {
 
     // Insert workout (trigger will also handle FIRST_WORKOUT + workout-count achievements)
     await db.none(
-      'SELECT insert_workout($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+      'SELECT insert_workout($1, $2, $3, $4, $5, $6)',
       [
         username,
         dateInt,
-        flags.back || false,
-        flags.chest || false,
-        flags.arms || false,
+        flags.push || false,
+        flags.pull || false,
         flags.legs || false,
-        flags.glutes || false,
-        flags.abs || false,
-        flags.cardio || false
+        flags.rest || false,
       ]
     );
 
