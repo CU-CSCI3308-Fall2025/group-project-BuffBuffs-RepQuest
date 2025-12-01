@@ -59,3 +59,4 @@
 11/27 - added new rendered nodes everytime a new 8 are completed
 12/1 - changed header to have a profile picture displayed
 12/1 - added unique trophies
+12/1 - Added template of readMe 

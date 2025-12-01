@@ -1,22 +1,39 @@
-## Overview
+# RepQuest
 
-- THIS IS THE ACTUAL REPOSITORY WE ALL WILL BE WORKING IN!!
+# ReadMe Instructions to update later:
+The ReadMe.md should include the following:
 
-We can write out this ReadMe later. Just put some helpful links for now
+Brief Application description
+Contributors - In this case, it will be the team Members
+Technology Stack used for the project
+Prerequisites to run the application - Any software that needs to be installed to run the application
+Instructions on how to run the application locally.
+How to run the tests
+Link to the deployed application
 
-Links:
-[Lab Instructions](https://cuboulder-csci3308.pages.dev/docs/labs/lab8)
+## About 
+RepQuest is a application focused on getting ... TODO. 
 
-[Group Project Instructions](https://cuboulder-csci3308.pages.dev/docs/project/)
+## Team Members
+- Dalton Ford [@DaltonRFM](https://github.com/DaltonRFM)
+- Keira Wagstaff [@keirawagstaff](https://github.com/keirawagstaff)
+- Addie Hoeft  [@alhoeft](https://github.com/alhoeft)
+- Cole Spencer [@Colejx](https://github.com/Colejx)
+- Zandra Palermo [@zandrapalermo](https://github.com/zandrapalermo)
 
-Gameified Workout Log 
+## Technology Stack 
+- TODO
 
-App Name = RepQuest
+## Prerequisites
+Please ensure that the following softwares have been installed prior to attempting to access the application:
+- TODO
 
-Application that lets you log your workout, and allows you to level up
+## How to Run RepQuest
+- TODO
 
-First page of application at: http://localhost:3000/login
+## Running Tests
+To run tests for RepQuest, execute the following steps:
+- TODO
 
-OR USE THIS FOR RENDER NOW: https://group-project-buffbuffs-repquest.onrender.com
-
-When docker is running
+## Deployed Application
+https://group-project-buffbuffs-repquest.onrender.com
