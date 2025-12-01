@@ -104,6 +104,31 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// Make username and profile picture available in all views (header)
+app.use(async (req, res, next) => {
+  if (!req.session.username) {
+    res.locals.username = null;
+    res.locals.profilePic = null;
+    return next();
+  }
+
+  res.locals.username = req.session.username;
+
+  try {
+    const row = await db.oneOrNone(
+      "SELECT profile_pic FROM users WHERE username = $1",
+      [req.session.username]
+    );
+    res.locals.profilePic = row?.profile_pic || null;
+  } catch (err) {
+    console.error("Profile pic load error:", err);
+    res.locals.profilePic = null;
+  }
+
+  next();
+});
+
+
 
 // ---------------------- API: progress ----------------------
 app.get('/api/progress', async (req, res) => {
@@ -427,7 +452,12 @@ app.get('/home', async (req, res) => {
     sets.push(cycleNodes);
   }
 
-  res.render('pages/home', { sets, highestCompleted });
+  res.render('pages/home', {
+    sets,
+    highestCompleted,
+    username: res.locals.username,
+    profilePic: res.locals.profilePic
+  });
 });
 
 
@@ -449,7 +479,9 @@ app.get('/workouts', (req, res) => {
       { name: 'Squats', sets: 4, reps: '8' },
       { name: 'Lunges', sets: 3, reps: '10 each leg' },
       { name: 'Calf Raises', sets: 3, reps: '15' }
-    ]
+    ],
+    username: res.locals.username,
+    profilePic: res.locals.profilePic
   });
 });
 
@@ -461,38 +493,48 @@ app.get('/achievements', async (req, res, next) => {
 
     const { rows: achievements } = await db.result(
       `SELECT a.id,
-        a.code,
-        a.title,
-        a.icon_path,
-        a.sort_order,
-        (ua.earned_at IS NOT NULL) AS earned,
-        to_char(
-          (ua.earned_at AT TIME ZONE 'UTC') AT TIME ZONE 'America/Denver',
-          'YYYY-MM-DD HH24:MI'
-        ) AS earned_at
- FROM achievements a
- LEFT JOIN user_achievements ua
-   ON ua.achievement_id = a.id
-  AND ua.username = $1
- ORDER BY a.sort_order, a.id`
-      ,
+          a.code,
+          a.title,
+          a.icon_path,
+          a.sort_order,
+          (ua.earned_at IS NOT NULL) AS earned,
+          to_char(
+            (ua.earned_at AT TIME ZONE 'UTC') AT TIME ZONE 'America/Denver',
+            'YYYY-MM-DD HH24:MI'
+          ) AS earned_at
+     FROM achievements a
+     LEFT JOIN user_achievements ua
+       ON ua.achievement_id = a.id
+      AND ua.username = $1
+     ORDER BY earned DESC, a.sort_order, a.id`,
       [username]
     );
 
+
     return res.render('pages/achievements', {
       title: 'Achievements',
-      username,
-      achievements
+      achievements,
+      username: res.locals.username,
+      profilePic: res.locals.profilePic
     });
+
   } catch (err) {
     console.error('Achievements error:', err);
     return next(err);
   }
 });
 
+
+
+
 // Calendar page
 app.get('/calendar', (req, res) => {
-  res.render('pages/calendar', { title: 'Calendar' });
+  res.render('pages/calendar', {
+    title: 'Calendar',
+    username: res.locals.username,
+    profilePic: res.locals.profilePic
+  });
+
 });
 
 // Profile page
@@ -535,6 +577,10 @@ app.post('/profile/pic', async (req, res) => {
       [imageData, username]
     );
 
+    // Update session + locals immediately
+    req.session.profilePic = imageData;
+    res.locals.profilePic = imageData;
+
     res.redirect('/profile');
 
   } catch (err) {
@@ -542,6 +588,7 @@ app.post('/profile/pic', async (req, res) => {
     res.status(500).send("Error updating profile picture.");
   }
 });
+
 
 // Log out
 app.get('/logout', (req, res) => {
