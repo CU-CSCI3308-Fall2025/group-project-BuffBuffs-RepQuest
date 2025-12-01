@@ -57,3 +57,4 @@
 11/24 added errors when users login with incorrect username or password
 11/25 - changed nav bar to have home on it
 11/27 - added new rendered nodes everytime a new 8 are completed
+12/1 - Added first draft of finalized ReadMe
