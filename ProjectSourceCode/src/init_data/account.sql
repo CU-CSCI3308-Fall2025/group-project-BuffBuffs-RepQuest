@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS achievements (
   id          SERIAL PRIMARY KEY,
   code        TEXT UNIQUE NOT NULL,       -- e.g., 'FIRST_WORKOUT'
   title       TEXT NOT NULL,
-  icon_path   TEXT NOT NULL DEFAULT '/img/temptrophy.jpg',
+  icon_path   TEXT NOT NULL,
   sort_order  INTEGER NOT NULL DEFAULT 0
 );
 
@@ -110,64 +110,64 @@ CREATE TABLE IF NOT EXISTS user_achievements (
 INSERT INTO achievements (code, title, icon_path, sort_order)
 VALUES 
   -- workout milestones
-  ('FIRST_WORKOUT', 'Complete 1 Workout',  '/img/temptrophy.jpg', 10),
-  ('FIVE_WORKOUTS',  'Complete 5 Workouts',   '/img/temptrophy.jpg', 20),
-  ('TEN_WORKOUTS',   'Complete 10 Workouts',  '/img/temptrophy.jpg',  30),
-  ('FIFTY_WORKOUTS', 'Complete 50 Workouts',  '/img/temptrophy.jpg', 40),
-  ('ONE_HUNDRED_WORKOUTS',  'Complete 100 Workouts',   '/img/temptrophy.jpg', 50),
-  ('TWO_HUNDRED_WORKOUTS',   'Complete 200 Workouts',  '/img/temptrophy.jpg', 60),
-  ('THREE_HUNDRED_WORKOUTS', 'Complete 300 Workouts',  '/img/temptrophy.jpg', 70),
-  ('FOUR_HUNDRED_WORKOUTS',  'Complete 400 Workouts',   '/img/temptrophy.jpg', 80),
-  ('FIVE_HUNDRED_WORKOUTS',   'Complete 500 Workouts', '/img/temptrophy.jpg', 90),
-  ('ONE_THOUSAND_WORKOUTS', 'Complete 1000 Workouts',  '/img/temptrophy.jpg', 100),
+  ('FIRST_WORKOUT', 'Complete 1 Workout',  '/img/general-trophy.png', 10),
+  ('FIVE_WORKOUTS',  'Complete 5 Workouts',   '/img/general-trophy.png', 20),
+  ('TEN_WORKOUTS',   'Complete 10 Workouts',  '/img/general-trophy.png',  30),
+  ('FIFTY_WORKOUTS', 'Complete 50 Workouts',  '/img/general-trophy.png', 40),
+  ('ONE_HUNDRED_WORKOUTS',  'Complete 100 Workouts',   '/img/general-trophy.png', 50),
+  ('TWO_HUNDRED_WORKOUTS',   'Complete 200 Workouts',  '/img/general-trophy.png', 60),
+  ('THREE_HUNDRED_WORKOUTS', 'Complete 300 Workouts',  '/img/general-trophy.png', 70),
+  ('FOUR_HUNDRED_WORKOUTS',  'Complete 400 Workouts',   '/img/general-trophy.png', 80),
+  ('FIVE_HUNDRED_WORKOUTS',   'Complete 500 Workouts', '/img/general-trophy.png', 90),
+  ('ONE_THOUSAND_WORKOUTS', 'Complete 1000 Workouts',  '/img/general-trophy.png', 100),
 
   -- streak milestones
-  ('THREE_DAY_STREAK',  'Achieve a 3 Day Streak', '/img/temptrophy.jpg', 110),
-  ('WEEK_STREAK',  'Achieve a Week Long Streak',  '/img/temptrophy.jpg',  120),
-  ('TWO_WEEK_STREAK',  'Achieve a 2 Weeks Long Streak',  '/img/temptrophy.jpg',  130),
-  ('THREE_WEEK_STREAK',  'Achieve a 3 Weeks Long Streak', '/img/temptrophy.jpg', 140),
-  ('MONTH_STREAK', 'Achieve a Month Long Streak', '/img/temptrophy.jpg',  150),
-  ('YEAR_STREAK', 'Achieve a Year Long Streak',  '/img/temptrophy.jpg', 160),
-  ('TWO_YEAR_STREAK', 'Achieve a 2 Years Long Streak',  '/img/temptrophy.jpg', 170),
-  ('THREE_YEAR_STREAK', 'Achieve a 3 Years Long Streak','/img/temptrophy.jpg',   180),
-  ('FOUR_YEAR_STREAK', 'Achieve a 4 Years Long Streak',  '/img/temptrophy.jpg', 190),
-  ('FIVE_YEAR_STREAK', 'Achieve a 5 Years Long Streak',  '/img/temptrophy.jpg', 200),
+  ('THREE_DAY_STREAK',  'Achieve a 3 Day Streak', '/img/streak-trophy.png', 110),
+  ('WEEK_STREAK',  'Achieve a Week Long Streak',  '/img/streak-trophy.png',  120),
+  ('TWO_WEEK_STREAK',  'Achieve a 2 Weeks Long Streak',  '/img/streak-trophy.png',  130),
+  ('THREE_WEEK_STREAK',  'Achieve a 3 Weeks Long Streak', '/img/streak-trophy.png', 140),
+  ('MONTH_STREAK', 'Achieve a Month Long Streak', '/img/streak-trophy.png',  150),
+  ('YEAR_STREAK', 'Achieve a Year Long Streak',  '/img/streak-trophy.png', 160),
+  ('TWO_YEAR_STREAK', 'Achieve a 2 Years Long Streak',  '/img/streak-trophy.png', 170),
+  ('THREE_YEAR_STREAK', 'Achieve a 3 Years Long Streak','/img/streak-trophy.png',   180),
+  ('FOUR_YEAR_STREAK', 'Achieve a 4 Years Long Streak',  '/img/streak-trophy.png', 190),
+  ('FIVE_YEAR_STREAK', 'Achieve a 5 Years Long Streak',  '/img/streak-trophy.png', 200),
   
   -- Push workout milestones
-  ('ONE_PUSH_WORKOUTS',        'Complete 1 Push Workout',       '/img/temptrophy.jpg',  210),
-  ('FIVE_PUSH_WORKOUTS',        'Complete 5 Push Workouts',      '/img/temptrophy.jpg',   220),
-  ('TEN_PUSH_WORKOUTS',         'Complete 10 Push Workouts',      '/img/temptrophy.jpg',  230),
-  ('FIFTY_PUSH_WORKOUTS',       'Complete 50 Push Workouts',    '/img/temptrophy.jpg',    240),
-  ('ONE_HUNDRED_PUSH_WORKOUTS', 'Complete 100 Push Workouts',    '/img/temptrophy.jpg',   250),
-  ('TWO_HUNDRED_FIFTY_PUSH_WORKOUTS', 'Complete 250 Push Workouts','/img/temptrophy.jpg',  260),
-  ('FIVE_HUNDRED_PUSH_WORKOUTS','Complete 500 Push Workouts',    '/img/temptrophy.jpg',   270),
+  ('ONE_PUSH_WORKOUTS',        'Complete 1 Push Workout',       '/img/push-trophy.png',  210),
+  ('FIVE_PUSH_WORKOUTS',        'Complete 5 Push Workouts',      '/img/push-trophy.png',   220),
+  ('TEN_PUSH_WORKOUTS',         'Complete 10 Push Workouts',      '/img/push-trophy.png',  230),
+  ('FIFTY_PUSH_WORKOUTS',       'Complete 50 Push Workouts',    '/img/push-trophy.png',    240),
+  ('ONE_HUNDRED_PUSH_WORKOUTS', 'Complete 100 Push Workouts',    '/img/push-trophy.png',   250),
+  ('TWO_HUNDRED_FIFTY_PUSH_WORKOUTS', 'Complete 250 Push Workouts','/img/push-trophy.png',  260),
+  ('FIVE_HUNDRED_PUSH_WORKOUTS','Complete 500 Push Workouts',    '/img/push-trophy.png',   270),
 
   -- Pull workout milestones
-  ('ONE_PULL_WORKOUTS',        'Complete 1 Pull Workout',     '/img/temptrophy.jpg',    280),
-  ('FIVE_PULL_WORKOUTS',        'Complete 5 Pull Workouts',     '/img/temptrophy.jpg',    290),
-  ('TEN_PULL_WORKOUTS',         'Complete 10 Pull Workouts',    '/img/temptrophy.jpg',    300),
-  ('FIFTY_PULL_WORKOUTS',       'Complete 50 Pull Workouts',    '/img/temptrophy.jpg',    310),
-  ('ONE_HUNDRED_PULL_WORKOUTS', 'Complete 100 Pull Workouts',   '/img/temptrophy.jpg',    320),
-  ('TWO_HUNDRED_FIFTY_PULL_WORKOUTS', 'Complete 250 Pull Workouts','/img/temptrophy.jpg', 330),
-  ('FIVE_HUNDRED_PULL_WORKOUTS','Complete 500 Pull Workouts',      '/img/temptrophy.jpg', 340),
+  ('ONE_PULL_WORKOUTS',        'Complete 1 Pull Workout',     '/img/pull-trophy.png',    280),
+  ('FIVE_PULL_WORKOUTS',        'Complete 5 Pull Workouts',     '/img/pull-trophy.png',    290),
+  ('TEN_PULL_WORKOUTS',         'Complete 10 Pull Workouts',    '/img/pull-trophy.png',    300),
+  ('FIFTY_PULL_WORKOUTS',       'Complete 50 Pull Workouts',    '/img/pull-trophy.png',    310),
+  ('ONE_HUNDRED_PULL_WORKOUTS', 'Complete 100 Pull Workouts',   '/img/pull-trophy.png',    320),
+  ('TWO_HUNDRED_FIFTY_PULL_WORKOUTS', 'Complete 250 Pull Workouts','/img/pull-trophy.png', 330),
+  ('FIVE_HUNDRED_PULL_WORKOUTS','Complete 500 Pull Workouts',      '/img/pull-trophy.png', 340),
 
   -- Leg workout milestones
-  ('ONE_LEG_WORKOUTS',         'Complete 1 Leg Workout',       '/img/temptrophy.jpg',   350),
-  ('FIVE_LEG_WORKOUTS',         'Complete 5 Leg Workouts',      '/img/temptrophy.jpg',    360),
-  ('TEN_LEG_WORKOUTS',          'Complete 10 Leg Workouts',      '/img/temptrophy.jpg',   370),
-  ('FIFTY_LEG_WORKOUTS',        'Complete 50 Leg Workouts',       '/img/temptrophy.jpg',  380),
-  ('ONE_HUNDRED_LEG_WORKOUTS',  'Complete 100 Leg Workouts',     '/img/temptrophy.jpg',   390),
-  ('TWO_HUNDRED_FIFTY_LEG_WORKOUTS', 'Complete 250 Leg Workouts', '/img/temptrophy.jpg',  400),
-  ('FIVE_HUNDRED_LEG_WORKOUTS', 'Complete 500 Leg Workouts',      '/img/temptrophy.jpg',  410),
+  ('ONE_LEG_WORKOUTS',         'Complete 1 Leg Workout',       '/img/leg-trophy.png',   350),
+  ('FIVE_LEG_WORKOUTS',         'Complete 5 Leg Workouts',      '/img/leg-trophy.png',    360),
+  ('TEN_LEG_WORKOUTS',          'Complete 10 Leg Workouts',      '/img/legs-trophy.png',   370),
+  ('FIFTY_LEG_WORKOUTS',        'Complete 50 Leg Workouts',       '/img/leg-trophy.png',  380),
+  ('ONE_HUNDRED_LEG_WORKOUTS',  'Complete 100 Leg Workouts',     '/img/leg-trophy.png',   390),
+  ('TWO_HUNDRED_FIFTY_LEG_WORKOUTS', 'Complete 250 Leg Workouts', '/img/leg-trophy.png',  400),
+  ('FIVE_HUNDRED_LEG_WORKOUTS', 'Complete 500 Leg Workouts',      '/img/leg-trophy.png',  410),
 
   -- Rest day milestones
-  ('ONE_REST_DAYS',            'Complete 1 Rest Days',           '/img/temptrophy.jpg',  420),
-  ('FIVE_REST_DAYS',            'Complete 5 Rest Days',         '/img/temptrophy.jpg',    430),
-  ('TEN_REST_DAYS',             'Complete 10 Rest Days',        '/img/temptrophy.jpg',    440),
-  ('FIFTY_REST_DAYS',           'Complete 50 Rest Days',        '/img/temptrophy.jpg',    450),
-  ('ONE_HUNDRED_REST_DAYS',     'Complete 100 Rest Days',       '/img/temptrophy.jpg',    460),
-  ('TWO_HUNDRED_FIFTY_REST_DAYS','Complete 250 Rest Days',      '/img/temptrophy.jpg',    470),
-  ('FIVE_HUNDRED_REST_DAYS',    'Complete 500 Rest Days',       '/img/temptrophy.jpg',    480)
+  ('ONE_REST_DAYS',            'Complete 1 Rest Days',           '/img/rest-trophy.png',  420),
+  ('FIVE_REST_DAYS',            'Complete 5 Rest Days',         '/img/rest-trophy.png',    430),
+  ('TEN_REST_DAYS',             'Complete 10 Rest Days',        '/img/rest-trophy.png',    440),
+  ('FIFTY_REST_DAYS',           'Complete 50 Rest Days',        '/img/rest-trophy.png',    450),
+  ('ONE_HUNDRED_REST_DAYS',     'Complete 100 Rest Days',       '/img/rest-trophy.png',    460),
+  ('TWO_HUNDRED_FIFTY_REST_DAYS','Complete 250 Rest Days',      '/img/rest-trophy.png',    470),
+  ('FIVE_HUNDRED_REST_DAYS',    'Complete 500 Rest Days',       '/img/rest-trophy.png',    480)
 ON CONFLICT (code) DO NOTHING;
 
 -- Helper: award by code (idempotent)
