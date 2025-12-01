@@ -17,4 +17,6 @@ Application that lets you log your workout, and allows you to level up
 
 First page of application at: http://localhost:3000/login
 
+OR USE THIS FOR RENDER NOW: https://group-project-buffbuffs-repquest.onrender.com
+
 When docker is running
