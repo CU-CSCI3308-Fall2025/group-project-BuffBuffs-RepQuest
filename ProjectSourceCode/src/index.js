@@ -104,6 +104,31 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// Make username and profile picture available in all views (header)
+app.use(async (req, res, next) => {
+  if (!req.session.username) {
+    res.locals.username = null;
+    res.locals.profilePic = null;
+    return next();
+  }
+
+  res.locals.username = req.session.username;
+
+  try {
+    const row = await db.oneOrNone(
+      "SELECT profile_pic FROM users WHERE username = $1",
+      [req.session.username]
+    );
+    res.locals.profilePic = row?.profile_pic || null;
+  } catch (err) {
+    console.error("Profile pic load error:", err);
+    res.locals.profilePic = null;
+  }
+
+  next();
+});
+
+
 
 // ---------------------- API: progress ----------------------
 app.get('/api/progress', async (req, res) => {
@@ -427,30 +452,37 @@ app.get('/home', async (req, res) => {
     sets.push(cycleNodes);
   }
 
-  res.render('pages/home', { sets, highestCompleted });
+  res.render('pages/home', {
+  sets,
+  highestCompleted,
+  username: res.locals.username,
+  profilePic: res.locals.profilePic
+});
 });
 
 
 // Workouts page
 app.get('/workouts', (req, res) => {
   res.render('pages/workouts', {
-    title: 'Workouts',
-    pushWorkouts: [
-      { name: 'Bench Press', sets: 4, reps: '8–10' },
-      { name: 'Overhead Press', sets: 3, reps: '10' },
-      { name: 'Triceps Dips', sets: 3, reps: '12' }
-    ],
-    pullWorkouts: [
-      { name: 'Pull-Ups', sets: 4, reps: '8–10' },
-      { name: 'Barbell Rows', sets: 3, reps: '10' },
-      { name: 'Bicep Curls', sets: 3, reps: '12' }
-    ],
-    legWorkouts: [
-      { name: 'Squats', sets: 4, reps: '8' },
-      { name: 'Lunges', sets: 3, reps: '10 each leg' },
-      { name: 'Calf Raises', sets: 3, reps: '15' }
-    ]
-  });
+  title: 'Workouts',
+  pushWorkouts: [
+    { name: 'Bench Press', sets: 4, reps: '8–10' },
+    { name: 'Overhead Press', sets: 3, reps: '10' },
+    { name: 'Triceps Dips', sets: 3, reps: '12' }
+  ],
+  pullWorkouts: [
+    { name: 'Pull-Ups', sets: 4, reps: '8–10' },
+    { name: 'Barbell Rows', sets: 3, reps: '10' },
+    { name: 'Bicep Curls', sets: 3, reps: '12' }
+  ],
+  legWorkouts: [
+    { name: 'Squats', sets: 4, reps: '8' },
+    { name: 'Lunges', sets: 3, reps: '10 each leg' },
+    { name: 'Calf Raises', sets: 3, reps: '15' }
+  ],
+  username: res.locals.username,
+  profilePic: res.locals.profilePic
+});
 });
 
 // Achievements page
@@ -470,29 +502,38 @@ app.get('/achievements', async (req, res, next) => {
           (ua.earned_at AT TIME ZONE 'UTC') AT TIME ZONE 'America/Denver',
           'YYYY-MM-DD HH24:MI'
         ) AS earned_at
- FROM achievements a
- LEFT JOIN user_achievements ua
-   ON ua.achievement_id = a.id
-  AND ua.username = $1
- ORDER BY a.sort_order, a.id`
-      ,
+        FROM achievements a
+        LEFT JOIN user_achievements ua
+          ON ua.achievement_id = a.id
+         AND ua.username = $1
+        ORDER BY a.sort_order, a.id`,
       [username]
-    );
+    );  
 
     return res.render('pages/achievements', {
       title: 'Achievements',
-      username,
-      achievements
+      achievements,
+      username: res.locals.username,   
+      profilePic: res.locals.profilePic
     });
+
   } catch (err) {
     console.error('Achievements error:', err);
     return next(err);
   }
 });
 
+
+
+
 // Calendar page
 app.get('/calendar', (req, res) => {
-  res.render('pages/calendar', { title: 'Calendar' });
+  res.render('pages/calendar', {
+  title: 'Calendar',
+  username: res.locals.username,
+  profilePic: res.locals.profilePic
+});
+
 });
 
 // Profile page
@@ -535,6 +576,10 @@ app.post('/profile/pic', async (req, res) => {
       [imageData, username]
     );
 
+    // Update session + locals immediately
+    req.session.profilePic = imageData;
+    res.locals.profilePic = imageData;
+
     res.redirect('/profile');
 
   } catch (err) {
@@ -543,11 +588,12 @@ app.post('/profile/pic', async (req, res) => {
   }
 });
 
+
 // Log out
 app.get('/logout', (req, res) => {
   req.session.destroy(() => {
-    res.redirect('/login');
-  });
+  res.redirect('/login');
+});
 });
 
 app.get('/welcome', (req, res) => {
