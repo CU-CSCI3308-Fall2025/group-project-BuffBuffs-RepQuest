@@ -1,4 +1,4 @@
-<div class="container mt-4 mb-5 pb-5" style="max-width: 420px;">
+{{!-- <div class="container mt-4 mb-5 pb-5" style="max-width: 420px;">
   {{> message}}
 
   <h2 class="mb-3">Login</h2>
@@ -28,4 +28,68 @@
     </small>
 
   </div>
-</div>
+</div> --}}
+
+<section class="background" >
+
+  <div class="container mt-5" style="max-width: 400px;">
+    {{> message}}
+
+    <div class="color"></div>
+    <div class="color"></div>
+    <div class="color"></div>
+    <div class="box">
+      <div class="square" style="--i:0;"></div>
+      <div class="square" style="--i:1;"></div>
+      <div class="square" style="--i:2;"></div>
+      <div class="square" style="--i:3;"></div>
+      <div class="square" style="--i:4;"></div>
+      <div class="container-form">
+
+        <div class="form">
+
+          <h2 class="">Login</h2>
+          <form action="/login" method="POST">
+            
+            {{!-- <div class="mb-3">
+              <label for="username" class="">Username</label>
+              <input type="text" class="" id="username" name="username" required/>
+            </div> --}}
+            <div class="inputBox">
+              <input type="text" id="username" name="username" placeholder="Username" required/>
+            </div>
+
+            {{!-- <div class="mb-3">
+              <label for="password" class="">Password</label>
+              <input type="password" class="" id="password" name="password" required />
+            </div> --}}
+            <div class="inputBox">
+              <input type="password" id="password" name="password" placeholder="Password" required />
+            </div>
+
+            <div class="inputBox">
+              {{!-- <button type="submit" class="">Register</button> --}}
+              <input type="submit" class="" value="Login"/>
+            </div>
+          </form>
+
+          <div class="form_text">
+
+            <small>Don't have an account?
+
+              <a href="/register">Register</a>
+
+            </small>
+
+            {{#if message}}
+              <div class="alert alert-warning" role="alert">{{message}}</div>
+            {{/if}}
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
