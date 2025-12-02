@@ -27,7 +27,7 @@ function requireLogin(req, res, next) {
   next();
 }
 
-// testing purposes, remove later stfdfsdfs
+// testing purposes, remove later 
 console.log("ENV CHECK:", {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -59,7 +59,7 @@ async function computeStreak(username) {
   );
 
   if (!rows.length) {
-    return 0; // no workouts → no streak
+    return 0; // no workouts = no streak
   }
 
   let streak = 1;
