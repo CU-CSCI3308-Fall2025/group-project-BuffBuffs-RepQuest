@@ -1,16 +1,5 @@
 # RepQuest
 
-## ReadMe Instructions to update later: 
-The ReadMe.md should include the following:
-
-- Brief Application description
-- Contributors - In this case, it will be the team Members
-- Technology Stack used for the project
-- Prerequisites to run the application - Any software that needs to be installed to run the application
-- Instructions on how to run the application locally.
-- How to run the tests
-- Link to the deployed application
-
 ## About 
 RepQuest is a fitness focused application designed to help beginners build their confidence in the gym. The app provides simple, structured workout routines that can guide users towards forming consistent habits and sustainable fitness goals in the long term. With a clean and intuitive interface, RepQuest allows users to track their workouts and celebrate milestones along the way. Users can view their weekly workout calendar and achievements they've unlocked along their journey to stay motivated as they move through their fitness journey. RepQuest is built to make going to the gym feel approachable, achieveable, and rewarding for anyone out there just starting out!
 
@@ -32,7 +21,8 @@ Please ensure that the following softwares have been installed prior to accessin
 - PostgreSQL
 - Docker
 - Node.js
-- ZANDRA OR COLE - please add the testing software you guys had to do in the lab here: Chai? and something else?
+- Chai
+- Mocha
 
 ## How to Run RepQuest
 To run locally, please follow these steps:
