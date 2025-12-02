@@ -356,10 +356,13 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
 DROP TRIGGER IF EXISTS trg_after_insert_workouts_eval ON workouts;
+
 CREATE TRIGGER trg_after_insert_workouts_eval
-AFTER INSERT ON workouts
-FOR EACH ROW EXECUTE FUNCTION trg_evaluate_achievements_after_workout();
+AFTER INSERT OR UPDATE OF push, pull, legs, rest
+ON workouts
+FOR EACH ROW
+EXECUTE FUNCTION trg_evaluate_achievements_after_workout();
+
 
 COMMIT;
