@@ -187,15 +187,23 @@ app.post('/api/workouts', async (req, res) => {
 
   try {
     // Decide which muscle groups this workout hits based on its ID.
-    const flags = {
-      1: { back: true, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false },
-      2: { back: false, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
-      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true },
-      4: { back: false, chest: false, arms: false, legs: true, glutes: true, abs: true, cardio: false },
-      5: { back: false, chest: false, arms: false, legs: true, glutes: false, abs: false, cardio: false },
-      6: { back: true, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
-      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true, cardio: true }
-    }[workoutId] || { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false };
+    const flagsByWorkoutId = {
+      1: { push: true, pull: false, legs: false, rest: false }, // Push workout
+      2: { push: false, pull: true, legs: false, rest: false }, // Pull workout
+      3: { push: false, pull: false, legs: true, rest: false }, // Legs workout
+      4: { push: false, pull: false, legs: false, rest: true }, // Rest day
+      5: { push: true, pull: false, legs: false, rest: false }, // Push workout
+      6: { push: false, pull: true, legs: false, rest: false }, // Pull workout
+      7: { push: false, pull: false, legs: true, rest: false }, // Legs workout
+      8: { push: false, pull: false, legs: false, rest: true }, // Rest day
+    };
+
+    const flags = flagsByWorkoutId[workoutId] || {
+      push: false,
+      pull: false,
+      legs: false,
+      rest: false
+    };
 
     // Build MMDDYY as an integer for today
     const now = new Date();
@@ -221,15 +229,29 @@ app.post('/api/workouts', async (req, res) => {
     const streak = await computeStreak(username);
 
     if (streak >= 3) {
-      await db.none('SELECT award($1, $2)', ['STREAK_3', username]);
+      await db.none('SELECT award($1, $2)', ['THREE_DAY_STREAK', username]);
     }
     if (streak >= 7) {
-      await db.none('SELECT award($1, $2)', ['STREAK_7', username]);
+      await db.none('SELECT award($1, $2)', ['WEEK_STREAK', username]);
     }
     if (streak >= 30) {
-      await db.none('SELECT award($1, $2)', ['STREAK_30', username]);
+      await db.none('SELECT award($1, $2)', ['MONTH_STREAK', username]);
     }
-
+    if (streak >= 365) {
+      await db.none('SELECT award($1, $2)', ['YEAR_STREAK', username]);
+    }
+    if (streak >= 730) {
+      await db.none('SELECT award($1, $2)', ['TWO_YEAR_STREAK', username]);
+    }
+    if (streak >= 1095) {
+      await db.none('SELECT award($1, $2)', ['THREE_YEAR_STREAK', username]);
+    }
+    if (streak >= 1461) {
+      await db.none('SELECT award($1, $2)', ['FOUR_YEAR_STREAK', username]);
+    }
+    if (streak >= 1826) {
+      await db.none('SELECT award($1, $2)', ['FIVE_YEAR_STREAK', username]);
+    }
     return res.json({ success: true, streak });
   } catch (err) {
     console.error('Error inserting workout:', err);
