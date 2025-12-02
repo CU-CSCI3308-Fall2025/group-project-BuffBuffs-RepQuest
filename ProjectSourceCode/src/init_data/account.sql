@@ -154,7 +154,7 @@ VALUES
   -- Leg workout milestones
   ('ONE_LEG_WORKOUTS',         'Complete 1 Leg Workout',       '/img/leg-trophy.png',   350),
   ('FIVE_LEG_WORKOUTS',         'Complete 5 Leg Workouts',      '/img/leg-trophy.png',    360),
-  ('TEN_LEG_WORKOUTS',          'Complete 10 Leg Workouts',      '/img/legs-trophy.png',   370),
+  ('TEN_LEG_WORKOUTS',          'Complete 10 Leg Workouts',      '/img/leg-trophy.png',   370),
   ('FIFTY_LEG_WORKOUTS',        'Complete 50 Leg Workouts',       '/img/leg-trophy.png',  380),
   ('ONE_HUNDRED_LEG_WORKOUTS',  'Complete 100 Leg Workouts',     '/img/leg-trophy.png',   390),
   ('TWO_HUNDRED_FIFTY_LEG_WORKOUTS', 'Complete 250 Leg Workouts', '/img/leg-trophy.png',  400),

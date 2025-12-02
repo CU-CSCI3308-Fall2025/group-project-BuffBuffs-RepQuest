@@ -76,6 +76,24 @@
   color: #ccc; /* slightly darker on hover */
 }
 
+/* Streak container */
+.header-streak {
+  display: flex;
+  align-items: center;
+  gap: 5px; 
+  font-size: 1rem;
+  margin-right: 12px;
+  white-space: nowrap; 
+}
+
+/* Streak icon */
+.streak-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+
 /* Responsive tweak for mobile */
 @media (max-width: 600px) {
   .header-container {
@@ -385,6 +403,13 @@ main {
   font-weight: bold;
   border: 2px solid rgb(0, 0, 0); /* Changes the color of the background  */
   border-radius: 8px;
+}
+
+.workout-label {
+  font-size: 1rem;
+  margin-top: 8px;
+  text-align: left;
+  line-height: 1.4em;
 }
 
 /* Profile Page */
