@@ -52,12 +52,15 @@
   align-items: center;
 }
 
-.profile-pic {
-  width: 40px;      /* adjust size */
+.profile-pic-header {
+  width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-}.header-right img {
+  border: 2px solid #ddd;
+  cursor: pointer;
+}
+.header-right img {
   display: inline-block;
 }
 
@@ -490,14 +493,12 @@ main {
 /* Modal overlay */
 .profile-modal { 
   display: flex;
+  justify-content: center;     /* center modal horizontally */
+  align-items: center;         /* center modal vertically */
   position: fixed;
   z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.5); 
+  inset: 0;
+  background-color: rgba(0,0,0,0.5);
 }
 
 /* Hidden class for modal */
@@ -508,46 +509,63 @@ main {
 /* Modal content box */
 .modal-content {
   background-color: #fff;
-  margin: 15% auto;
-  padding: 2rem;
+  padding: 2rem 2.2rem;
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
   text-align: center;
   position: relative;
+
+  /* remove awkward top spacing */
+  margin: 0;                   
 }
 
-/* Close button */
-.modal-content .close {
-  position: absolute;
-  top: 0.5rem;
-  right: 1rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
+/* Improve spacing between elements */
+.modal-content h3 {
+  margin-bottom: 1.2rem;
 }
 
-/* File input inside modal */
-#newProfilePic {
-  margin: 1rem 0;
+.modal-content label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
-/* Upload button inside modal */
+#fileInput {
+  margin-bottom: 1.8rem;       /* more space before buttons */
+}
+
+/* Upload button */
 #uploadPicBtn {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.4rem;
   background: #28a745;
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 1rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s ease;
+  margin-right: 0.8rem;        /* space between Save/Cancel */
 }
 
 #uploadPicBtn:hover {
   background: #218838;
 }
+
+#uploadPicBtn:disabled {
+  background: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+
+/* Cancel button spacing improvement */
+.modal-close-btn {
+  padding: 0.55rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
 
 
 /***************************************************** On boarding  ******************************* */

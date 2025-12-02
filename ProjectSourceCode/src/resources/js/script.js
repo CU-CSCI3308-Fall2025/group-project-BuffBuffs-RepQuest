@@ -61,25 +61,36 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.getElementById("closeModal");
   const fileInput = document.getElementById("fileInput");
   const imageDataField = document.getElementById("imageData");
+  const uploadBtn = document.getElementById("uploadPicBtn");
 
-  if (!modal) {
-    console.error("Modal elements not found on this page.");
-    return;
-  }
+  if (!modal) return;
 
   // Open modal
-  openBtn.addEventListener("click", () => modal.classList.remove("hidden"));
+  openBtn.addEventListener("click", () => {
+    modal.classList.remove("hidden");
+    uploadBtn.disabled = true;        // disable save button when opening
+    uploadBtn.classList.add("disabled-btn");
+  });
 
   // Close modal
   closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
 
-  // Convert file to Base64
+  // Convert file to Base64 + enable save button
   fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
-    if (!file) return;
+
+    if (!file) {
+      uploadBtn.disabled = true;
+      uploadBtn.classList.add("disabled-btn");
+      imageDataField.value = "";
+      return;
+    }
+
     const reader = new FileReader();
     reader.onloadend = () => {
       imageDataField.value = reader.result;
+      uploadBtn.disabled = false;     // enable save button
+      uploadBtn.classList.remove("disabled-btn");
     };
     reader.readAsDataURL(file);
   });

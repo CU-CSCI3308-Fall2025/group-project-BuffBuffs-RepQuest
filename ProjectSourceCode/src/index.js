@@ -27,7 +27,7 @@ function requireLogin(req, res, next) {
   next();
 }
 
-// testing purposes, remove later stfdfsdfs
+// testing purposes, remove later 
 console.log("ENV CHECK:", {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -59,7 +59,7 @@ async function computeStreak(username) {
   );
 
   if (!rows.length) {
-    return 0; // no workouts → no streak
+    return 0; // no workouts = no streak
   }
 
   let streak = 1;
@@ -103,6 +103,31 @@ app.use(async (req, res, next) => {
 
   next();
 });
+
+// Make username and profile picture available in all views (header)
+app.use(async (req, res, next) => {
+  if (!req.session.username) {
+    res.locals.username = null;
+    res.locals.profilePic = null;
+    return next();
+  }
+
+  res.locals.username = req.session.username;
+
+  try {
+    const row = await db.oneOrNone(
+      "SELECT profile_pic FROM users WHERE username = $1",
+      [req.session.username]
+    );
+    res.locals.profilePic = row?.profile_pic || null;
+  } catch (err) {
+    console.error("Profile pic load error:", err);
+    res.locals.profilePic = null;
+  }
+
+  next();
+});
+
 
 
 // ---------------------- API: progress ----------------------
@@ -162,15 +187,23 @@ app.post('/api/workouts', async (req, res) => {
 
   try {
     // Decide which muscle groups this workout hits based on its ID.
-    const flags = {
-      1: { back: true, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false },
-      2: { back: false, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
-      3: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: true },
-      4: { back: false, chest: false, arms: false, legs: true, glutes: true, abs: true, cardio: false },
-      5: { back: false, chest: false, arms: false, legs: true, glutes: false, abs: false, cardio: false },
-      6: { back: true, chest: true, arms: true, legs: false, glutes: false, abs: false, cardio: false },
-      7: { back: false, chest: false, arms: false, legs: false, glutes: false, abs: true, cardio: true }
-    }[workoutId] || { back: false, chest: false, arms: false, legs: false, glutes: false, abs: false, cardio: false };
+    const flagsByWorkoutId = {
+      1: { push: true, pull: false, legs: false, rest: false }, // Push workout
+      2: { push: false, pull: true, legs: false, rest: false }, // Pull workout
+      3: { push: false, pull: false, legs: true, rest: false }, // Legs workout
+      4: { push: false, pull: false, legs: false, rest: true }, // Rest day
+      5: { push: true, pull: false, legs: false, rest: false }, // Push workout
+      6: { push: false, pull: true, legs: false, rest: false }, // Pull workout
+      7: { push: false, pull: false, legs: true, rest: false }, // Legs workout
+      8: { push: false, pull: false, legs: false, rest: true }, // Rest day
+    };
+
+    const flags = flagsByWorkoutId[workoutId] || {
+      push: false,
+      pull: false,
+      legs: false,
+      rest: false
+    };
 
     // Build MMDDYY as an integer for today
     const now = new Date();
@@ -181,17 +214,14 @@ app.post('/api/workouts', async (req, res) => {
 
     // Insert workout (trigger will also handle FIRST_WORKOUT + workout-count achievements)
     await db.none(
-      'SELECT insert_workout($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+      'SELECT insert_workout($1, $2, $3, $4, $5, $6)',
       [
         username,
         dateInt,
-        flags.back || false,
-        flags.chest || false,
-        flags.arms || false,
+        flags.push || false,
+        flags.pull || false,
         flags.legs || false,
-        flags.glutes || false,
-        flags.abs || false,
-        flags.cardio || false
+        flags.rest || false,
       ]
     );
 
@@ -199,15 +229,29 @@ app.post('/api/workouts', async (req, res) => {
     const streak = await computeStreak(username);
 
     if (streak >= 3) {
-      await db.none('SELECT award($1, $2)', ['STREAK_3', username]);
+      await db.none('SELECT award($1, $2)', ['THREE_DAY_STREAK', username]);
     }
     if (streak >= 7) {
-      await db.none('SELECT award($1, $2)', ['STREAK_7', username]);
+      await db.none('SELECT award($1, $2)', ['WEEK_STREAK', username]);
     }
     if (streak >= 30) {
-      await db.none('SELECT award($1, $2)', ['STREAK_30', username]);
+      await db.none('SELECT award($1, $2)', ['MONTH_STREAK', username]);
     }
-
+    if (streak >= 365) {
+      await db.none('SELECT award($1, $2)', ['YEAR_STREAK', username]);
+    }
+    if (streak >= 730) {
+      await db.none('SELECT award($1, $2)', ['TWO_YEAR_STREAK', username]);
+    }
+    if (streak >= 1095) {
+      await db.none('SELECT award($1, $2)', ['THREE_YEAR_STREAK', username]);
+    }
+    if (streak >= 1461) {
+      await db.none('SELECT award($1, $2)', ['FOUR_YEAR_STREAK', username]);
+    }
+    if (streak >= 1826) {
+      await db.none('SELECT award($1, $2)', ['FIVE_YEAR_STREAK', username]);
+    }
     return res.json({ success: true, streak });
   } catch (err) {
     console.error('Error inserting workout:', err);
@@ -430,7 +474,12 @@ app.get('/home', async (req, res) => {
     sets.push(cycleNodes);
   }
 
-  res.render('pages/home', { sets, highestCompleted });
+  res.render('pages/home', {
+    sets,
+    highestCompleted,
+    username: res.locals.username,
+    profilePic: res.locals.profilePic
+  });
 });
 
 
@@ -452,7 +501,9 @@ app.get('/workouts', (req, res) => {
       { name: 'Squats', sets: 4, reps: '8' },
       { name: 'Lunges', sets: 3, reps: '10 each leg' },
       { name: 'Calf Raises', sets: 3, reps: '15' }
-    ]
+    ],
+    username: res.locals.username,
+    profilePic: res.locals.profilePic
   });
 });
 
@@ -464,38 +515,48 @@ app.get('/achievements', async (req, res, next) => {
 
     const { rows: achievements } = await db.result(
       `SELECT a.id,
-        a.code,
-        a.title,
-        a.icon_path,
-        a.sort_order,
-        (ua.earned_at IS NOT NULL) AS earned,
-        to_char(
-          (ua.earned_at AT TIME ZONE 'UTC') AT TIME ZONE 'America/Denver',
-          'YYYY-MM-DD HH24:MI'
-        ) AS earned_at
- FROM achievements a
- LEFT JOIN user_achievements ua
-   ON ua.achievement_id = a.id
-  AND ua.username = $1
- ORDER BY a.sort_order, a.id`
-      ,
+          a.code,
+          a.title,
+          a.icon_path,
+          a.sort_order,
+          (ua.earned_at IS NOT NULL) AS earned,
+          to_char(
+            (ua.earned_at AT TIME ZONE 'UTC') AT TIME ZONE 'America/Denver',
+            'YYYY-MM-DD HH24:MI'
+          ) AS earned_at
+     FROM achievements a
+     LEFT JOIN user_achievements ua
+       ON ua.achievement_id = a.id
+      AND ua.username = $1
+     ORDER BY earned DESC, a.sort_order, a.id`,
       [username]
     );
 
+
     return res.render('pages/achievements', {
       title: 'Achievements',
-      username,
-      achievements
+      achievements,
+      username: res.locals.username,
+      profilePic: res.locals.profilePic
     });
+
   } catch (err) {
     console.error('Achievements error:', err);
     return next(err);
   }
 });
 
+
+
+
 // Calendar page
 app.get('/calendar', (req, res) => {
-  res.render('pages/calendar', { title: 'Calendar' });
+  res.render('pages/calendar', {
+    title: 'Calendar',
+    username: res.locals.username,
+    profilePic: res.locals.profilePic
+  });
+
 });
 
 // Profile page
@@ -538,6 +599,10 @@ app.post('/profile/pic', async (req, res) => {
       [imageData, username]
     );
 
+    // Update session + locals immediately
+    req.session.profilePic = imageData;
+    res.locals.profilePic = imageData;
+
     res.redirect('/profile');
 
   } catch (err) {
@@ -545,6 +610,7 @@ app.post('/profile/pic', async (req, res) => {
     res.status(500).send("Error updating profile picture.");
   }
 });
+
 
 // Log out
 app.get('/logout', (req, res) => {
