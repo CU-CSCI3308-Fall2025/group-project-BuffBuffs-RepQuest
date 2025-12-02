@@ -61,3 +61,4 @@
 12/1 - added unique trophies
 12/1 - Added template of readMe 
 12/1 - Finished out most of readme requirements
+12/2 - Updated readme further and simplified some code in a few files
