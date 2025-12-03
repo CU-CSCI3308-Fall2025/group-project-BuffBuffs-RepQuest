@@ -453,13 +453,13 @@ app.get('/home', async (req, res) => {
 
   // Base nodes for a single set
   const baseNodes = [
-    { id: 1, offset: -10, type: "default"},
-    { id: 2, offset: 10, type: "default"},
-    { id: 3, offset: -10, type: "default"},
+    { id: 1, offset: -10, type: "push"},
+    { id: 2, offset: 10, type: "pull"},
+    { id: 3, offset: -10, type: "legs"},
     { id: 4, offset: 10, type: "rest" },
-    { id: 5, offset: -10, type: "default"},
-    { id: 6, offset: 10, type: "default"},
-    { id: 7, offset: -10, type: "default"},
+    { id: 5, offset: -10, type: "push"},
+    { id: 6, offset: 10, type: "pull"},
+    { id: 7, offset: -10, type: "legs"},
   ];
 
   // Compute how many full cycles user completed

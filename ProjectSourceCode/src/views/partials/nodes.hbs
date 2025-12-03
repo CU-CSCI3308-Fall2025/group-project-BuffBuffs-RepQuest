@@ -4,11 +4,37 @@
       
       {{!-- If this node is a rest node, show the rest icon --}}
       {{#if (eq type "rest")}}
-        <img src="/img/pathlevel-grayRest.png" class="node" data-id="{{id}}" data-type="{{type}}" alt="Rest Day {{id}}">
+        <img src="/img/pathlevel-grayRest.png"
+            class="node"
+            data-id="{{id}}"
+            data-type="{{type}}"
+            alt="Rest Day {{id}}">
+      {{else if (eq type "push")}}
+        <img src="/img/pathlevel-grayPush.png"
+            class="node"
+            data-id="{{id}}"
+            data-type="{{type}}"
+            alt="Push Workout {{id}}">
+      {{else if (eq type "pull")}}
+        <img src="/img/pathlevel-grayPull.png"
+            class="node"
+            data-id="{{id}}"
+            data-type="{{type}}"
+            alt="Pull Workout {{id}}">
+      {{else if (eq type "legs")}}
+        <img src="/img/pathlevel-grayLegs.png"
+            class="node"
+            data-id="{{id}}"
+            data-type="{{type}}"
+            alt="Legs Workout {{id}}">
       {{else}}
-        <img src="/img/pathlevel-gray.png" class="node" data-id="{{id}}" data-type="{{type}}" alt="Workout {{id}}">
+        <img src="/img/pathlevel-gray.png"
+            class="node"
+            data-id="{{id}}"
+            data-type="{{type}}"
+            alt="Workout {{id}}">
       {{/if}}
-
+      
     </div>
   {{/each}}
 </div>

@@ -52,9 +52,15 @@
 
       if (id <= highestCompleted) {
         if (type === "rest") {
-          node.src = "/img/pathlevel-limegreenRest.png";
+          node.src = "/img/pathlevel-greenRest.png";
+        } else if (type === "push"){
+          node.src = "/img/pathlevel-greenPush.png";
+        } else if (type === "pull"){
+          node.src = "/img/pathlevel-greenPull.png";
+        } else if (type === "legs"){
+          node.src = "/img/pathlevel-greenLegs.png";
         } else {
-          node.src = "/img/pathlevel-limegreen.png";
+          node.src = "/img/pathlevel-green.png";
         }
         node.classList.add('unlocked');
       } else if (id === highestCompleted + 1) {
@@ -81,12 +87,18 @@
       const completedId = parseInt(currentNode.dataset.id);
 
       // Optimistically update UI
-    const type = currentNode.dataset.type;
-    if (type === "rest") {
-      currentNode.src = "/img/pathlevel-limegreenRest.png";
-    } else {
-      currentNode.src = "/img/pathlevel-limegreen.png";
-    }
+      const type = currentNode.dataset.type;
+      if (type === "rest") {
+        currentNode.src = "/img/pathlevel-greenRest.png";
+      }    else if (type === "push"){
+        currentNode.src = "/img/pathlevel-greenPush.png";
+      }    else if (type === "pull"){
+        currentNode.src = "/img/pathlevel-greenPull.png";
+      }    else if (type === "legs"){
+        currentNode.src = "/img/pathlevel-greenLegs.png";
+      }else {
+        currentNode.src = "/img/pathlevel-green.png";
+      }
       try {
         // 1) Record the workout in the workouts table (per user)
         await fetch('/api/workouts', {
