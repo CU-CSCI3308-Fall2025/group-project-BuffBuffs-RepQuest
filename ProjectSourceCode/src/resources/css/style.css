@@ -441,183 +441,7 @@ main {
 }
 
 /* Profile Page */
-.profile-page {
-  display: flex;
-  flex-direction: column; /* stack title and card */
-  align-items: center;
-  min-height: 80vh;
-  padding: 2rem;
-}
 
-/* Page title above card */
-.page-title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  text-align: center;
-  color: #333;
-}
-
-/* Card container */
-.profile-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 2.5rem 2rem; 
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  text-align: left; 
-}
-
-/* Card heading */
-.profile-card-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #333;
-}
-
-/* Profile info */
-.profile-info p {
-  font-size: 1rem;
-  margin: 0.5rem 0;
-  color: #333;
-}
-
-.profile-info .label {
-  font-weight: 600;
-  color: #555;
-  margin-right: 6px;
-}
-
-/* Logout button */
-.logout-btn {
-  display: inline-block;
-  margin-top: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  background: #d9534f;
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: background 0.2s ease;
-}
-
-.logout-btn:hover {
-  background: #c9302c;
-}
-
-/* Profile picture container: center above the card */
-.profile-picture-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-/* Circular profile picture */
-.profile-picture {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #ddd;
-  margin-bottom: 1rem;
-}
-
-/* Change picture button */
-.change-picture-btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background: #007bff; /* blue */
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: background 0.2s ease;
-  border: none;
-  cursor: pointer;
-}
-
-.change-picture-btn:hover {
-  background: #0056b3; /* darker blue on hover */
-}
-
-/* Modal overlay */
-.profile-modal { 
-  display: flex;
-  justify-content: center;     /* center modal horizontally */
-  align-items: center;         /* center modal vertically */
-  position: fixed;
-  z-index: 1000;
-  inset: 0;
-  background-color: rgba(0,0,0,0.5);
-}
-
-/* Hidden class for modal */
-.profile-modal.hidden {
-  display: none;
-}
-
-/* Modal content box */
-.modal-content {
-  background-color: #fff;
-  padding: 2rem 2.2rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  position: relative;
-
-  /* remove awkward top spacing */
-  margin: 0;                   
-}
-
-/* Improve spacing between elements */
-.modal-content h3 {
-  margin-bottom: 1.2rem;
-}
-
-.modal-content label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
-#fileInput {
-  margin-bottom: 1.8rem;       /* more space before buttons */
-}
-
-/* Upload button */
-#uploadPicBtn {
-  padding: 0.6rem 1.4rem;
-  background: #28a745;
-  color: #fff;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  margin-right: 0.8rem;        /* space between Save/Cancel */
-}
-
-#uploadPicBtn:hover {
-  background: #218838;
-}
-
-#uploadPicBtn:disabled {
-  background: #999;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-
-/* Cancel button spacing improvement */
-.modal-close-btn {
-  padding: 0.55rem 1.2rem;
-  border-radius: 6px;
-  font-size: 1rem;
-}
 
 
 
@@ -979,8 +803,8 @@ main {
   position: relative;
   z-index: 0;
   max-width: 900px;
-  margin: 4rem auto 3rem;   
-  padding: 2rem 1.5rem 4rem;
+  margin: 1.5rem auto 3rem;   
+  padding: 0rem 1.5rem 4rem;
   color: #333;
 }
 
@@ -991,45 +815,52 @@ main {
   z-index: -1;          
 }
 
-/* Top-left pink blob */
+
 .workouts-page .work-color:nth-child(1) {
   top: -180px;
   left: -180px;
   width: 500px;
   height: 500px;
   background: #ff359b;
-  /* background: #bcff00; */
+
 }
 
-/* Right-side yellow blob */
+
 .workouts-page .work-color:nth-child(2) {
   top: 10%;
   right: -220px;
   width: 520px;
   height: 520px;
   background: #fffd87;
-  /* background: #bcff00; */
-  /* background: #96998c; */
+
 }
 
-/* Bottom-left blue blob */
+
 .workouts-page .work-color:nth-child(3) {
   bottom: -220px;
   left: 10%;
   width: 420px;
   height: 420px;
   background: #00d2ff;
-  /* background: #d2d3ce; */
+
+} 
+.workouts-page .work-color:nth-child(4) {
+  top: 120px;
+  left: 20px;
+  width: 520px;
+  height: 520px;
+  background: #ff0000;
+
 }
 
-/* Ensure title + sections render above blobs */
+
 .workouts-page h1,
 .workouts-page .workout-section {
   position: relative;
   z-index: 1;
 }
 
-/* Page title */
+
 .workouts-page .page-title {
   font-size: 2.2rem;
   font-weight: 700;
@@ -1037,18 +868,17 @@ main {
   text-align: center;
 }
 
-/* Section title */
+
 .section-title {
   font-size: 1.8rem;
   margin-bottom: 1rem;
   text-align: center;
 }
 
-/* Glassy workout card, similar to login box */
 .workout-bubble {
   position: relative;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.25);  /* a bit more white than before */
+  background: rgba(255, 255, 255, 0.25); 
   border-radius: 20px;
   padding: 1.75rem 1.5rem;
   box-shadow: 0 25px 45px rgba(0,0,0,0.12);
@@ -1058,14 +888,14 @@ main {
   backdrop-filter: blur(6px);
 }
 
-/* Table styling inside the glass card */
+
 .workout-table {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
 }
 
-/* Header row – subtle */
+
 .workout-table th {
   padding: 0.75rem;
   border-bottom: 1px solid rgba(0,0,0,0.1);
@@ -1073,17 +903,16 @@ main {
   background: rgba(255,255,255,0.35);
 }
 
-/* Data rows */
+
 .workout-table td {
   padding: 0.65rem 0.5rem;
 }
 
-/* Light row separation instead of big zebra stripes */
+
 .workout-table tr + tr td {
   border-top: 1px solid rgba(0,0,0,0.05);
 }
 
-/* Optional: remove the old zebra background */
 .workout-table tr:nth-child(even) {
   background: transparent;
 }
@@ -1091,12 +920,13 @@ main {
 /* ------------------------------------------ Calendar page --------------------------------- */
 
 .calendar-page {
-  max-width: 1800px;
-  margin: 3.5rem auto 4rem;    
-  padding: 0 1.75rem;
+  max-width: 1100px;
+  margin: 1.5rem auto 4rem;    
+  /* margin: 3.5rem auto;     */
   position: relative;
   z-index: 1;
 }
+
 
 .calendar-page .page-title {
   margin-bottom: 2rem;
@@ -1196,14 +1026,20 @@ main {
 }
 
 /* ---------------------------------- Achievments page ------------------------------------- */
-.achievements-page {
+/* .achievements-page {
   position: relative;
   max-width: 1000px;
   margin: 4rem auto 3.5rem;
   padding: 2.5rem 1.5rem 3.5rem;
   z-index: 0;
+} */
+.achievements-page {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto 3.5rem;   /* no extra margin-top */
+  padding: 1.5rem 1.5rem 3.5rem;
+  z-index: 0;
 }
-
 .achievements-color {
   position: absolute;
   filter: blur(150px);
@@ -1229,13 +1065,205 @@ main {
 
 .achievements-color-3 {
   bottom: -260px;
-  left: 10%;
+  left: -280px;
   width: 460px;
   height: 460px;
   background: #00d2ff;
+}
+.achievements-color-4 {
+  bottom: -60px;
+  right: -390px;
+  width: 760px;
+  height: 760px;
+  background: #aeff00;
 }
 
 .achievements-grid {
   gap: 1.25rem;
   padding: 0 0 2.5rem;
 }
+/* -------------------------------------------- Profile Page ----------------------------------------------------- */
+
+/* 
+.profile-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px - 140px);
+  padding: 2rem 1rem 3rem;
+  position: relative;
+   align-items: flex-start !important; 
+  padding-top: 10px;  
+}
+
+.profile-page-wrapper .color {
+  position: absolute;
+  filter: blur(150px);
+  overflow: hidden;
+  opacity: 0.9;
+}
+
+
+.profile-page-wrapper .color:nth-child(1) {
+  top: -260px;
+  right: 120px;
+  width: 650px;
+  height: 650px;
+  background: #ff359b;
+}
+
+
+.profile-page-wrapper .color:nth-child(2) {
+  top: -220px;
+  left: 140px;
+  width: 480px;
+  height: 480px;
+  background: #fffd87;
+}
+
+
+.profile-page-wrapper .color:nth-child(3) {
+  bottom: 40px;
+  right: 520px;
+  width: 360px;
+  height: 360px;
+  background: #00d2ff;
+} */
+
+
+.profile-form {
+  text-align: center;
+}
+
+
+.profile-form h2 {
+  position: relative;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  margin-top: 1.75rem;
+}
+
+
+.profile-picture-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.75rem;
+}
+
+
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,0.8);
+  margin-bottom: 1rem;
+}
+
+
+.change-picture-btn {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  background: rgba(0, 123, 255, 0.9);
+  color: #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background 0.2s ease, transform 0.15s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.change-picture-btn:hover {
+  background: rgba(0, 86, 179, 0.98);
+  transform: translateY(-1px);
+}
+
+
+.profile-info {
+  margin-top: 1rem;
+  color: #fff;
+}
+
+.profile-info p {
+  font-size: 1rem;
+  margin: 0.4rem 0;
+}
+
+.profile-info .label {
+  font-weight: 600;
+  color: #f5f5f5;
+  margin-right: 6px;
+  padding-top: 1.75rem;
+}
+
+
+.profile-form .logout-btn {
+  display: inline-block;
+  margin-top: 1.75rem;
+  padding: 0.75rem 1.8rem;
+  background: rgba(217, 84, 79, 0.9);
+  color: #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background 0.2s ease, transform 0.15s ease;
+  margin-bottom: 1.75rem;
+}
+
+.profile-form .logout-btn:hover {
+  background: rgba(201, 48, 44, 0.98);
+  transform: translateY(-1px);
+}
+
+
+.profile-modal {
+  position: fixed;          
+  inset: 0;                     
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.6);  
+  z-index: 3000;                
+}
+
+
+.profile-modal.hidden {
+  display: none !important;
+}
+.profile-modal .modal-content {
+  background: #fff;
+  padding: 2rem 2.2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  margin: 0;                   
+}
+
+
+.profile-modal .modal-content h3 {
+  margin-bottom: 1.2rem;
+}
+
+.profile-modal .modal-content label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+#fileInput {
+  margin-bottom: 1.4rem;
+}
+
+.background.profile-page {
+  align-items: flex-start;
+  margin-top: 0;
+  padding-top: 80px;
+}
+

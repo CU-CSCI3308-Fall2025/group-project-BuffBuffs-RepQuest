@@ -295,7 +295,7 @@ app.get('/login', (req, res) => {
     return res.redirect('/home');
   }
 
-  res.render('pages/login', { hideFooter: true, hideHome: true });
+  res.render('pages/login', { hideFooter: true, hideHome: true, hideStreak: true });
 });
 
 // LOGIN (POST)
@@ -311,6 +311,7 @@ app.post('/login', async (req, res) => {
       return res.status(400).render('pages/login', {
         hideFooter: true,
         hideHome: true,
+        hideStreak: true,
         message: 'Invalid input'
       });
     }
@@ -337,6 +338,7 @@ app.post('/login', async (req, res) => {
       return res.status(401).render('pages/login', {
         hideFooter: true,
         hideHome: true,
+        hideStreak: true,
         message
       });
     }
@@ -362,6 +364,7 @@ app.post('/login', async (req, res) => {
     return res.status(500).render('pages/login', {
       hideFooter: true,
       hideHome: true,
+      hideStreak: true,
       message: 'There was an error logging in.'
     });
   }
@@ -374,7 +377,7 @@ app.get('/register', (req, res) => {
     return res.redirect('/home');
   }
 
-  res.render('pages/register', { hideFooter: true, hideHome: true });
+  res.render('pages/register', { hideFooter: true, hideHome: true, hideStreak: true });
 });
 
 // REGISTER (POST)
@@ -391,6 +394,7 @@ app.post('/register', async (req, res) => {
       return res.status(400).render('pages/register', {
         hideFooter: true,
         hideHome: true,
+        hideStreak: true,
         message: 'Username and password are required.'
       });
     }
@@ -419,6 +423,7 @@ app.post('/register', async (req, res) => {
       return res.status(409).render('pages/register', {
         hideFooter: true,
         hideHome: true,
+        hideStreak: true,
         message: 'That username is taken. Try another.'
       });
     }
@@ -431,6 +436,7 @@ app.post('/register', async (req, res) => {
     return res.status(500).render('pages/register', {
       hideFooter: true,
       hideHome: true,
+      hideStreak: true,
       message: 'Server error creating the account.'
     });
   }
