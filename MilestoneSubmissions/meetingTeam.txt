@@ -40,3 +40,15 @@ Dalton - finish calendar
 Zandra - Profile page & icon design, picture
 Addie - finish achievements, add notes after workout option
 were moving the profile page button to the top right and that is where it will be the profile pic
+
+
+Team Meeting 11/20
+To dos: 
+code
+- keira takes homepage stuff. add push pull legs rest
+- cole finish onboarding and calendar
+- dalton web services 
+- addie add muscle group achievable, fix login, add option to put notes on website, fix bugs
+- zandra make things look pretty
+presentation
+- split up slides, in slide notes

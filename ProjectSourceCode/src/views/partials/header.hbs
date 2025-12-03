@@ -8,9 +8,15 @@
       {{/unless}}
     </div> --}}
 
-    <div class="header-left">
+   <div class="header-left">
       {{#unless hideHome}}
-      <img class="profile-pic" src="profilepic" alt="Profile Picture">
+      <a href="/profile">
+        <img 
+          class="profile-pic-header" 
+          src="{{#if profilePic}}{{profilePic}}{{else}}/img/default_pp.png{{/if}}" 
+          alt="Profile Picture"
+        >
+      </a>
       {{/unless}}
     </div>
 
@@ -19,6 +25,11 @@
     </div>
 
     <div class="header-streak">
+      <img 
+        src="/img/streak_icon_transparent.png" 
+        alt="Streak Icon" 
+        class="streak-icon"
+      >
       {{#if streak}}
       <span>Current streak: {{streak}} days</span>
       {{else}}

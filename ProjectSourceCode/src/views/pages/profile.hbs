@@ -21,7 +21,8 @@
     <a class="logout-btn" href="/logout">Log Out</a>
   </section>
 
-  <div id="picModal" class="modal hidden">
+  <!-- Modal -->
+  <div id="picModal" class="profile-modal hidden">
     <div class="modal-content">
       <h3>Change Profile Picture</h3>
 
@@ -33,12 +34,13 @@
 
         <br><br>
 
-        <button type="submit" id="uploadPicBtn">Save</button>
+        <button type="submit" id="uploadPicBtn" disabled class="blue-btn disabled-btn">
+          Save
+        </button>
+
         <button type="button" id="closeModal" class="modal-close-btn">Cancel</button>
       </form>
     </div>
   </div>
 
 </main>
-
-<script src="/js/script.js"></script>
