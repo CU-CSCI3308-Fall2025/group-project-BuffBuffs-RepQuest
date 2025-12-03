@@ -1,24 +1,103 @@
-<main class="main-content profile-page">
+{{!-- <main class="main-content profile-page">
 
-  <h1 class="page-title">Profile</h1>
+  <div class="prof-color"></div>
+  <div class="prof-color"></div>
+  <div class="prof-color"></div>
+  <div class="container-form">
 
-  <div class="profile-picture-container">
-    <img 
-      src="{{#if profilePic}}{{profilePic}}{{else}}/img/default_pp.png{{/if}}" 
-      alt="Profile Picture" 
-      class="profile-picture"
-    >
-    <button id="changePicBtn" class="change-picture-btn">Change Profile Picture</button>
-  </div>
+  
 
-  <section class="profile-card">
-    <h2 class="profile-card-title">User Information</h2>
+    <h1 class="page-title">Profile</h1>
 
-    <div class="profile-info">
-      <p><span class="label">Username:</span> {{username}}</p>
+    <div class="profile-picture-container">
+      <img 
+        src="{{#if profilePic}}{{profilePic}}{{else}}/img/default_pp.png{{/if}}" 
+        alt="Profile Picture" 
+        class="profile-picture"
+      >
+      <button id="changePicBtn" class="change-picture-btn">Change Profile Picture</button>
     </div>
 
-    <a class="logout-btn" href="/logout">Log Out</a>
+    <section class="profile-card">
+      <h2 class="profile-card-title">User Information</h2>
+
+      <div class="profile-info">
+        <p><span class="label">Username:</span> {{username}}</p>
+      </div>
+
+      <a class="logout-btn" href="/logout">Log Out</a>
+    </section>
+
+  </div>
+
+  <!-- Modal -->
+  <div id="picModal" class="profile-modal hidden">
+    <div class="modal-content">
+      <h3>Change Profile Picture</h3>
+
+      <form id="picForm" method="POST" action="/profile/pic">
+        <input type="hidden" id="imageData" name="imageData">
+
+        <label for="fileInput">Choose a file:</label>
+        <input type="file" id="fileInput" accept="image/*">
+
+        <br><br>
+
+        <button type="submit" id="uploadPicBtn" disabled class="blue-btn disabled-btn">
+          Save
+        </button>
+
+        <button type="button" id="closeModal" class="modal-close-btn">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+</main> --}}
+
+<main class="main-content">
+
+  <section class="background profile-page">
+
+    <div class="container mt-5" style="max-width: 400px;">
+
+      {{!-- Reuse the same background blobs as login --}}
+      <div class="color"></div>
+      <div class="color"></div>
+      <div class="color"></div>
+
+      <div class="box">
+        {{!-- Reuse floating squares --}}
+        <div class="square" style="--i:0;"></div>
+        <div class="square" style="--i:1;"></div>
+        <div class="square" style="--i:2;"></div>
+        <div class="square" style="--i:3;"></div>
+        <div class="square" style="--i:4;"></div>
+
+        {{!-- Glass card, same as login but with profile content --}}
+        <div class="container-form profile-form">
+
+          <h2>Profile</h2>
+
+          <div class="profile-picture-container">
+            <img 
+              src="{{#if profilePic}}{{profilePic}}{{else}}/img/default_pp.png{{/if}}" 
+              alt="Profile Picture" 
+              class="profile-picture"
+            >
+            <button id="changePicBtn" class="change-picture-btn">
+              Change Profile Picture
+            </button>
+          </div>
+
+          <div class="profile-info">
+            <p><span class="label">Username:</span> {{username}}</p>
+          </div>
+
+          <a class="logout-btn" href="/logout">Log Out</a>
+
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Modal -->

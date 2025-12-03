@@ -267,6 +267,9 @@ app.engine('hbs', engine({
   defaultLayout: 'main',
   layoutsDir: path.join(__dirname, 'views', 'layouts'),
   partialsDir: path.join(__dirname, 'views', 'partials'),
+  helpers: {
+    eq: (a, b) => a === b
+  }
 }));
 app.set('view engine', 'hbs');
 
@@ -450,14 +453,13 @@ app.get('/home', async (req, res) => {
 
   // Base nodes for a single set
   const baseNodes = [
-    { id: 1, offset: -10 },
-    { id: 2, offset: 10 },
-    { id: 3, offset: -10 },
-    { id: 4, offset: 10 },
-    { id: 5, offset: -10 },
-    { id: 6, offset: 10 },
-    { id: 7, offset: -10 },
-    { id: 8, offset: 10 }
+    { id: 1, offset: -10, type: "push"},
+    { id: 2, offset: 10, type: "pull"},
+    { id: 3, offset: -10, type: "legs"},
+    { id: 4, offset: 10, type: "rest" },
+    { id: 5, offset: -10, type: "push"},
+    { id: 6, offset: 10, type: "pull"},
+    { id: 7, offset: -10, type: "legs"},
   ];
 
   // Compute how many full cycles user completed
@@ -469,6 +471,7 @@ app.get('/home', async (req, res) => {
     const cycleNodes = baseNodes.map(n => ({
       id: n.id + cycle * baseNodes.length,
       offset: n.offset,
+      type: n.type,           // <-- CRITICAL: put type back
       cycleNumber: cycle
     }));
     sets.push(cycleNodes);
