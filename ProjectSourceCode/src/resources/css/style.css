@@ -298,6 +298,58 @@ main {
 } */
 
 /* home */
+.background {
+  position: absolute; /* make it sit behind content */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* behind the nodes */
+}
+
+.pagecontent {
+  position: relative; /* keep this on top of background */
+  z-index: 1;
+}
+
+.background .work-color {
+  position: absolute;
+  filter: blur(140px);
+  opacity: 0.6;        
+  z-index: -1;          
+}
+
+/* Top-left pink blob */
+.background .work-color:nth-child(1) {
+  top: -180px;
+  left: -180px;
+  width: 500px;
+  height: 500px;
+  background: #ff359b;
+  /* background: #bcff00; */
+}
+
+/* Right-side yellow blob */
+.background .work-color:nth-child(2) {
+  top: 10%;
+  right: -220px;
+  width: 520px;
+  height: 520px;
+  background: #fffd87;
+  /* background: #bcff00; */
+  /* background: #96998c; */
+}
+
+/* Bottom-left blue blob */
+.background .work-color:nth-child(3) {
+  bottom: -220px;
+  left: 10%;
+  width: 420px;
+  height: 420px;
+  background: #00d2ff;
+  /* background: #d2d3ce; */
+}
+
 .vertical-pathway {
   display: flex;
   flex-direction: column;

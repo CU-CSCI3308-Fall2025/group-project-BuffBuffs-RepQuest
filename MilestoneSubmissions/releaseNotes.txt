@@ -64,3 +64,4 @@
 12/2 - Updated readme further and simplified some code in a few files
 12/3 - changed icons to correct ones
 12/3 - added personalized icons
+12/3 - home page blobs

@@ -1,9 +1,18 @@
-
-
 {{!-- Loop over each set of nodes --}}
-{{#each sets}}
-  {{> nodes nodes=this }}
-{{/each}}
+<div class="wrapper">
+
+  <div class="pagecontent">
+    {{#each sets}}
+      <div class="background">
+        <div class="work-color"></div>
+        <div class="work-color"></div>
+        <div class="work-color"></div>
+      </div>
+      {{> nodes nodes=this }}
+    {{/each}}
+  </div>
+</div>
+
 
 <!-- Modal for logging workouts -->
 <div id="workoutModal" class="modal">
