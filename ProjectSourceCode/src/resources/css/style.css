@@ -274,50 +274,6 @@ main {
   filter: none;
 }
 
-/* workouts css */
-.workouts-page {
-  max-width: 800px;
-  margin: 0 auto;
-  color: #333;
-}
-
-.section-title {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.workout-bubble {
-  background-color: #f5f5f5;
-  border-radius: 20px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.workout-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-}
-
-.workout-table th {
-  background-color: #ddd;
-  padding: 0.75rem;
-  border-radius: 10px;
-}
-
-.workout-table td {
-  padding: 0.75rem;
-}
-
-.workout-table tr:nth-child(even) {
-  background-color: #fafafa;
-}
-
-.page-title {
-  font-size: 2rem;
-  font-weight: bold;
-}
 
 /* main {
   padding-bottom: 140px; 
@@ -842,4 +798,220 @@ main {
 {
   color: #fff;
   font-weight: 600;
+}
+
+/* ------------------------------------------Workouts page ----------------------------------*/
+/* .work-color
+{
+  position: absolute;
+  filter: blur(150px);
+  overflow: hidden;
+}
+.work-color:nth-child(1)
+{
+  top: 790px;
+  width: 850px;
+  height: 850px;
+  right: 70px;
+  background: #ff359b;
+}
+.work-color:nth-child(2)
+{
+  top: -250px;
+  left: 200px;
+  width: 600px;
+  height: 600px;
+  background: #fffd87;
+}
+.work-color:nth-child(3)
+{
+  bottom: 170px;
+  right: 200px;
+  width: 400px;
+  height: 400px;
+  background: #00d2ff;
+}
+
+.workouts-page .work-color {
+  position: absolute;
+  z-index: 0;
+} */
+/* workouts css */
+/* .workouts-page { */
+  /* max-width: 800px;
+  margin: 0 auto;
+  color: #333; */
+  /* position: relative;
+  z-index: 1; */
+/* } */
+
+/* .section-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+} */
+
+/* .workout-bubble {
+  background-color: #f5f5f5;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+} */
+
+/* .workout-bubble {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.15);      
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255, 0.5);
+  border-right: 1px solid rgba(255,255,255, 0.2);
+  border-bottom: 1px solid rgba(255,255,255, 0.2);
+  backdrop-filter: blur(5px);                
+} */
+
+/* .workout-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+} */
+
+/* .workout-table th {
+  background-color: #ddd;
+  padding: 0.75rem;
+  border-radius: 10px;
+} */
+
+/* .workout-table td {
+  padding: 0.75rem;
+} */
+
+/* .workout-table tr:nth-child(even) {
+  background-color: #fafafa;
+} */
+
+/* .page-title {
+  font-size: 2rem;
+  font-weight: bold;
+} */
+
+/* .workouts-page h1,
+.workouts-page .workout-section {
+  position: relative;
+  z-index: 1;
+} */
+
+
+.workouts-page {
+  position: relative;
+  z-index: 0;
+  max-width: 900px;
+  margin: 4rem auto 3rem;   
+  padding: 2rem 1.5rem 4rem;
+  color: #333;
+}
+
+.workouts-page .work-color {
+  position: absolute;
+  filter: blur(140px);
+  opacity: 0.6;        
+  z-index: -1;          
+}
+
+/* Top-left pink blob */
+.workouts-page .work-color:nth-child(1) {
+  top: -180px;
+  left: -180px;
+  width: 500px;
+  height: 500px;
+  background: #ff359b;
+  /* background: #bcff00; */
+}
+
+/* Right-side yellow blob */
+.workouts-page .work-color:nth-child(2) {
+  top: 10%;
+  right: -220px;
+  width: 520px;
+  height: 520px;
+  background: #fffd87;
+  /* background: #bcff00; */
+  /* background: #96998c; */
+}
+
+/* Bottom-left blue blob */
+.workouts-page .work-color:nth-child(3) {
+  bottom: -220px;
+  left: 10%;
+  width: 420px;
+  height: 420px;
+  background: #00d2ff;
+  /* background: #d2d3ce; */
+}
+
+/* Ensure title + sections render above blobs */
+.workouts-page h1,
+.workouts-page .workout-section {
+  position: relative;
+  z-index: 1;
+}
+
+/* Page title */
+.workouts-page .page-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Section title */
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Glassy workout card, similar to login box */
+.workout-bubble {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.25);  /* a bit more white than before */
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 25px 45px rgba(0,0,0,0.12);
+  border: 1px solid rgba(255,255,255, 0.6);
+  border-right: 1px solid rgba(255,255,255, 0.25);
+  border-bottom: 1px solid rgba(255,255,255, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+/* Table styling inside the glass card */
+.workout-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+/* Header row – subtle */
+.workout-table th {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  font-weight: 600;
+  background: rgba(255,255,255,0.35);
+}
+
+/* Data rows */
+.workout-table td {
+  padding: 0.65rem 0.5rem;
+}
+
+/* Light row separation instead of big zebra stripes */
+.workout-table tr + tr td {
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Optional: remove the old zebra background */
+.workout-table tr:nth-child(even) {
+  background: transparent;
 }
