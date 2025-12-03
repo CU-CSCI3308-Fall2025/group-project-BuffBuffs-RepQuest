@@ -48,9 +48,14 @@
     // Apply saved progress visually
     nodes.forEach(node => {
       const id = parseInt(node.dataset.id);
+      const type = node.dataset.type;   // <-- NEW
 
       if (id <= highestCompleted) {
-        node.src = "/img/pathlevel-green.PNG";
+        if (type === "rest") {
+          node.src = "/img/pathlevel-limegreenRest.png";
+        } else {
+          node.src = "/img/pathlevel-limegreen.png";
+        }
         node.classList.add('unlocked');
       } else if (id === highestCompleted + 1) {
         node.classList.add('unlocked');
@@ -76,8 +81,12 @@
       const completedId = parseInt(currentNode.dataset.id);
 
       // Optimistically update UI
-      currentNode.src = "/img/pathlevel-green.PNG";
-
+    const type = currentNode.dataset.type;
+    if (type === "rest") {
+      currentNode.src = "/img/pathlevel-limegreenRest.png";
+    } else {
+      currentNode.src = "/img/pathlevel-limegreen.png";
+    }
       try {
         // 1) Record the workout in the workouts table (per user)
         await fetch('/api/workouts', {
