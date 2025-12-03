@@ -1,7 +1,7 @@
 /* Header CSS */
 /* Header overall styling */
 .site-header {
-  background-color: #444; /* medium gray */
+  background-color: #ffffff; /* medium gray */
   color: white;
   padding: 10px 0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -85,6 +85,7 @@
   font-size: 1rem;
   margin-right: 12px;
   white-space: nowrap; 
+  color: #000000;
 }
 
 /* Streak icon */
@@ -141,7 +142,7 @@ main {
   bottom: 0;          /* Stick to the bottom */
   left: 0;            /* Stretch across full width */
   width: 100%;
-  background-color: #222;
+  background-color: #ffffff;
   color: white;
   padding: 15px 0;
   z-index: 1000;      /* Stay on top of other content */
@@ -172,8 +173,9 @@ main {
 }
 
 .footer-button:hover {
-  background-color: #323a91;
+  background-color: #bcff00;
   transform: translateY(-5px);
+  color: #555;
 }
 
 
