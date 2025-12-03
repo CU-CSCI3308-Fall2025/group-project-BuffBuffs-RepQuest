@@ -1,9 +1,18 @@
-<link rel="stylesheet" href="/css/styles.css">
-
 {{!-- Loop over each set of nodes --}}
-{{#each sets}}
-  {{> nodes nodes=this }}
-{{/each}}
+<div class="wrapper">
+
+  <div class="pagecontent">
+    {{#each sets}}
+      <div class="background">
+        <div class="work-color"></div>
+        <div class="work-color"></div>
+        <div class="work-color"></div>
+      </div>
+      {{> nodes nodes=this }}
+    {{/each}}
+  </div>
+</div>
+
 
 <!-- Modal for logging workouts -->
 <div id="workoutModal" class="modal">
@@ -48,9 +57,20 @@
     // Apply saved progress visually
     nodes.forEach(node => {
       const id = parseInt(node.dataset.id);
+      const type = node.dataset.type;   // <-- NEW
 
       if (id <= highestCompleted) {
-        node.src = "/img/pathlevel-green.PNG";
+        if (type === "rest") {
+          node.src = "/img/pathlevel-greenRest.png";
+        } else if (type === "push"){
+          node.src = "/img/pathlevel-greenPush.png";
+        } else if (type === "pull"){
+          node.src = "/img/pathlevel-greenPull.png";
+        } else if (type === "legs"){
+          node.src = "/img/pathlevel-greenLegs.png";
+        } else {
+          node.src = "/img/pathlevel-green.png";
+        }
         node.classList.add('unlocked');
       } else if (id === highestCompleted + 1) {
         node.classList.add('unlocked');
@@ -76,8 +96,18 @@
       const completedId = parseInt(currentNode.dataset.id);
 
       // Optimistically update UI
-      currentNode.src = "/img/pathlevel-green.PNG";
-
+      const type = currentNode.dataset.type;
+      if (type === "rest") {
+        currentNode.src = "/img/pathlevel-greenRest.png";
+      }    else if (type === "push"){
+        currentNode.src = "/img/pathlevel-greenPush.png";
+      }    else if (type === "pull"){
+        currentNode.src = "/img/pathlevel-greenPull.png";
+      }    else if (type === "legs"){
+        currentNode.src = "/img/pathlevel-greenLegs.png";
+      }else {
+        currentNode.src = "/img/pathlevel-green.png";
+      }
       try {
         // 1) Record the workout in the workouts table (per user)
         await fetch('/api/workouts', {

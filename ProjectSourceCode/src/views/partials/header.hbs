@@ -21,15 +21,22 @@
     </div>
 
     <div class="header-center">
-      <h1>RepQuest</h1>
+      <img src="/img/repquestlogo.png" alt="RepQuest Logo" class="header-logo">
     </div>
 
     <div class="header-streak">
-      {{#if streak}}
-      <span>Current streak: {{streak}} days</span>
-      {{else}}
-      <span>Current streak: 0 days</span>
-      {{/if}}
+      {{#unless hideStreak}}
+        <img 
+          src="/img/streak_icon_transparent.png" 
+          alt="Streak Icon" 
+          class="streak-icon"
+        >
+        {{#if streak}}
+        <span>Current streak: {{streak}} days</span>
+        {{else}}
+        <span>Current streak: 0 days</span>
+        {{/if}}
+      {{/unless}}
     </div>
   </div>
 </header>

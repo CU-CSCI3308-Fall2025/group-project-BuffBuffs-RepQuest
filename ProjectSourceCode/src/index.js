@@ -27,7 +27,7 @@ function requireLogin(req, res, next) {
   next();
 }
 
-// testing purposes, remove later stfdfsdfs
+// testing purposes, remove later 
 console.log("ENV CHECK:", {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -59,7 +59,7 @@ async function computeStreak(username) {
   );
 
   if (!rows.length) {
-    return 0; // no workouts → no streak
+    return 0; // no workouts = no streak
   }
 
   let streak = 1;
@@ -267,6 +267,9 @@ app.engine('hbs', engine({
   defaultLayout: 'main',
   layoutsDir: path.join(__dirname, 'views', 'layouts'),
   partialsDir: path.join(__dirname, 'views', 'partials'),
+  helpers: {
+    eq: (a, b) => a === b
+  }
 }));
 app.set('view engine', 'hbs');
 
@@ -292,7 +295,7 @@ app.get('/login', (req, res) => {
     return res.redirect('/home');
   }
 
-  res.render('pages/login', { hideFooter: true, hideHome: true });
+  res.render('pages/login', { hideFooter: true, hideHome: true, hideStreak: true });
 });
 
 // LOGIN (POST)
@@ -308,6 +311,7 @@ app.post('/login', async (req, res) => {
       return res.status(400).render('pages/login', {
         hideFooter: true,
         hideHome: true,
+        hideStreak: true,
         message: 'Invalid input'
       });
     }
@@ -334,6 +338,7 @@ app.post('/login', async (req, res) => {
       return res.status(401).render('pages/login', {
         hideFooter: true,
         hideHome: true,
+        hideStreak: true,
         message
       });
     }
@@ -359,6 +364,7 @@ app.post('/login', async (req, res) => {
     return res.status(500).render('pages/login', {
       hideFooter: true,
       hideHome: true,
+      hideStreak: true,
       message: 'There was an error logging in.'
     });
   }
@@ -371,7 +377,7 @@ app.get('/register', (req, res) => {
     return res.redirect('/home');
   }
 
-  res.render('pages/register', { hideFooter: true, hideHome: true });
+  res.render('pages/register', { hideFooter: true, hideHome: true, hideStreak: true });
 });
 
 // REGISTER (POST)
@@ -388,6 +394,7 @@ app.post('/register', async (req, res) => {
       return res.status(400).render('pages/register', {
         hideFooter: true,
         hideHome: true,
+        hideStreak: true,
         message: 'Username and password are required.'
       });
     }
@@ -416,6 +423,7 @@ app.post('/register', async (req, res) => {
       return res.status(409).render('pages/register', {
         hideFooter: true,
         hideHome: true,
+        hideStreak: true,
         message: 'That username is taken. Try another.'
       });
     }
@@ -428,6 +436,7 @@ app.post('/register', async (req, res) => {
     return res.status(500).render('pages/register', {
       hideFooter: true,
       hideHome: true,
+      hideStreak: true,
       message: 'Server error creating the account.'
     });
   }
@@ -450,14 +459,13 @@ app.get('/home', async (req, res) => {
 
   // Base nodes for a single set
   const baseNodes = [
-    { id: 1, offset: -10 },
-    { id: 2, offset: 10 },
-    { id: 3, offset: -10 },
-    { id: 4, offset: 10 },
-    { id: 5, offset: -10 },
-    { id: 6, offset: 10 },
-    { id: 7, offset: -10 },
-    { id: 8, offset: 10 }
+    { id: 1, offset: -10, type: "push"},
+    { id: 2, offset: 10, type: "pull"},
+    { id: 3, offset: -10, type: "legs"},
+    { id: 4, offset: 10, type: "rest" },
+    { id: 5, offset: -10, type: "push"},
+    { id: 6, offset: 10, type: "pull"},
+    { id: 7, offset: -10, type: "legs"},
   ];
 
   // Compute how many full cycles user completed
@@ -469,6 +477,7 @@ app.get('/home', async (req, res) => {
     const cycleNodes = baseNodes.map(n => ({
       id: n.id + cycle * baseNodes.length,
       offset: n.offset,
+      type: n.type,           // <-- CRITICAL: put type back
       cycleNumber: cycle
     }));
     sets.push(cycleNodes);
