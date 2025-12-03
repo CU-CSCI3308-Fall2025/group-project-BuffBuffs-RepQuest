@@ -161,7 +161,7 @@ VALUES
   ('FIVE_HUNDRED_LEG_WORKOUTS', 'Complete 500 Leg Workouts',      '/img/leg-trophy.png',  410),
 
   -- Rest day milestones
-  ('ONE_REST_DAYS',            'Complete 1 Rest Days',           '/img/rest-trophy.png',  420),
+  ('ONE_REST_DAYS',            'Complete 1 Rest Day',           '/img/rest-trophy.png',  420),
   ('FIVE_REST_DAYS',            'Complete 5 Rest Days',         '/img/rest-trophy.png',    430),
   ('TEN_REST_DAYS',             'Complete 10 Rest Days',        '/img/rest-trophy.png',    440),
   ('FIFTY_REST_DAYS',           'Complete 50 Rest Days',        '/img/rest-trophy.png',    450),
