@@ -1,4 +1,4 @@
-<main class="main-content">
+{{!-- <main class="main-content">
 
   <h1 class="page-title text-center mb-4">Calendar</h1>
   <div class="col">
@@ -115,4 +115,106 @@
         </script>
 
 
-</main>
+</main> --}}
+
+<div class="calendar-page">
+  <!-- Glowy background blobs -->
+  <div class="calendar-color calendar-color-1"></div>
+  <div class="calendar-color calendar-color-2"></div>
+  <div class="calendar-color calendar-color-3"></div>
+
+  <h1 class="page-title text-center mb-4">Calendar</h1>
+
+  <div class="calendar-card container-md container-fluid">
+    <div id="calendar" class="row g-3">
+      <div class="col-sm" id="day-0">
+        <div class="h6 text-center day">Sunday</div>
+      </div>
+      <div class="col-sm" id="day-1">
+        <div class="h6 text-center day">Monday</div>
+      </div>
+      <div class="col-sm" id="day-2">
+        <div class="h6 text-center day">Tuesday</div>
+      </div>
+      <div class="col-sm" id="day-3">
+        <div class="h6 text-center day">Wednesday</div>
+      </div>
+      <div class="col-sm" id="day-4">
+        <div class="h6 text-center day">Thursday</div>
+      </div>
+      <div class="col-sm" id="day-5">
+        <div class="h6 text-center day">Friday</div>
+      </div>
+      <div class="col-sm" id="day-6">
+        <div class="h6 text-center day">Saturday</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function getDaySuffix(day) {
+      if (day >= 11 && day <= 13) return "th";
+      switch (day % 10) {
+        case 1: return "st";
+        case 2: return "nd";
+        case 3: return "rd";
+        default: return "th";
+      }
+    }
+
+    const today = new Date();
+
+    const workoutSplit = {
+      0: "Rest",   // Sunday
+      1: "Push",   // Monday
+      2: "Rest",   // Tuesday
+      3: "Pull",   // Wednesday
+      4: "Rest",   // Thursday
+      5: "Legs",   // Friday
+      6: "Rest"    // Saturday
+    };
+
+    // 0 = Sunday
+    const todayWeekdayIndex = today.getDay();
+
+    // Clone today's date and step back to the most recent Sunday
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - todayWeekdayIndex);
+
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(startOfWeek);
+      date.setDate(startOfWeek.getDate() + i);
+
+      const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
+      const month = date.toLocaleDateString('en-US', { month: 'short' });
+      const day = date.getDate();
+      const suffix = getDaySuffix(day);
+
+      const formatted = `${weekday} ${month} ${day}${suffix}`;
+
+      const dayDiv = document.getElementById(`day-${i}`);
+      if (dayDiv) {
+        const header = dayDiv.querySelector('.day');
+        if (header) {
+          header.innerText = formatted;
+        }
+
+        const workout = workoutSplit[i];
+
+        const workoutContainer = document.createElement("div");
+        workoutContainer.className = "workout-label calendar-workout-label";
+        workoutContainer.innerHTML = `
+          Today is a:<br>
+          <strong>${workout} Day!</strong>
+        `;
+
+        dayDiv.appendChild(workoutContainer);
+
+        // Highlight today's column
+        if (date.toDateString() === today.toDateString()) {
+          dayDiv.classList.add('today');
+        }
+      }
+    }
+  </script>
+</div>
