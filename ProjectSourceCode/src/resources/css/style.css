@@ -1015,3 +1015,111 @@ main {
 .workout-table tr:nth-child(even) {
   background: transparent;
 }
+
+/* ------------------------------------------ Calendar page --------------------------------- */
+
+.calendar-page {
+  max-width: 1800px;
+  margin: 3.5rem auto 4rem;    
+  padding: 0 1.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.calendar-page .page-title {
+  margin-bottom: 2rem;
+}
+
+.calendar-color {
+  position: absolute;
+  filter: blur(160px);
+  opacity: 0.7;
+  z-index: -1;
+}
+
+.calendar-color-1 {
+  top: -160px;
+  left: -180px;
+  width: 520px;
+  height: 520px;
+  background: #ff359b;
+}
+
+.calendar-color-2 {
+  top: -40px;
+  right: -200px;
+  width: 560px;
+  height: 560px;
+  background: #fffd87;
+}
+
+.calendar-color-3 {
+  bottom: -260px;
+  left: 5%;
+  width: 440px;
+  height: 440px;
+  background: #00d2ff;
+}
+
+.calendar-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.18);      
+  border-radius: 24px;
+  padding: 2.25rem 2rem 2.5rem;             
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);               
+}
+
+#calendar {
+  display: flex;           
+  flex-wrap: wrap;
+  gap: 1.2rem;           
+}
+
+#calendar .col-sm {
+  flex: 1 1 0;
+  min-width: 120px;
+  background: rgba(255, 255, 255, 0.182);      
+  border-radius: 18px;
+  padding: 1rem 0.75rem 1.4rem;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#calendar .day {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.today {
+  border-radius: 18px;
+}
+
+#calendar .today {
+  border: 2px solid rgba(39, 45, 51, 0.9);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.408),
+              0 18px 40px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-workout-label {
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.calendar-workout-label strong {
+  color: #24272a;
+}
+
+#calendar .today .calendar-workout-label strong {
+  color: #5dd94f;
+}
+
