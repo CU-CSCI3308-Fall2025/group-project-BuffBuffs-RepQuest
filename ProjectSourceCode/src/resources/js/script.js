@@ -1,8 +1,8 @@
 
-console.log("script loaded")
+// console.log("script loaded")
 
 document.addEventListener('DOMContentLoaded', () => {
-  const OVERLAY_KEY = 'onboardingCompleted_v2xy';
+  const OVERLAY_KEY = 'onboardingCompleted_v2xyz';
 
   const overlay = document.getElementById('onboarding-overlay');
   console.log('overlay element:', overlay);
@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // If user already finished onboarding, don't show it
   const alreadyDone = localStorage.getItem(OVERLAY_KEY) === 'true';
+  // const alreadyDone = false;
   if (alreadyDone) return;
 
   // Show onboarding
@@ -68,14 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Open modal
   openBtn.addEventListener("click", () => {
     modal.classList.remove("hidden");
-    uploadBtn.disabled = true;        // disable save button when opening
+    uploadBtn.disabled = true;        
     uploadBtn.classList.add("disabled-btn");
   });
 
-  // Close modal
+
   closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
 
-  // Convert file to Base64 + enable save button
   fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
 
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const reader = new FileReader();
     reader.onloadend = () => {
       imageDataField.value = reader.result;
-      uploadBtn.disabled = false;     // enable save button
+      uploadBtn.disabled = false;     
       uploadBtn.classList.remove("disabled-btn");
     };
     reader.readAsDataURL(file);
