@@ -206,14 +206,9 @@ main {
   max-width: 1000px;
   margin: 0 auto;
 }
-@media (max-width: 900px) {
-  .achievements-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 580px) {
-  .achievements-grid { grid-template-columns: 1fr; }
-}
 
-.achievement-card {
+
+/* .achievement-card {
   position: relative;
   border: 1px solid #e6e6e6;
   border-radius: 10px;
@@ -221,8 +216,30 @@ main {
   background: #fff;
   text-align: center;
   transition: transform 70ms ease, box-shadow 70ms ease;
+} */
+/* .achievement-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.07); } */
+
+.achievement-card {
+  position: relative;
+  border-radius: 16px;
+  padding: 1.2rem 1rem;
+  background: rgba(255, 255, 255, 0.069);
+  text-align: center;
+
+  /* glass look */
+  box-shadow: 0 24px 45px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-right: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+
+  transition: transform 100ms ease, box-shadow 100ms ease, opacity 120ms ease;
 }
-.achievement-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.07); }
+
+.achievement-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.22);
+}
 
 .icon-wrap {
   position: relative;
@@ -267,7 +284,7 @@ main {
 /* State styles */
 .achievement-card.locked {
   opacity: 0.6;
-  filter: grayscale(100%);
+  filter: grayscale(40%);
 }
 .achievement-card.earned {
   opacity: 1;
@@ -1123,3 +1140,47 @@ main {
   color: #5dd94f;
 }
 
+/* ---------------------------------- Achievments page ------------------------------------- */
+.achievements-page {
+  position: relative;
+  max-width: 1000px;
+  margin: 4rem auto 3.5rem;
+  padding: 2.5rem 1.5rem 3.5rem;
+  z-index: 0;
+}
+
+.achievements-color {
+  position: absolute;
+  filter: blur(150px);
+  opacity: 0.7;
+  z-index: -1;
+}
+
+.achievements-color-1 {
+  top: -220px;
+  left: -180px;
+  width: 520px;
+  height: 520px;
+  background: #ff359b;
+}
+
+.achievements-color-2 {
+  top: -120px;
+  right: -200px;
+  width: 560px;
+  height: 560px;
+  background: #fffd87;
+}
+
+.achievements-color-3 {
+  bottom: -260px;
+  left: 10%;
+  width: 460px;
+  height: 460px;
+  background: #00d2ff;
+}
+
+.achievements-grid {
+  gap: 1.25rem;
+  padding: 0 0 2.5rem;
+}
