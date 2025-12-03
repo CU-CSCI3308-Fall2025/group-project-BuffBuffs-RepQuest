@@ -34,7 +34,26 @@ To run locally, please follow these steps:
 
 ## Running Tests
 To run tests for RepQuest, execute the following steps:
-- TODO - Zandra or Cole, I need you to do this
+1. Make sure you have Docker downloaded and up to date.
+2. Open the "docker-compose.yaml" file
+3. Navigate to line 25
+4. Change 'npm start' to 'npm run testandrun'
+5. In your terminal, run 'docker compose up -d'
+6. In your terminal, before your tests are displayed you should see:
+    ```web-1  | > test
+    web-1  | > mocha```
+7. If your tests ended up running correctly, you should see something displayed similar to the example below:
+    ```web-1  | The server is running on http://localhost:300
+    web-1  |   Server!
+    web-1  |     ✓ Returns the default welcome message (51ms)
+    web-1  |
+    web-1  |   Testing Login API                                                                                                     web-1  |     ✓ Negative : /login. Checking invalid username and password (586ms)
+    web-1  | 
+    web-1  |   Testing Register API
+    web-1  |     ✓ positive : /register (113ms)
+    web-1  | 
+    web-1  | 
+    web-1  |   3 passing (772ms)```            
 
 ## Deployed Application
 https://group-project-buffbuffs-repquest.onrender.com
