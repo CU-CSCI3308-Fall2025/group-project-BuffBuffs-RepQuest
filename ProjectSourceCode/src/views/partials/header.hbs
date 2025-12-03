@@ -25,16 +25,18 @@
     </div>
 
     <div class="header-streak">
-      <img 
-        src="/img/streak_icon_transparent.png" 
-        alt="Streak Icon" 
-        class="streak-icon"
-      >
-      {{#if streak}}
-      <span>Current streak: {{streak}} days</span>
-      {{else}}
-      <span>Current streak: 0 days</span>
-      {{/if}}
+      {{#unless hideStreak}}
+        <img 
+          src="/img/streak_icon_transparent.png" 
+          alt="Streak Icon" 
+          class="streak-icon"
+        >
+        {{#if streak}}
+        <span>Current streak: {{streak}} days</span>
+        {{else}}
+        <span>Current streak: 0 days</span>
+        {{/if}}
+      {{/unless}}
     </div>
   </div>
 </header>

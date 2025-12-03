@@ -65,3 +65,4 @@
 12/3 - changed icons to correct ones
 12/3 - added personalized icons
 12/3 - home page blobs
+13/3 - hidden streak on login
