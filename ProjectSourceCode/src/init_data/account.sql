@@ -1,9 +1,6 @@
--- sql/schema.sql
--- Full DB schema + seed data for Fitness Tracker
-
 BEGIN;
 
--- Drop in dependency-safe order (only matters on fresh DB if ever re-run)
+-- Drop in dependency-safe order (for re-run)
 DROP TABLE IF EXISTS user_achievements CASCADE;
 DROP TABLE IF EXISTS achievements CASCADE;
 DROP TABLE IF EXISTS workouts CASCADE;
@@ -28,7 +25,7 @@ CREATE TABLE user_progress (
   highest_completed INTEGER NOT NULL DEFAULT 0
 );
 
--- Seed some users
+-- Seed some users, for initial testing 
 INSERT INTO users (username, name, password_hash) VALUES
   ('user1', 'default', 'password')
 ON CONFLICT (username) DO NOTHING;
@@ -66,7 +63,7 @@ CREATE TRIGGER trg_set_workout_date_actual
 BEFORE INSERT OR UPDATE OF date_int ON workouts
 FOR EACH ROW EXECUTE FUNCTION set_workout_date_actual();
 
--- Helpful function to insert workouts
+-- insert workouts function
 CREATE OR REPLACE FUNCTION insert_workout(
   p_username TEXT,
   p_date_int INTEGER,
@@ -83,7 +80,6 @@ BEGIN
   RETURN v_id;
 END;
 $$ LANGUAGE plpgsql;
--- Indexes to speed things up
 CREATE INDEX IF NOT EXISTS idx_workouts_username ON workouts(username);
 CREATE INDEX IF NOT EXISTS idx_workouts_username_date ON workouts(username, date_actual);
 
@@ -106,7 +102,7 @@ CREATE TABLE IF NOT EXISTS user_achievements (
   UNIQUE (username, achievement_id)
 );
 
--- Seed the first achievement
+-- Seed achievements
 INSERT INTO achievements (code, title, icon_path, sort_order)
 VALUES 
   -- workout milestones
@@ -170,7 +166,6 @@ VALUES
   ('FIVE_HUNDRED_REST_DAYS',    'Complete 500 Rest Days',       '/img/rest-trophy.png',    480)
 ON CONFLICT (code) DO NOTHING;
 
--- Helper: award by code (idempotent)
 CREATE OR REPLACE FUNCTION award(p_code TEXT, p_username TEXT) RETURNS VOID AS $$
 DECLARE v_ach_id INTEGER;
 BEGIN
@@ -199,12 +194,9 @@ BEGIN
   FROM workouts
   WHERE username = NEW.username;
 
-  -- FIRST_WORKOUT
   IF v_count = 1 THEN
     PERFORM award('FIRST_WORKOUT', NEW.username);
   END IF;
-
-  -- Milestone: total workouts
   IF v_count >= 5 THEN
     PERFORM award('FIVE_WORKOUTS', NEW.username);
   END IF;
