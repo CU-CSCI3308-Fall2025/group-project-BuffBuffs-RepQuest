@@ -1,7 +1,7 @@
 /* Header CSS */
 /* Header overall styling */
 .site-header {
-  background-color: #ffffff; /* medium gray */
+  background-color: #ffffff;
   color: white;
   padding: 10px 0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -17,13 +17,13 @@
 .header-container {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* pushes left and right to edges */
+  justify-content: space-between; 
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Left, center, and right sections */
+
 .header-left,
 .header-center,
 .header-right {
@@ -31,14 +31,14 @@
   align-items: center;
 }
 
-/* Center logo stays centered absolutely */
+
 .header-center {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* Images */
+
 .header-home-img,
 .header-logo,
 .header-pic {
@@ -47,7 +47,7 @@
   border-radius: 8px;
 }
 
-/* Make sure links/images behave nicely */
+
 .header-left {
   display: flex;
   align-items: center;
@@ -65,7 +65,7 @@
   display: inline-block;
 }
 
-/* Text links inside header (if any) */
+
 .site-header a {
   color: white;
   text-decoration: none;
@@ -74,10 +74,10 @@
 }
 
 .site-header a:hover {
-  color: #ccc; /* slightly darker on hover */
+  color: #ccc;
 }
 
-/* Streak container */
+
 .header-streak {
   display: flex;
   align-items: center;
@@ -88,7 +88,7 @@
   color: #000000;
 }
 
-/* Streak icon */
+
 .streak-icon {
   width: 32px;
   height: 32px;
@@ -96,7 +96,6 @@
 }
 
 
-/* Responsive tweak for mobile */
 @media (max-width: 600px) {
   .header-container {
     flex-direction: column;
@@ -118,6 +117,7 @@
 html, body {
   height: 100%;
   margin: 0;
+  overflow-x: hidden;
 }
 
 body {
@@ -133,49 +133,8 @@ body {
 
 main {
   flex: 1;
-  padding-top: 80px;      /* space so fixed header doesn't overlap content */
-  padding-bottom: 140px;  /* space so fixed footer doesn't overlap content */
-}
-
-.footer {
-  position: fixed;    /* Fix it to the viewport */
-  bottom: 0;          /* Stick to the bottom */
-  left: 0;            /* Stretch across full width */
-  width: 100%;
-  background-color: #ffffff;
-  color: white;
-  padding: 15px 0;
-  z-index: 1000;      /* Stay on top of other content */
-}
-
-.footer-container {
-  display: flex;
-  justify-content: space-around;
-  max-width: 1200px;
-  margin: 0 auto;
-  flex-wrap: wrap;
-}
-
-.footer-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #555;
-  color: white;
-  text-decoration: none;
-  font-size: 1.2rem;
-  padding: 35px 17.5px;
-  margin: 10px;
-  border-radius: 12px;
-  flex: 1 1 200px;
-  text-align: center;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.footer-button:hover {
-  background-color: #bcff00;
-  transform: translateY(-5px);
-  color: #555;
+  padding-top: 80px;     
+  padding-bottom: 140px;  
 }
 
 
@@ -266,14 +225,14 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #36b37e; /* green */
+  background: #36b37e; 
   color: #fff;
   border: 2px solid #fff;
   font-weight: 700;
   font-size: 0.9rem;
 }
 .status-badge.muted {
-  background: #bbb; /* gray for locked */
+  background: #bbb;
 }
 
 .label {
@@ -301,16 +260,16 @@ main {
 
 /* home */
 .background {
-  position: absolute; /* make it sit behind content */
+  position: absolute; 
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 0; /* behind the nodes */
+  z-index: 0;
 }
 
 .pagecontent {
-  position: relative; /* keep this on top of background */
+  position: relative; 
   z-index: 1;
 }
 
@@ -321,7 +280,7 @@ main {
   z-index: -1;          
 }
 
-/* Top-left pink blob */
+
 .background .work-color:nth-child(1) {
   top: -180px;
   left: -180px;
@@ -331,7 +290,6 @@ main {
   /* background: #bcff00; */
 }
 
-/* Right-side yellow blob */
 .background .work-color:nth-child(2) {
   top: 10%;
   right: -220px;
@@ -342,7 +300,7 @@ main {
   /* background: #96998c; */
 }
 
-/* Bottom-left blue blob */
+
 .background .work-color:nth-child(3) {
   bottom: -220px;
   left: 10%;
@@ -356,7 +314,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 120px;   /* increase this number for more space */
+  gap: 120px; 
   margin: 50px;
 }
 
@@ -373,7 +331,7 @@ main {
   transition: transform 0.2s;
 }
 
-/* Only scale on hover if unlocked */
+
 .node.unlocked:hover {
   transform: scale(1.2);
 }
@@ -386,25 +344,24 @@ main {
   width: 4px;
   height: 40px;
   background-color: lightgray;
-  margin-left: 25px; /* aligns with node center */
+  margin-left: 25px; 
 }
 
-/* home page :modal */
-/* Modal background */
+
 .modal {
-  display: none; /* hidden by default */
+  display: none;
   position: fixed;
   z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5); /* semi-transparent overlay */
+  background-color: rgba(0,0,0,0.5); 
   justify-content: center;
   align-items: center;
 }
 
-/* Modal content box */
+
 .modal-content {
   background-color: white;
   padding: 20px;
@@ -413,7 +370,6 @@ main {
   width: 300px;
 }
 
-/* Close button */
 .close {
   position: absolute;
   top: 10px;
@@ -422,14 +378,14 @@ main {
   cursor: pointer;
 }
 
-/* padding so the header doesn't cover our pages info */
+
 /* body {
   margin-top: 80px; 
 } */
 /* Calendar */
 .today {
   font-weight: bold;
-  border: 2px solid rgb(0, 0, 0); /* Changes the color of the background  */
+  border: 2px solid rgb(0, 0, 0); 
   border-radius: 8px;
 }
 
@@ -578,7 +534,8 @@ main {
   left: 200px;
   width: 600px;
   height: 600px;
-  background: #fffd87;
+  /* background: #fffd87; */
+  background: #aeff00;
 }
 .background .color:nth-child(3)
 {
@@ -742,106 +699,6 @@ main {
 }
 
 /* ------------------------------------------Workouts page ----------------------------------*/
-/* .work-color
-{
-  position: absolute;
-  filter: blur(150px);
-  overflow: hidden;
-}
-.work-color:nth-child(1)
-{
-  top: 790px;
-  width: 850px;
-  height: 850px;
-  right: 70px;
-  background: #ff359b;
-}
-.work-color:nth-child(2)
-{
-  top: -250px;
-  left: 200px;
-  width: 600px;
-  height: 600px;
-  background: #fffd87;
-}
-.work-color:nth-child(3)
-{
-  bottom: 170px;
-  right: 200px;
-  width: 400px;
-  height: 400px;
-  background: #00d2ff;
-}
-
-.workouts-page .work-color {
-  position: absolute;
-  z-index: 0;
-} */
-/* workouts css */
-/* .workouts-page { */
-  /* max-width: 800px;
-  margin: 0 auto;
-  color: #333; */
-  /* position: relative;
-  z-index: 1; */
-/* } */
-
-/* .section-title {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  text-align: center;
-} */
-
-/* .workout-bubble {
-  background-color: #f5f5f5;
-  border-radius: 20px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-} */
-
-/* .workout-bubble {
-  position: relative;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.15);      
-  border-radius: 20px;
-  padding: 1.5rem;
-  box-shadow: 0 25px 45px rgba(0,0,0,0.1);
-  border: 1px solid rgba(255,255,255, 0.5);
-  border-right: 1px solid rgba(255,255,255, 0.2);
-  border-bottom: 1px solid rgba(255,255,255, 0.2);
-  backdrop-filter: blur(5px);                
-} */
-
-/* .workout-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-} */
-
-/* .workout-table th {
-  background-color: #ddd;
-  padding: 0.75rem;
-  border-radius: 10px;
-} */
-
-/* .workout-table td {
-  padding: 0.75rem;
-} */
-
-/* .workout-table tr:nth-child(even) {
-  background-color: #fafafa;
-} */
-
-/* .page-title {
-  font-size: 2rem;
-  font-weight: bold;
-} */
-
-/* .workouts-page h1,
-.workouts-page .workout-section {
-  position: relative;
-  z-index: 1;
-} */
 
 
 .workouts-page {
@@ -876,7 +733,8 @@ main {
   right: -220px;
   width: 520px;
   height: 520px;
-  background: #fffd87;
+  /* background: #fffd87; */
+  background: #aeff00;
 
 }
 
@@ -997,7 +855,8 @@ main {
   right: -200px;
   width: 560px;
   height: 560px;
-  background: #fffd87;
+  /* background: #fffd87; */
+  background: #aeff00;
 }
 
 .calendar-color-3 {
@@ -1081,9 +940,10 @@ main {
 .achievements-page {
   position: relative;
   max-width: 1000px;
-  margin: 0 auto 3.5rem;   /* no extra margin-top */
+  margin: 0 auto 3.5rem;   
   padding: 1.5rem 1.5rem 3.5rem;
   z-index: 0;
+  /* overflow-y: hidden; */
 }
 .achievements-color {
   position: absolute;
@@ -1128,53 +988,6 @@ main {
   padding: 0 0 2.5rem;
 }
 /* -------------------------------------------- Profile Page ----------------------------------------------------- */
-
-/* 
-.profile-page-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 80px - 140px);
-  padding: 2rem 1rem 3rem;
-  position: relative;
-   align-items: flex-start !important; 
-  padding-top: 10px;  
-}
-
-.profile-page-wrapper .color {
-  position: absolute;
-  filter: blur(150px);
-  overflow: hidden;
-  opacity: 0.9;
-}
-
-
-.profile-page-wrapper .color:nth-child(1) {
-  top: -260px;
-  right: 120px;
-  width: 650px;
-  height: 650px;
-  background: #ff359b;
-}
-
-
-.profile-page-wrapper .color:nth-child(2) {
-  top: -220px;
-  left: 140px;
-  width: 480px;
-  height: 480px;
-  background: #fffd87;
-}
-
-
-.profile-page-wrapper .color:nth-child(3) {
-  bottom: 40px;
-  right: 520px;
-  width: 360px;
-  height: 360px;
-  background: #00d2ff;
-} */
-
 
 .profile-form {
   text-align: center;
@@ -1312,3 +1125,120 @@ main {
   padding-top: 80px;
 }
 
+/* --------------------------------------- Footer nav -------------------------------------- */
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+ 
+  /* background: rgba(255, 255, 255, 0.026); */
+  background: rgba(48, 48, 48, 0.175);
+  backdrop-filter: blur(12px);
+
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.25);
+
+  color: #fff;
+  padding: 15px 0;
+  z-index: 1000;
+}
+
+.footer-container {
+  display: flex;
+  /* justify-content: space-around; */
+  justify-content: center;
+  align-items: center;
+  /* max-width: 1100px; */
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  /* background-color: #555; */
+
+  background: rgba(0, 0, 0, 0.114);
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.6);
+  border-right: 1px solid rgba(255,255,255,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 20px 17.5px;
+  margin: 10px;
+  border-radius: 12px;
+  flex: 0 1 200px;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.footer-button:hover {
+  background-color: #bbff0076;
+  transform: translateY(-5px);
+  color: #555;
+} 
+
+/* -------------------------- Home Page ------------------------------------------*/
+/* --- Home page path sections --- */
+.path-section {
+  position: relative;
+  margin: 3rem auto;
+  /* max-width: 900px;       
+  min-height: 500px;     */
+}
+
+.home-background {
+  position: absolute;
+  inset: 0;                
+  width: 100%;
+  height: 100%;
+  z-index: 0;            
+}
+
+
+.home-background .work-color {
+  position: absolute;
+  filter: blur(140px);
+  opacity: 0.6;
+  z-index: -1;
+}
+
+.home-background .work-color:nth-child(1) {
+  top: -180px;
+  left: -180px;
+  width: 500px;
+  height: 500px;
+  background: #ff359b;
+}
+
+.home-background .work-color:nth-child(2) {
+  top: 10%;
+  right: -220px;
+  width: 520px;
+  height: 520px;
+  /* background: #fffd87; */
+  background: #aeff00;
+}
+
+.home-background .work-color:nth-child(3) {
+  bottom: -220px;
+  left: 10%;
+  width: 420px;
+  height: 420px;
+  background: #00d2ff;
+}
