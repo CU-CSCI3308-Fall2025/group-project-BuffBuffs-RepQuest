@@ -8,16 +8,14 @@
       {{/unless}}
     </div> --}}
 
-   <div class="header-left">
-      {{#unless hideHome}}
-      <a href="/profile">
+    <div class="header-left">
+      <a href="/profile" class="{{#if hideHome}}invisible-placeholder{{/if}}">
         <img 
           class="profile-pic-header" 
           src="{{#if profilePic}}{{profilePic}}{{else}}/img/default_pp.png{{/if}}" 
           alt="Profile Picture"
         >
       </a>
-      {{/unless}}
     </div>
 
     <div class="header-center">
@@ -25,18 +23,21 @@
     </div>
 
     <div class="header-streak">
-      {{#unless hideStreak}}
+      {{#if hideStreak}}
+        <!-- Empty placeholder so layout spacing stays consistent -->
+        <div class="streak-placeholder"></div>
+      {{else}}
         <img 
           src="/img/streak_icon_transparent.png" 
           alt="Streak Icon" 
           class="streak-icon"
         >
         {{#if streak}}
-        <span>Current streak: {{streak}} days</span>
+          <span>Current streak: {{streak}} days</span>
         {{else}}
-        <span>Current streak: 0 days</span>
+          <span>Current streak: 0 days</span>
         {{/if}}
-      {{/unless}}
+      {{/if}}
     </div>
   </div>
 </header>
