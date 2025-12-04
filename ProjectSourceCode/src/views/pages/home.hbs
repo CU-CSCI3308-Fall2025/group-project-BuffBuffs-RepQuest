@@ -1,5 +1,5 @@
 {{!-- Loop over each set of nodes --}}
-<div class="wrapper">
+{{!-- <div class="wrapper">
 
   <div class="pagecontent">
     {{#each sets}}
@@ -11,8 +11,20 @@
       {{> nodes nodes=this }}
     {{/each}}
   </div>
-</div>
+</div> --}}
+{{#each sets}}
+  <section class="path-section">
+    <div class="home-background">
+      <div class="work-color"></div>
+      <div class="work-color"></div>
+      <div class="work-color"></div>
+    </div>
 
+    <div class="pagecontent">
+      {{> nodes nodes=this }}
+    </div>
+  </section>
+{{/each}}
 
 <!-- Modal for logging workouts -->
 <div id="workoutModal" class="modal">
