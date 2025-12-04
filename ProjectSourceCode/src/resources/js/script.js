@@ -1,19 +1,16 @@
 
-// console.log("script loaded")
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const OVERLAY_KEY = 'onboardingCompleted_v2xyz';
 
   const overlay = document.getElementById('onboarding-overlay');
   console.log('overlay element:', overlay);
-  if (!overlay) return; // safety
+  if (!overlay) return;
 
-  // If user already finished onboarding, don't show it
   const alreadyDone = localStorage.getItem(OVERLAY_KEY) === 'true';
-  // const alreadyDone = false;
   if (alreadyDone) return;
 
-  // Show onboarding
   overlay.classList.remove('hidden');
 
   function showStep(stepNumber) {
@@ -24,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (active) active.classList.remove('hidden');
   }
 
-  // Next buttons
   document.querySelectorAll('.onboarding-next').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const next = e.target.getAttribute('data-next');
@@ -32,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Prev buttons
   document.querySelectorAll('.onboarding-prev').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const prev = e.target.getAttribute('data-prev');
@@ -40,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Skip / Done
   function finishOnboarding() {
     overlay.classList.add('hidden');
     localStorage.setItem(OVERLAY_KEY, 'true');
@@ -52,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const doneBtn = document.getElementById('onboarding-done');
   if (doneBtn) doneBtn.addEventListener('click', finishOnboarding);
 
-  // Start at step 1
   showStep(1);
 });
 
@@ -66,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!modal) return;
 
-  // Open modal
   openBtn.addEventListener("click", () => {
     modal.classList.remove("hidden");
     uploadBtn.disabled = true;        
