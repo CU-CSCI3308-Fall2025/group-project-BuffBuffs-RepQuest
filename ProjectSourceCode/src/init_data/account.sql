@@ -37,7 +37,7 @@ ON CONFLICT (username) DO NOTHING;
 CREATE TABLE workouts (
   id          SERIAL PRIMARY KEY,
   username    TEXT NOT NULL REFERENCES users(username) ON DELETE CASCADE,
-  -- date stored as 6-digit MMDDYY in an integer (e.g., 010125 -> 10125 if typed as int)
+  -- date stored as 6-digit MMDDYY in an integer 
   date_int    INTEGER NOT NULL CHECK (date_int BETWEEN 0 AND 999999),
   date_actual DATE,  -- filled by trigger
   push  BOOLEAN NOT NULL DEFAULT FALSE,
@@ -51,7 +51,7 @@ CREATE OR REPLACE FUNCTION set_workout_date_actual() RETURNS trigger AS $$
 DECLARE
   padded TEXT;
 BEGIN
-  -- pad to 6 digits and parse as MMDDYY (assumes 20YY)
+  -- pad to 6 digits and parse as MMDDYY 
   padded := lpad(NEW.date_int::text, 6, '0');
   NEW.date_actual := to_date(padded, 'MMDDYY');
   RETURN NEW;
@@ -88,7 +88,7 @@ CREATE INDEX IF NOT EXISTS idx_workouts_username_date ON workouts(username, date
 -- =========================
 CREATE TABLE IF NOT EXISTS achievements (
   id          SERIAL PRIMARY KEY,
-  code        TEXT UNIQUE NOT NULL,       -- e.g., 'FIRST_WORKOUT'
+  code        TEXT UNIQUE NOT NULL,       
   title       TEXT NOT NULL,
   icon_path   TEXT NOT NULL,
   sort_order  INTEGER NOT NULL DEFAULT 0
@@ -180,7 +180,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Trigger: after inserting a workout, check and award achievements
+-- after inserting a workout, check and award achievements
 CREATE OR REPLACE FUNCTION trg_evaluate_achievements_after_workout() RETURNS TRIGGER AS $$
 DECLARE
   v_count        INTEGER;

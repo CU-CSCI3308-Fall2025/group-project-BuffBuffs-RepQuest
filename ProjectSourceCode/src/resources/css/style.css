@@ -1,5 +1,4 @@
-/* Header CSS */
-/* Header overall styling */
+
 .site-header {
   background-color: #ffffff;
   color: white;
@@ -13,7 +12,7 @@
   z-index: 1000;
 }
 
-/* Header layout */
+
 .header-container {
   display: flex;
   align-items: center;
@@ -113,7 +112,6 @@
 }
 
 
-/* Footer CSS */
 html, body {
   height: 100%;
   margin: 0;
@@ -137,8 +135,6 @@ main {
   padding-bottom: 140px;  
 }
 
-
-/* achievements.css */
 .page-title {
   text-align: center;
   font-size: 2rem;
@@ -187,14 +183,11 @@ main {
   padding: 1.2rem 1rem;
   background: rgba(255, 255, 255, 0.069);
   text-align: center;
-
-  /* glass look */
   box-shadow: 0 24px 45px rgba(0, 0, 0, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.7);
   border-right: 1px solid rgba(255, 255, 255, 0.35);
   border-bottom: 1px solid rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(8px);
-
   transition: transform 100ms ease, box-shadow 100ms ease, opacity 120ms ease;
 }
 
@@ -243,7 +236,7 @@ main {
   color: #666; font-size: 0.85rem; margin: 0;
 }
 
-/* State styles */
+
 .achievement-card.locked {
   opacity: 0.6;
   filter: grayscale(40%);
@@ -258,7 +251,7 @@ main {
   padding-bottom: 140px; 
 } */
 
-/* home */
+
 .background {
   position: absolute; 
   top: 0;
@@ -389,8 +382,6 @@ main {
 }
 
 
-
-
 .modal-skip {
   position: absolute;
   top: 0.75rem;
@@ -415,6 +406,8 @@ main {
 /* body {
   margin-top: 80px; 
 } */
+
+
 /* Calendar */
 .today {
   font-weight: bold;
@@ -429,12 +422,8 @@ main {
   line-height: 1.4em;
 }
 
-/* Profile Page */
 
-
-
-
-/***************************************************** On boarding  ******************************* */
+/* On boarding */
 .onboarding.hidden,
 .onboarding-step.hidden {
   display: none;
@@ -533,7 +522,7 @@ main {
   transform: translateY(-1px);
 }
 
-/* ----------------------------------------------- Login/Logout --------------------------------------------------------*/
+/*  Login/Logout */
 .background
 {
   display: flex;
@@ -731,7 +720,7 @@ main {
   font-weight: 600;
 }
 
-/* ------------------------------------------Workouts page ----------------------------------*/
+/* Workouts page */
 
 
 .workouts-page {
@@ -853,7 +842,7 @@ main {
   background: transparent;
 }
 
-/* ------------------------------------------ Calendar page --------------------------------- */
+/*  Calendar page  */
 
 .calendar-page {
   max-width: 1100px;
@@ -962,7 +951,7 @@ main {
   color: #5dd94f;
 }
 
-/* ---------------------------------- Achievments page ------------------------------------- */
+/* Achievments page */
 /* .achievements-page {
   position: relative;
   max-width: 1000px;
@@ -1020,7 +1009,7 @@ main {
   gap: 1.25rem;
   padding: 0 0 2.5rem;
 }
-/* -------------------------------------------- Profile Page ----------------------------------------------------- */
+/* Profile Page */
 
 .profile-form {
   text-align: center;
@@ -1158,7 +1147,7 @@ main {
   padding-top: 160px;
 }
 
-/* --------------------------------------- Footer nav -------------------------------------- */
+/* Footer */
 
 .footer {
   position: fixed;
@@ -1226,8 +1215,7 @@ main {
   color: #555;
 } 
 
-/* -------------------------- Home Page ------------------------------------------*/
-/* --- Home page path sections --- */
+/* Home page */
 .path-section {
   position: relative;
   margin: 3rem auto;

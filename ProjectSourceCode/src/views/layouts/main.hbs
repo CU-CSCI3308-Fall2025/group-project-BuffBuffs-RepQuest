@@ -8,14 +8,11 @@
         <link rel="preload" href="/css/style.css" as="style">
         <link id="app-css" rel="stylesheet" href="/css/style.css" />
         <script>
-            // Function to reload CSS by updating the href with a timestamp
             function reloadCSS() {
                 const link = document.getElementById('app-css');
-                const href = link.getAttribute('href').split('?')[0]; // Remove any existing query parameters
-                link.setAttribute('href', `${href}?v=${new Date().getTime()}`); // Append a timestamp to force reload
+                const href = link.getAttribute('href').split('?')[0]; 
+                link.setAttribute('href', `${href}?v=${new Date().getTime()}`); 
             }
-
-            // Call the function to reload CSS when the page loads
             window.onload = reloadCSS;
         </script>
     </head>
@@ -31,12 +28,8 @@
             {{!-- <div class="color"></div>
             <div class="color"></div>
             <div class="color"></div> --}}
-            {{{body}}}
-
-            
+            {{{body}}}  
         </main>
-
-            {{!-- allows me to hide the footer for the register and login pages --}}
             {{#unless hideFooter}}
             {{> footer }}
             {{> onboarding}}

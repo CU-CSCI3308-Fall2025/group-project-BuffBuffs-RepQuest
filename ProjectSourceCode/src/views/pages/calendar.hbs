@@ -118,7 +118,6 @@
 </main> --}}
 
 <div class="calendar-page">
-  <!-- Glowy background blobs -->
   <div class="calendar-color calendar-color-1"></div>
   <div class="calendar-color calendar-color-2"></div>
   <div class="calendar-color calendar-color-3"></div>
@@ -174,10 +173,8 @@
       6: "Legs"    // Saturday
     };
 
-    // 0 = Sunday
     const todayWeekdayIndex = today.getDay();
 
-    // Clone today's date and step back to the most recent Sunday
     const startOfWeek = new Date(today);
     startOfWeek.setDate(today.getDate() - todayWeekdayIndex);
 
@@ -210,7 +207,6 @@
 
         dayDiv.appendChild(workoutContainer);
 
-        // Highlight today's column
         if (date.toDateString() === today.toDateString()) {
           dayDiv.classList.add('today');
         }

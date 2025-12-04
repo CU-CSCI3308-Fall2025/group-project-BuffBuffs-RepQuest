@@ -5,7 +5,7 @@ const pgp = require('pg-promise')();
 
 const app = express();
 
-// for testing purposes.
+// for testing purposes
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -19,15 +19,13 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// Only protect routes we explicitly wrap with this
 function requireLogin(req, res, next) {
   if (!req.session.username) {
     return res.redirect('/login');
   }
   next();
 }
-
-// testing purposes, remove later 
+// more testing
 console.log("ENV CHECK:", {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -46,9 +44,7 @@ const db = pgp({
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
-// Compute current streak for a user based on workouts.date_actual
 async function computeStreak(username) {
-  // Get distinct workout dates for this user, newest first
   const rows = await db.any(
     `SELECT DISTINCT date_actual::date AS d
      FROM workouts
@@ -59,27 +55,22 @@ async function computeStreak(username) {
   );
 
   if (!rows.length) {
-    return 0; // no workouts = no streak
+    return 0; 
   }
 
   let streak = 1;
-  let prev = rows[0].d; // this will be a JS Date
+  let prev = rows[0].d; 
 
   for (let i = 1; i < rows.length; i++) {
     const current = rows[i].d;
     const diffDays = Math.round((prev - current) / MS_PER_DAY);
 
     if (diffDays === 1) {
-      // continue streak
       streak += 1;
       prev = current;
     } else if (diffDays > 1) {
-      //  streak broken
       break;
     } else {
-
-      // diffDays <= 0 shouldn't really happen with DISTINCT + ORDER BY,
-      // but if it does, we just ignore it / break.
       break;
     }
   }
@@ -87,11 +78,10 @@ async function computeStreak(username) {
   return streak;
 }
 
-// Make streak available to all views for logged-in users
 app.use(async (req, res, next) => {
+
   res.locals.streak = null;
 
-  // Only compute streak if user is logged in
   if (req.session && req.session.username) {
     try {
       const streak = await computeStreak(req.session.username);
@@ -105,7 +95,7 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Make username and profile picture available in all views (header)
+
 app.use(async (req, res, next) => {
   if (!req.session.username) {
     res.locals.username = null;
@@ -130,8 +120,6 @@ app.use(async (req, res, next) => {
 });
 
 
-
-// ---------------------- API: progress ----------------------
 app.get('/api/progress', async (req, res) => {
   if (!req.session.username) return res.status(401).json({ error: 'Not logged in' });
 
@@ -173,14 +161,13 @@ app.post('/api/progress', async (req, res) => {
   }
 });
 
-// ---------------------- API: workouts ----------------------
 app.post('/api/workouts', async (req, res) => {
   if (!req.session.username) {
     return res.status(401).json({ error: 'Not logged in' });
   }
 
   const username = req.session.username;
-  const workoutId = Number(req.body.workoutId);   // this is the node's data-id
+  const workoutId = Number(req.body.workoutId);   
 
   if (isNaN(workoutId)) {
     return res.status(400).json({ error: 'Invalid workoutId' });
@@ -188,7 +175,6 @@ app.post('/api/workouts', async (req, res) => {
 
   try {
 
-    // Decide which muscle groups this workout hits based on its ID.
     const flagsByWorkoutId = {
       1: { push: true, pull: false, legs: false, rest: false }, // Push workout
       2: { push: false, pull: true, legs: false, rest: false }, // Pull workout
@@ -207,12 +193,11 @@ app.post('/api/workouts', async (req, res) => {
       rest: false
     };
 
-    // Build MMDDYY 
     const now = new Date();
     const mm = String(now.getMonth() + 1).padStart(2, '0');
     const dd = String(now.getDate()).padStart(2, '0');
     const yy = String(now.getFullYear()).slice(-2);
-    const dateInt = Number(mm + dd + yy);  // e.g., 031225
+    const dateInt = Number(mm + dd + yy); 
 
     await db.none(
       'SELECT insert_workout($1, $2, $3, $4, $5, $6)',
@@ -261,7 +246,7 @@ app.post('/api/workouts', async (req, res) => {
 
 
 
-// ---------------------- View engine & static ----------------------
+
 app.engine('hbs', engine({
   extname: '.hbs',
   defaultLayout: 'main',
@@ -273,15 +258,13 @@ app.engine('hbs', engine({
 }));
 app.set('view engine', 'hbs');
 
-// use the CSS file for styling
 app.use(express.static(path.join(__dirname, 'resources')));
 
-// views live at ProjectSourceCode/src/views
 app.set('views', path.join(__dirname, 'views'));
 
 app.use('/img', express.static(path.join(__dirname, 'resources/img')));
 
-// ----------------------------------------Routes for every page we create ----------------------------------------
+// Routes
 
 // Make it so the login page is the first page seen
 app.get('/', (req, res) => {
@@ -303,7 +286,7 @@ app.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Handle missing input (added JSON handling for tests)
+    // Handle missing input 
     if (!username || !password) {
       if (req.headers['content-type']?.includes('application/json')) {
         return res.status(400).json({ message: 'Invalid input' });
@@ -325,12 +308,11 @@ app.post('/login', async (req, res) => {
 
       const isJson = req.headers['content-type']?.includes('application/json');
 
-      // Keep JSON behavior the same for tests
+      // more tests
       if (isJson) {
         return res.status(400).json({ message: 'Invalid input' });
       }
 
-      // Browser: show different messages
       const message = !user
         ? 'Username does not exist'
         : 'Incorrect password';
@@ -346,17 +328,17 @@ app.post('/login', async (req, res) => {
     // store username in session
     req.session.username = user.username;
 
-    // JSON request (tests)
+    // tests
     if (req.headers['content-type']?.includes('application/json')) {
       return res.status(200).json({ message: 'Login successful' });
     }
 
-    // Browser: go to home
+    // go to home
     return res.redirect('/home');
   } catch (err) {
     console.error(err);
 
-    // JSON error response for tests
+    // error response for tests
     if (req.headers['content-type']?.includes('application/json')) {
       return res.status(500).json({ message: 'Server error logging in.' });
     }
@@ -372,7 +354,7 @@ app.post('/login', async (req, res) => {
 
 // REGISTER (GET)
 app.get('/register', (req, res) => {
-  // If already logged in,  redirect to home 
+  // If already logged in,  go to home 
   if (req.session.username) {
     return res.redirect('/home');
   }
@@ -386,7 +368,7 @@ app.post('/register', async (req, res) => {
     const username = String(req.body.username || '').trim();
     const password = String(req.body.password || '').trim();
 
-    // Validate input
+    // check input
     if (!username || !password) {
       if (req.headers['content-type']?.includes('application/json')) {
         return res.status(400).json({ message: 'Invalid input' });
@@ -399,18 +381,17 @@ app.post('/register', async (req, res) => {
       });
     }
 
-    // Insert into DB
+    // insert into DB
     await db.none(
       'INSERT INTO users (username, password_hash) VALUES ($1, $2)',
       [username, password]
     );
 
-    // If the request is JSON (Mocha test)
+    // testing
     if (req.headers['content-type']?.includes('application/json')) {
       return res.status(200).json({ message: 'User registered successfully' });
     }
 
-    // Otherwise, normal browser redirect to login
     return res.redirect('/login');
   } catch (err) {
     console.error('Register error:', { code: err.code, message: err.message, detail: err.detail });
@@ -428,7 +409,7 @@ app.post('/register', async (req, res) => {
       });
     }
 
-    // Fallback for all other errors
+    // fallback for all other errors
     if (req.headers['content-type']?.includes('application/json')) {
       return res.status(500).json({ message: 'Server error creating the account.' });
     }
@@ -442,7 +423,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Home page (must be logged in so /api/progress has a username)
+// Home page 
 app.get('/home', async (req, res) => {
   if (!req.session.username) return res.redirect('/login');
 
@@ -457,7 +438,7 @@ app.get('/home', async (req, res) => {
     console.error('Error loading user progress:', err);
   }
 
-  // Base nodes for a single set
+  
   const baseNodes = [
     { id: 1, offset: -10, type: "push"},
     { id: 2, offset: 10, type: "pull"},
@@ -468,7 +449,7 @@ app.get('/home', async (req, res) => {
     { id: 7, offset: -10, type: "legs"},
   ];
 
-  // Compute how many full cycles user completed
+  
   const cyclesCompleted = Math.floor(highestCompleted / baseNodes.length);
 
   const sets = [];
@@ -476,7 +457,7 @@ app.get('/home', async (req, res) => {
     const cycleNodes = baseNodes.map(n => ({
       id: n.id + cycle * baseNodes.length,
       offset: n.offset,
-      type: n.type,           // <-- CRITICAL: put type back
+      type: n.type,           
       cycleNumber: cycle
     }));
     sets.push(cycleNodes);
@@ -518,7 +499,6 @@ app.get('/workouts', (req, res) => {
 // Achievements page
 app.get('/achievements', async (req, res, next) => {
   try {
-    // use session username if logged in; fall back to ?u=user1 for quick testing
     const username = req.session?.username || req.query.u || 'user1';
 
     const { rows: achievements } = await db.result(
@@ -607,7 +587,6 @@ app.post('/profile/pic', async (req, res) => {
       [imageData, username]
     );
 
-    // Update session + locals immediately
     req.session.profilePic = imageData;
     res.locals.profilePic = imageData;
 
