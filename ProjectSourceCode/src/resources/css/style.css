@@ -112,12 +112,12 @@
 }
 
 .invisible-placeholder {
-  visibility: hidden;   /* hides it but keeps space */
+  visibility: hidden;   
 }
 
 .streak-placeholder {
   display: inline-block;
-  visibility: hidden;   /* Takes up space, stays invisible */
+  visibility: hidden;   
 }
 
 html, body {
