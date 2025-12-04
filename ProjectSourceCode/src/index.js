@@ -70,13 +70,14 @@ async function computeStreak(username) {
     const diffDays = Math.round((prev - current) / MS_PER_DAY);
 
     if (diffDays === 1) {
-      // exactly one day apart → continue streak
+      // continue streak
       streak += 1;
       prev = current;
     } else if (diffDays > 1) {
-      // gap of 2+ days → streak broken
+      //  streak broken
       break;
     } else {
+
       // diffDays <= 0 shouldn't really happen with DISTINCT + ORDER BY,
       // but if it does, we just ignore it / break.
       break;
@@ -186,6 +187,7 @@ app.post('/api/workouts', async (req, res) => {
   }
 
   try {
+
     // Decide which muscle groups this workout hits based on its ID.
     const flagsByWorkoutId = {
       1: { push: true, pull: false, legs: false, rest: false }, // Push workout
@@ -205,14 +207,13 @@ app.post('/api/workouts', async (req, res) => {
       rest: false
     };
 
-    // Build MMDDYY as an integer for today
+    // Build MMDDYY 
     const now = new Date();
     const mm = String(now.getMonth() + 1).padStart(2, '0');
     const dd = String(now.getDate()).padStart(2, '0');
     const yy = String(now.getFullYear()).slice(-2);
     const dateInt = Number(mm + dd + yy);  // e.g., 031225
 
-    // Insert workout (trigger will also handle FIRST_WORKOUT + workout-count achievements)
     await db.none(
       'SELECT insert_workout($1, $2, $3, $4, $5, $6)',
       [
@@ -225,7 +226,6 @@ app.post('/api/workouts', async (req, res) => {
       ]
     );
 
-    // 🔥 NEW: compute streak and award streak achievements
     const streak = await computeStreak(username);
 
     if (streak >= 3) {
@@ -290,7 +290,7 @@ app.get('/', (req, res) => {
 
 // LOGIN (GET)
 app.get('/login', (req, res) => {
-  // If already logged in, you *could* redirect to /home, but it's optional
+
   if (req.session.username) {
     return res.redirect('/home');
   }
@@ -372,7 +372,7 @@ app.post('/login', async (req, res) => {
 
 // REGISTER (GET)
 app.get('/register', (req, res) => {
-  // If already logged in, can redirect to home if you want
+  // If already logged in,  redirect to home 
   if (req.session.username) {
     return res.redirect('/home');
   }
@@ -415,7 +415,7 @@ app.post('/register', async (req, res) => {
   } catch (err) {
     console.error('Register error:', { code: err.code, message: err.message, detail: err.detail });
 
-    // Handle duplicate username
+    //  duplicate username case handling
     if (err && err.code === '23505') {
       if (req.headers['content-type']?.includes('application/json')) {
         return res.status(409).json({ message: 'That username is taken. Try another.' });
@@ -471,7 +471,6 @@ app.get('/home', async (req, res) => {
   // Compute how many full cycles user completed
   const cyclesCompleted = Math.floor(highestCompleted / baseNodes.length);
 
-  // Build all cycles to render
   const sets = [];
   for (let cycle = 0; cycle <= cyclesCompleted; cycle++) {
     const cycleNodes = baseNodes.map(n => ({
@@ -633,5 +632,4 @@ app.get('/welcome', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-// app.listen(PORT, '0.0.0.0', () => console.log(`The server is running on http://localhost:${PORT}`));
 module.exports = app.listen(PORT, '0.0.0.0', () => console.log(`The server is running on http://localhost:${PORT}`));
