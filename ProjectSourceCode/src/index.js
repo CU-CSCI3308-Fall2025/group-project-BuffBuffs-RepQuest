@@ -253,9 +253,11 @@ app.engine('hbs', engine({
   layoutsDir: path.join(__dirname, 'views', 'layouts'),
   partialsDir: path.join(__dirname, 'views', 'partials'),
   helpers: {
-    eq: (a, b) => a === b
+    eq: (a, b) => a === b,
+    inc: (value) => Number(value) + 1
   }
 }));
+
 app.set('view engine', 'hbs');
 
 app.use(express.static(path.join(__dirname, 'resources')));
