@@ -112,6 +112,14 @@
   }
 }
 
+.invisible-placeholder {
+  visibility: hidden;   /* hides it but keeps space */
+}
+
+.streak-placeholder {
+  display: inline-block;
+  visibility: hidden;   /* Takes up space, stays invisible */
+}
 
 /* Footer CSS */
 html, body {
