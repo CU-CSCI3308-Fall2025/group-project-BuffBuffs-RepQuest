@@ -73,3 +73,7 @@
 12/3 - hidden streak on login
 12/3 - fixed margin top issue, profile page, and achievements page
 12/3 - fixed double error message on login page
+12/4 - fixed odd header issue on login and register page
+12/4 - added week count to top of each set of nodes
+12/4 - Added pdf version of our project presentation to github
+12/5 - Fixed file format for project submission process
